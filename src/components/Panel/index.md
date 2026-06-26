@@ -29,18 +29,10 @@ import { Panel } from "@hsu-react/ui";
 
 `Panel.List` 通过 `searchProps`（搜索区）、`tableProps`（表格区）组合出标准增删改查列表页。下方为可交互示例：输入姓名搜索会实时过滤行，点击「新增」「编辑」有反馈。
 
-> 注意：`Panel.List` / `Search` 内部用到 `Button.Chakra`，需要在外层包一层 `ChakraProvider`（真实项目通常在入口统一提供）。
-
 ```tsx
 import React, { useState } from "react";
 import { Panel, Button } from "@hsu-react/ui";
 import { message } from "antd";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 const ALL = [
   { id: 1, name: "张三", role: "管理员", status: "启用" },
@@ -67,43 +59,30 @@ export default () => {
   ];
 
   return (
-    <ChakraProvider value={system}>
-      {/* 外层横向滚动：窄屏时可滚动查看完整列表（Panel.List 无下拉，加 overflow 安全） */}
-      <div style={{ overflowX: "auto" }}>
-        <div
-          style={{
-            height: 360,
-            minWidth: 880,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Panel.List
-            searchProps={{
-              searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
-            onSearch: (v) =>
-              setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
-            onReset: () => setData(ALL),
-            beforeButtonGroup: [
-              {
-                title: "新增",
-                colorPalette: "blue",
-                onClick: () => message.success("点击了新增"),
-              },
-            ],
-          }}
-          tableProps={{
-            columns,
-            dataSource: data,
-            rowKey: "id",
-            pagination: false,
-            // 文档容器较矮，关闭自动撑高避免表格内部滚动把内容裁掉
-            scrollAutoHeight: false,
-          }}
-          />
-        </div>
-      </div>
-    </ChakraProvider>
+    <div style={{ height: 380 }}>
+      <Panel.List
+        searchProps={{
+          searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
+          onSearch: (v) =>
+            setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
+          onReset: () => setData(ALL),
+          beforeButtonGroup: [
+            {
+              title: "新增",
+              colorPalette: "blue",
+              onClick: () => message.success("点击了新增"),
+            },
+          ],
+        }}
+        tableProps={{
+          columns,
+          dataSource: data,
+          rowKey: "id",
+          pagination: false,
+          scrollAutoHeight: false,
+        }}
+      />
+    </div>
   );
 };
 ```
@@ -138,17 +117,9 @@ export default () => <Panel.Iframe src="https://example.com" fullBtn />;
 
 `Panel.List.Modal` 在 `Modal` 内复用列表布局，本身继承 `ModalProps`（`open` / `onClose` 等），并通过 `searchProps`、`tableProps` 配置搜索区与表格区。常用于从某条记录弹出其关联子列表。
 
-> 同样依赖 `Button.Chakra`，需外层包一层 `ChakraProvider`。
-
 ```tsx
 import React, { useState } from "react";
 import { Panel, Button } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 const ALL = [
   { id: 1, name: "明细一", status: "启用" },
@@ -160,7 +131,7 @@ export default () => {
   const [data, setData] = useState(ALL);
 
   return (
-    <ChakraProvider value={system}>
+    <>
       <Button type="primary" onClick={() => setOpen(true)}>
         打开子列表
       </Button>
@@ -185,7 +156,7 @@ export default () => {
           pagination: false,
         }}
       />
-    </ChakraProvider>
+    </>
   );
 };
 ```

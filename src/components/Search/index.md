@@ -23,16 +23,10 @@ import { Search } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 export default () => {
   return (
-    <ChakraProvider value={system}>
+    <>
       <Search
         columnNum={3}
         searchItems={[
@@ -53,7 +47,7 @@ export default () => {
         onSearch={(data) => console.log("search", data)}
         onReset={() => console.log("reset")}
       />
-    </ChakraProvider>
+    </>
   );
 };
 ```
@@ -67,15 +61,9 @@ export default () => {
 ```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 export default () => (
-  <ChakraProvider value={system}>
+  <>
     <Search.Advanced
       columnNum={3}
       setFilter
@@ -97,7 +85,7 @@ export default () => (
       onSearch={(data) => console.log("search", data)}
       onReset={() => console.log("reset")}
     />
-  </ChakraProvider>
+  </>
 );
 ```
 
@@ -108,15 +96,9 @@ export default () => (
 ```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 export default () => (
-  <ChakraProvider value={system}>
+  <>
     <Search.Collapsible
       columnNum={3}
       defaultExpanded
@@ -138,7 +120,7 @@ export default () => (
       onSearch={(data) => console.log("search", data)}
       onReset={() => console.log("reset")}
     />
-  </ChakraProvider>
+  </>
 );
 ```
 
@@ -149,15 +131,9 @@ export default () => (
 ```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 export default () => (
-  <ChakraProvider value={system}>
+  <>
     <Search.WithFilter
       columnNum={3}
       searchItems={[
@@ -179,7 +155,7 @@ export default () => (
       onSearch={(data) => console.log("search", data)}
       onReset={() => console.log("reset")}
     />
-  </ChakraProvider>
+  </>
 );
 ```
 
@@ -190,15 +166,9 @@ export default () => (
 ```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 export default () => (
-  <ChakraProvider value={system}>
+  <>
     <Search.WithMore
       columnNum={3}
       searchItems={[
@@ -222,7 +192,7 @@ export default () => (
       onSearch={(data) => console.log("search", data)}
       onReset={() => console.log("reset")}
     />
-  </ChakraProvider>
+  </>
 );
 ```
 
@@ -233,15 +203,9 @@ export default () => (
 ```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-
-const system = createSystem(defaultConfig, {
-  disableLayers: true,
-  preflight: false,
-});
 
 export default () => (
-  <ChakraProvider value={system}>
+  <>
     <Search.Card
       options={[
         {
@@ -265,7 +229,7 @@ export default () => (
       ]}
       onChange={(data) => console.log("change", data)}
     />
-  </ChakraProvider>
+  </>
 );
 ```
 
