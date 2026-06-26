@@ -70,7 +70,14 @@ export default () => {
 
   return (
     <ChakraProvider value={system}>
-      <div style={{ height: 360, display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          height: 360,
+          minWidth: 880,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Panel.List
           searchProps={{
             searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],

@@ -20,6 +20,29 @@ import { TabBar } from "@hsu-react/ui";
 
 通过 `tabGroup` 配置页签，`onTabChange` 监听切换。
 
+### 默认样式
+
+```tsx
+import React, { useState } from "react";
+import { TabBar } from "@hsu-react/ui";
+
+export default () => {
+  const [tab, setTab] = useState<string | number>("1");
+
+  const tabGroup = [
+    { title: "全部", key: "1" },
+    { title: "进行中", key: "2" },
+    { title: "已完成", key: "3" },
+  ];
+
+  return <TabBar tabGroup={tabGroup} tab={tab} onTabChange={setTab} />;
+};
+```
+
+### 描边样式
+
+`variant="outline"` 渲染为描边胶囊样式。
+
 ```tsx
 import React, { useState } from "react";
 import { TabBar } from "@hsu-react/ui";
@@ -34,16 +57,12 @@ export default () => {
   ];
 
   return (
-    <div>
-      <TabBar tabGroup={tabGroup} tab={tab} onTabChange={setTab} />
-      <TabBar
-        variant="outline"
-        tabGroup={tabGroup}
-        defaultTab="1"
-        className="demo-tabbar-outline"
-      />
-      <p style={{ marginTop: 12 }}>当前选中：{tab}</p>
-    </div>
+    <TabBar
+      variant="outline"
+      tabGroup={tabGroup}
+      tab={tab}
+      onTabChange={setTab}
+    />
   );
 };
 ```

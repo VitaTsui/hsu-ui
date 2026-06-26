@@ -28,7 +28,6 @@ export default () => {
   return (
     <div style={{ width: 240 }}>
       <Slider value={value} onChange={setValue} />
-      <div style={{ marginTop: 12 }}>当前值：{value}</div>
     </div>
   );
 };

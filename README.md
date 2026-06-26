@@ -2,6 +2,8 @@
 
 一套基于 **React + Ant Design** 的中后台业务组件库，把「列表 + 搜索 + 表单弹窗 + CRUD」这类重复劳动沉淀为页面级组件，并内置 Markdown / CodeMirror / Spreadsheet / Chart / Editor 等内容组件。
 
+📖 **文档与在线示例：https://vitatsui.github.io/hsu-ui**
+
 ## 安装
 
 ```bash

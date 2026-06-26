@@ -44,6 +44,7 @@ export default () => (
       data={data}
       showSearch
       showMiniMap
+      miniMapSize={[120, 80]}
       showExpandBtn
       onClick={(node) => console.log(node)}
     />

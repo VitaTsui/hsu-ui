@@ -36,7 +36,6 @@ export default () => {
     >
       <DatePicker value={value} onChange={(date) => setValue(date)} />
       <DatePicker showPicker onChange={(date, picker) => console.log(date, picker)} />
-      <div>当前值：{value || "（空）"}</div>
     </div>
   );
 };
@@ -56,10 +55,9 @@ export default () => {
   const [value, setValue] = useState<string[]>();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <DatePicker.RangePicker value={value} onChange={(dates) => setValue(dates)} />
       <DatePicker.RangePicker showPicker onChange={(dates, picker) => console.log(dates, picker)} />
-      <div>当前值：{value ? value.join(" ~ ") : "（空）"}</div>
     </div>
   );
 };
@@ -77,10 +75,9 @@ export default () => {
   const [value, setValue] = useState<string>();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <DatePicker.StepPicker picker="day" step={1} onChange={(date) => setValue(date)} />
       <DatePicker.StepPicker picker="month" onChange={(date) => setValue(date)} />
-      <div>当前值：{value || "（空）"}</div>
     </div>
   );
 };

@@ -29,7 +29,6 @@ export default () => {
     <div style={{ display: "flex", flexDirection: "column", gap: 12, width: 240 }}>
       <Input placeholder="请输入" value={value} onChange={setValue} />
       <Input placeholder="禁用状态" disabled />
-      <div>当前值：{value}</div>
     </div>
   );
 };
@@ -49,10 +48,9 @@ export default () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <Input.Number placeholder="请输入数字" value={value} onChange={setValue} />
       <Input.Number placeholder="带单位" addonAfter="元" />
-      <div>当前值：{value || "（空）"}</div>
     </div>
   );
 };
@@ -70,7 +68,7 @@ export default () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <Input.Password placeholder="请输入密码" value={value} onChange={setValue} />
       <Input.Password placeholder="禁用状态" disabled />
     </div>
@@ -90,7 +88,7 @@ export default () => {
   const [value, setValue] = React.useState();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <Input.Range
         type="NUMBER"
         value={value}
@@ -98,7 +96,6 @@ export default () => {
         placeholder={["最小值", "最大值"]}
         allowClear
       />
-      <div>当前值：{value ? value.join(" ~ ") : "（空）"}</div>
     </div>
   );
 };
@@ -116,7 +113,7 @@ export default () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <Input.Search
         placeholder="请输入关键字"
         value={value}
@@ -124,7 +121,6 @@ export default () => {
         enterButton
         onSearch={(v) => console.log("search:", v)}
       />
-      <div>当前值：{value || "（空）"}</div>
     </div>
   );
 };
@@ -142,14 +138,13 @@ export default () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <Input.TextArea
         placeholder="请输入内容"
         value={value}
         onChange={setValue}
         autoSize={{ minRows: 2, maxRows: 4 }}
       />
-      <div>当前值：{value || "（空）"}</div>
     </div>
   );
 };

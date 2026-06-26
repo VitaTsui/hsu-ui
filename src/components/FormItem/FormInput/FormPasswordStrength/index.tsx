@@ -16,7 +16,7 @@ const PasswordStrength: React.FC<InputProps> = (props) => {
   const [fraction, setFraction] = useState<number>(0);
 
   return (
-    <>
+    <div className={styles.passwordStrength}>
       <Input.Password
         {...inputConfig}
         placeholder={placeholder ?? "请输入"}
@@ -38,7 +38,7 @@ const PasswordStrength: React.FC<InputProps> = (props) => {
         value={fraction}
         className={styles.strengthBar}
       />
-    </>
+    </div>
   );
 };
 
