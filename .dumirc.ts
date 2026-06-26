@@ -1,9 +1,15 @@
 import { defineConfig } from "dumi";
 
+// GitHub Pages 项目站点路径为 /hsu-ui/；本地开发(yarn dev)仍用根路径。
+const isGhPages = !!process.env.GH_PAGES;
+const base = isGhPages ? "/hsu-ui/" : "/";
+
 export default defineConfig({
+  base,
+  publicPath: base,
   themeConfig: {
     name: "Hsu UI",
-    logo: "/logo.svg",
+    logo: `${base}logo.svg`,
     nav: [
       { title: "指南", link: "/guide" },
       { title: "组件", link: "/components/button" },
