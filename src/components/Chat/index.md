@@ -73,11 +73,19 @@ export default () => {
   };
 
   return (
-    <div style={{ height: 360, border: "1px solid #f0f0f0", borderRadius: 8 }}>
+    <div
+      style={{
+        height: 360,
+        width: 260,
+        border: "1px solid #f0f0f0",
+        borderRadius: 8,
+        overflow: "hidden",
+      }}
+    >
       <Chat.History
         historyList={historyList}
         currentChatId={currentChatId}
-        width="240px"
+        width="260px"
         onNewChat={() => setCurrentChatId("")}
         onChatItemClick={(item) => setCurrentChatId(item.id)}
         updateTitle={(chatId, title) => console.log("重命名", chatId, title)}
