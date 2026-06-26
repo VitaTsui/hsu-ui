@@ -23,7 +23,7 @@ import { FormItem } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { FormItem } from "@hsu-react/ui";
-import { Form, Input, Divider } from "antd";
+import { Form, Input, Divider, Row, Col } from "antd";
 
 const options = [
   { label: "选项一", value: "1" },
@@ -43,113 +43,198 @@ const treeData = [
   },
 ];
 
+// 半宽（一行两列）
+const Half = ({ children }) => (
+  <Col xs={24} sm={12}>
+    {children}
+  </Col>
+);
+// 整宽（独占一行）
+const Full = ({ children }) => <Col span={24}>{children}</Col>;
+
 export default () => {
   const [form] = Form.useForm();
 
   return (
-    <Form form={form} layout="vertical" style={{ maxWidth: 560 }}>
+    <Form form={form} layout="vertical">
       <Divider orientation="left">输入类</Divider>
-      <FormItem type="INPUT" name="input" label="INPUT 输入框" required />
-      <FormItem type="TEXTAREA" name="textarea" label="TEXTAREA 多行文本" />
-      <FormItem type="PASSWORD" name="password" label="PASSWORD 密码" />
-      <FormItem
-        type="PASSWORDSTRENGTH"
-        name="pwdStrength"
-        label="PASSWORDSTRENGTH 密码强度"
-      />
-      <FormItem
-        type="INPUTNUMBER"
-        name="number"
-        label="INPUTNUMBER 数字"
-        componentProps={{ min: 0, max: 100 }}
-      />
-      <FormItem type="RANGEINPUT" name="rangeInput" label="RANGEINPUT 范围输入" />
-      <FormItem type="SLIDER" name="slider" label="SLIDER 滑块" />
-      <FormItem
-        type="TEXT"
-        name="text"
-        label="TEXT 只读文本"
-        componentProps={{ value: "只读文本内容" }}
-      />
-      <FormItem
-        type="AUTO"
-        name="auto"
-        label="AUTO 自定义控件"
-        element={<Input placeholder="任意自定义控件" />}
-      />
+      <Row gutter={16}>
+        <Half>
+          <FormItem type="INPUT" name="input" label="INPUT 输入框" required />
+        </Half>
+        <Half>
+          <FormItem type="PASSWORD" name="password" label="PASSWORD 密码" />
+        </Half>
+        <Half>
+          <FormItem
+            type="PASSWORDSTRENGTH"
+            name="pwdStrength"
+            label="PASSWORDSTRENGTH 密码强度"
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="INPUTNUMBER"
+            name="number"
+            label="INPUTNUMBER 数字"
+            componentProps={{ min: 0, max: 100 }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="RANGEINPUT"
+            name="rangeInput"
+            label="RANGEINPUT 范围输入"
+          />
+        </Half>
+        <Half>
+          <FormItem type="SLIDER" name="slider" label="SLIDER 滑块" />
+        </Half>
+        <Half>
+          <FormItem
+            type="TEXT"
+            name="text"
+            label="TEXT 只读文本"
+            componentProps={{ value: "只读文本内容" }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="AUTO"
+            name="auto"
+            label="AUTO 自定义控件"
+            element={<Input placeholder="任意自定义控件" />}
+          />
+        </Half>
+        <Full>
+          <FormItem type="TEXTAREA" name="textarea" label="TEXTAREA 多行文本" />
+        </Full>
+      </Row>
 
       <Divider orientation="left">选择类</Divider>
-      <FormItem
-        type="SELECT"
-        name="select"
-        label="SELECT 选择器"
-        componentProps={{ options }}
-      />
-      <FormItem
-        type="AUTOCOMPLETESELECT"
-        name="autoComplete"
-        label="AUTOCOMPLETESELECT 自动完成"
-        componentProps={{ options }}
-      />
-      <FormItem
-        type="TREESELECT"
-        name="treeSelect"
-        label="TREESELECT 树选择"
-        componentProps={{ treeData }}
-      />
-      <FormItem type="ICONSELECT" name="iconSelect" label="ICONSELECT 图标选择" />
-      <FormItem
-        type="SEGMENTED"
-        name="segmented"
-        label="SEGMENTED 分段控制"
-        componentProps={{ options }}
-      />
-      <FormItem
-        type="RADIO"
-        name="radio"
-        label="RADIO 单选"
-        componentProps={{ options }}
-      />
-      <FormItem type="CHECKBOX" name="checkbox" label="CHECKBOX 单个多选框" />
-      <FormItem
-        type="CHECKBOXGROUP"
-        name="checkboxGroup"
-        label="CHECKBOXGROUP 多选组"
-        componentProps={{ options }}
-      />
-      <FormItem type="SWITCH" name="switch" label="SWITCH 开关" />
-      <FormItem type="DATEPICKER" name="date" label="DATEPICKER 日期" />
-      <FormItem type="RANGEPICKER" name="rangePicker" label="RANGEPICKER 日期范围" />
-      <FormItem type="STEPPICKER" name="stepPicker" label="STEPPICKER 步进日期" />
-      <FormItem
-        type="TREE"
-        name="tree"
-        label="TREE 树形控件"
-        componentProps={{ treeData }}
-      />
+      <Row gutter={16}>
+        <Half>
+          <FormItem
+            type="SELECT"
+            name="select"
+            label="SELECT 选择器"
+            componentProps={{ options }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="AUTOCOMPLETESELECT"
+            name="autoComplete"
+            label="AUTOCOMPLETESELECT 自动完成"
+            componentProps={{ options }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="TREESELECT"
+            name="treeSelect"
+            label="TREESELECT 树选择"
+            componentProps={{ treeData }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="ICONSELECT"
+            name="iconSelect"
+            label="ICONSELECT 图标选择"
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="SEGMENTED"
+            name="segmented"
+            label="SEGMENTED 分段控制"
+            componentProps={{ options }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="RADIO"
+            name="radio"
+            label="RADIO 单选"
+            componentProps={{ options }}
+          />
+        </Half>
+        <Half>
+          <FormItem type="CHECKBOX" name="checkbox" label="CHECKBOX 单个多选框" />
+        </Half>
+        <Half>
+          <FormItem
+            type="CHECKBOXGROUP"
+            name="checkboxGroup"
+            label="CHECKBOXGROUP 多选组"
+            componentProps={{ options }}
+          />
+        </Half>
+        <Half>
+          <FormItem type="SWITCH" name="switch" label="SWITCH 开关" />
+        </Half>
+        <Half>
+          <FormItem type="DATEPICKER" name="date" label="DATEPICKER 日期" />
+        </Half>
+        <Half>
+          <FormItem
+            type="RANGEPICKER"
+            name="rangePicker"
+            label="RANGEPICKER 日期范围"
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="STEPPICKER"
+            name="stepPicker"
+            label="STEPPICKER 步进日期"
+          />
+        </Half>
+        <Full>
+          <FormItem
+            type="TREE"
+            name="tree"
+            label="TREE 树形控件"
+            componentProps={{ treeData }}
+          />
+        </Full>
+      </Row>
 
       <Divider orientation="left">富文本 / 代码</Divider>
-      <FormItem type="EDITOR" name="editor" label="EDITOR 富文本" />
-      <FormItem
-        type="CODEMIRROR"
-        name="codemirror"
-        label="CODEMIRROR 代码"
-        componentProps={{ language: "json" }}
-      />
+      <Row gutter={16}>
+        <Full>
+          <FormItem type="EDITOR" name="editor" label="EDITOR 富文本" />
+        </Full>
+        <Full>
+          <FormItem
+            type="CODEMIRROR"
+            name="codemirror"
+            label="CODEMIRROR 代码"
+            componentProps={{ language: "json" }}
+          />
+        </Full>
+      </Row>
 
       <Divider orientation="left">上传类</Divider>
-      <FormItem
-        type="FILE"
-        name="file"
-        label="FILE 文件上传"
-        componentProps={{ action: "/api/upload" }}
-      />
-      <FormItem
-        type="IMAGEFILE"
-        name="image"
-        label="IMAGEFILE 图片上传"
-        componentProps={{ action: "/api/upload" }}
-      />
+      <Row gutter={16}>
+        <Half>
+          <FormItem
+            type="FILE"
+            name="file"
+            label="FILE 文件上传"
+            componentProps={{ action: "/api/upload" }}
+          />
+        </Half>
+        <Half>
+          <FormItem
+            type="IMAGEFILE"
+            name="image"
+            label="IMAGEFILE 图片上传"
+            componentProps={{ action: "/api/upload" }}
+          />
+        </Half>
+      </Row>
     </Form>
   );
 };
