@@ -1,3 +1,33 @@
 // 文档站全局引入库的 antd 观感覆盖，保证 Demo 与实际使用一致
 @import "../src/styles/antd-overload.less";
 @import "../src/styles/utils.less";
+
+// 组件依赖一组主题 CSS 变量（真实项目由 Theme 组件注入），
+// 文档站需自行定义，否则组件描边 / 背景 / 文字色缺失，样式异常。
+:root {
+  --primary-color: #1677ff;
+  --text-color: rgba(0, 0, 0, 0.88);
+
+  --cf-canvas: #f6f7f9; // 页面画布
+  --cf-surface: #ffffff; // 卡片/面板底
+  --cf-subtle: #fafbfc; // 表头/次级底
+  --cf-border: #e6e8eb; // 描边
+  --cf-border-weak: #eceef1; // 更轻描边
+  --cf-text: rgba(0, 0, 0, 0.88);
+  --cf-text-2: rgba(0, 0, 0, 0.45);
+  --cf-text-3: rgba(0, 0, 0, 0.35);
+}
+
+// dumi 暗色模式跟随
+:root[data-prefers-color-scheme="dark"] {
+  --text-color: rgba(255, 255, 255, 0.85);
+
+  --cf-canvas: #131314;
+  --cf-surface: #1c1c1e;
+  --cf-subtle: #232325;
+  --cf-border: rgba(255, 255, 255, 0.12);
+  --cf-border-weak: rgba(255, 255, 255, 0.08);
+  --cf-text: rgba(255, 255, 255, 0.85);
+  --cf-text-2: rgba(255, 255, 255, 0.45);
+  --cf-text-3: rgba(255, 255, 255, 0.35);
+}

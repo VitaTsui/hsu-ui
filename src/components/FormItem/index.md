@@ -18,18 +18,184 @@ import { FormItem } from "@hsu-react/ui";
 
 ## 基础用法
 
-`FormItem` 是配置驱动的，通过 `type` 指定控件类型，业务参数统一放在 `componentProps` 中，需置于 antd `Form` 之内。下面列出全部类型：
+`FormItem` 通过 `type` 指定控件类型，业务参数统一放在 `componentProps` 中，需置于 antd `Form` 之内。下面按类型分别演示：
+
+### 输入类
+
+#### INPUT 输入框
 
 ```tsx
 import React from "react";
 import { FormItem } from "@hsu-react/ui";
-import { Form, Input, Divider, Row, Col } from "antd";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="INPUT" name="input" label="输入框" required />
+  </Form>
+);
+```
+
+#### TEXTAREA 多行文本
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="TEXTAREA" name="textarea" label="多行文本" />
+  </Form>
+);
+```
+
+#### PASSWORD 密码
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="PASSWORD" name="password" label="密码" />
+  </Form>
+);
+```
+
+#### PASSWORDSTRENGTH 密码强度
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="PASSWORDSTRENGTH" name="pwd" label="密码强度" />
+  </Form>
+);
+```
+
+#### INPUTNUMBER 数字
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="INPUTNUMBER" name="number" label="数字" componentProps={{ min: 0, max: 100 }} />
+  </Form>
+);
+```
+
+#### RANGEINPUT 范围输入
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="RANGEINPUT" name="range" label="范围输入" />
+  </Form>
+);
+```
+
+#### SLIDER 滑块
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="SLIDER" name="slider" label="滑块" />
+  </Form>
+);
+```
+
+#### TEXT 只读文本
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="TEXT" name="text" label="只读文本" componentProps={{ value: "只读文本内容" }} />
+  </Form>
+);
+```
+
+#### AUTO 自定义控件
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form, Input } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="AUTO" name="auto" label="自定义控件" element={<Input placeholder="任意自定义控件" />} />
+  </Form>
+);
+```
+
+### 选择类
+
+#### SELECT 选择器
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
 
 const options = [
   { label: "选项一", value: "1" },
   { label: "选项二", value: "2" },
   { label: "选项三", value: "3" },
 ];
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="SELECT" name="select" label="选择器" componentProps={{ options }} />
+  </Form>
+);
+```
+
+#### AUTOCOMPLETESELECT 自动完成
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+const options = [
+  { label: "选项一", value: "1" },
+  { label: "选项二", value: "2" },
+  { label: "选项三", value: "3" },
+];
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="AUTOCOMPLETESELECT" name="ac" label="自动完成" componentProps={{ options }} />
+  </Form>
+);
+```
+
+#### TREESELECT 树选择
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
 
 const treeData = [
   {
@@ -43,201 +209,241 @@ const treeData = [
   },
 ];
 
-// 半宽（一行两列）
-const Half = ({ children }) => (
-  <Col xs={24} sm={12}>
-    {children}
-  </Col>
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="TREESELECT" name="treeSelect" label="树选择" componentProps={{ treeData }} />
+  </Form>
 );
-// 整宽（独占一行）
-const Full = ({ children }) => <Col span={24}>{children}</Col>;
+```
 
-export default () => {
-  const [form] = Form.useForm();
+#### ICONSELECT 图标选择
 
-  return (
-    <Form form={form} layout="vertical">
-      <Divider orientation="left">输入类</Divider>
-      <Row gutter={16}>
-        <Half>
-          <FormItem type="INPUT" name="input" label="INPUT 输入框" required />
-        </Half>
-        <Half>
-          <FormItem type="PASSWORD" name="password" label="PASSWORD 密码" />
-        </Half>
-        <Half>
-          <FormItem
-            type="PASSWORDSTRENGTH"
-            name="pwdStrength"
-            label="PASSWORDSTRENGTH 密码强度"
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="INPUTNUMBER"
-            name="number"
-            label="INPUTNUMBER 数字"
-            componentProps={{ min: 0, max: 100 }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="RANGEINPUT"
-            name="rangeInput"
-            label="RANGEINPUT 范围输入"
-          />
-        </Half>
-        <Half>
-          <FormItem type="SLIDER" name="slider" label="SLIDER 滑块" />
-        </Half>
-        <Half>
-          <FormItem
-            type="TEXT"
-            name="text"
-            label="TEXT 只读文本"
-            componentProps={{ value: "只读文本内容" }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="AUTO"
-            name="auto"
-            label="AUTO 自定义控件"
-            element={<Input placeholder="任意自定义控件" />}
-          />
-        </Half>
-        <Full>
-          <FormItem type="TEXTAREA" name="textarea" label="TEXTAREA 多行文本" />
-        </Full>
-      </Row>
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
 
-      <Divider orientation="left">选择类</Divider>
-      <Row gutter={16}>
-        <Half>
-          <FormItem
-            type="SELECT"
-            name="select"
-            label="SELECT 选择器"
-            componentProps={{ options }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="AUTOCOMPLETESELECT"
-            name="autoComplete"
-            label="AUTOCOMPLETESELECT 自动完成"
-            componentProps={{ options }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="TREESELECT"
-            name="treeSelect"
-            label="TREESELECT 树选择"
-            componentProps={{ treeData }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="ICONSELECT"
-            name="iconSelect"
-            label="ICONSELECT 图标选择"
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="SEGMENTED"
-            name="segmented"
-            label="SEGMENTED 分段控制"
-            componentProps={{ options }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="RADIO"
-            name="radio"
-            label="RADIO 单选"
-            componentProps={{ options }}
-          />
-        </Half>
-        <Half>
-          <FormItem type="CHECKBOX" name="checkbox" label="CHECKBOX 单个多选框" />
-        </Half>
-        <Half>
-          <FormItem
-            type="CHECKBOXGROUP"
-            name="checkboxGroup"
-            label="CHECKBOXGROUP 多选组"
-            componentProps={{ options }}
-          />
-        </Half>
-        <Half>
-          <FormItem type="SWITCH" name="switch" label="SWITCH 开关" />
-        </Half>
-        <Half>
-          <FormItem type="DATEPICKER" name="date" label="DATEPICKER 日期" />
-        </Half>
-        <Half>
-          <FormItem
-            type="RANGEPICKER"
-            name="rangePicker"
-            label="RANGEPICKER 日期范围"
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="STEPPICKER"
-            name="stepPicker"
-            label="STEPPICKER 步进日期"
-          />
-        </Half>
-        <Full>
-          <FormItem
-            type="TREE"
-            name="tree"
-            label="TREE 树形控件"
-            componentProps={{ treeData }}
-          />
-        </Full>
-      </Row>
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="ICONSELECT" name="icon" label="图标选择" />
+  </Form>
+);
+```
 
-      <Divider orientation="left">富文本 / 代码</Divider>
-      <Row gutter={16}>
-        <Full>
-          <FormItem type="EDITOR" name="editor" label="EDITOR 富文本" />
-        </Full>
-        <Full>
-          <FormItem
-            type="CODEMIRROR"
-            name="codemirror"
-            label="CODEMIRROR 代码"
-            componentProps={{ language: "json" }}
-          />
-        </Full>
-      </Row>
+#### SEGMENTED 分段控制
 
-      <Divider orientation="left">上传类</Divider>
-      <Row gutter={16}>
-        <Half>
-          <FormItem
-            type="FILE"
-            name="file"
-            label="FILE 文件上传"
-            componentProps={{ action: "/api/upload" }}
-          />
-        </Half>
-        <Half>
-          <FormItem
-            type="IMAGEFILE"
-            name="image"
-            label="IMAGEFILE 图片上传"
-            componentProps={{ action: "/api/upload" }}
-          />
-        </Half>
-      </Row>
-    </Form>
-  );
-};
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+const options = [
+  { label: "选项一", value: "1" },
+  { label: "选项二", value: "2" },
+  { label: "选项三", value: "3" },
+];
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="SEGMENTED" name="segmented" label="分段控制" componentProps={{ options }} />
+  </Form>
+);
+```
+
+#### RADIO 单选
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+const options = [
+  { label: "选项一", value: "1" },
+  { label: "选项二", value: "2" },
+  { label: "选项三", value: "3" },
+];
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="RADIO" name="radio" label="单选" componentProps={{ options }} />
+  </Form>
+);
+```
+
+#### CHECKBOX 单个多选框
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="CHECKBOX" name="checkbox" label="多选框" />
+  </Form>
+);
+```
+
+#### CHECKBOXGROUP 多选组
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+const options = [
+  { label: "选项一", value: "1" },
+  { label: "选项二", value: "2" },
+  { label: "选项三", value: "3" },
+];
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="CHECKBOXGROUP" name="checkboxGroup" label="多选组" componentProps={{ options }} />
+  </Form>
+);
+```
+
+#### SWITCH 开关
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="SWITCH" name="switch" label="开关" />
+  </Form>
+);
+```
+
+#### DATEPICKER 日期
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="DATEPICKER" name="date" label="日期" />
+  </Form>
+);
+```
+
+#### RANGEPICKER 日期范围
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="RANGEPICKER" name="dateRange" label="日期范围" />
+  </Form>
+);
+```
+
+#### STEPPICKER 步进日期
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="STEPPICKER" name="step" label="步进日期" />
+  </Form>
+);
+```
+
+#### TREE 树形控件
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+const treeData = [
+  {
+    title: "父节点",
+    value: "0",
+    key: "0",
+    children: [
+      { title: "子节点 1", value: "0-1", key: "0-1" },
+      { title: "子节点 2", value: "0-2", key: "0-2" },
+    ],
+  },
+];
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="TREE" name="tree" label="树形控件" componentProps={{ treeData }} />
+  </Form>
+);
+```
+
+### 富文本 / 代码
+
+#### EDITOR 富文本
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="EDITOR" name="editor" label="富文本" />
+  </Form>
+);
+```
+
+#### CODEMIRROR 代码
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="CODEMIRROR" name="code" label="代码" componentProps={{ language: "json" }} />
+  </Form>
+);
+```
+
+### 上传类
+
+#### FILE 文件上传
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="FILE" name="file" label="文件上传" componentProps={{ action: "/api/upload" }} />
+  </Form>
+);
+```
+
+#### IMAGEFILE 图片上传
+
+```tsx
+import React from "react";
+import { FormItem } from "@hsu-react/ui";
+import { Form } from "antd";
+
+export default () => (
+  <Form layout="vertical" style={{ maxWidth: 420 }}>
+    <FormItem type="IMAGEFILE" name="image" label="图片上传" componentProps={{ action: "/api/upload" }} />
+  </Form>
+);
 ```
 
 ## API
