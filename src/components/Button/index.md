@@ -35,6 +35,30 @@ export default () => (
 );
 ```
 
+## 子组件
+
+### Button.Chakra
+
+基于 Chakra UI 的按钮，需用 `ChakraProvider` 提供 Chakra system。支持 `hasPermi`、`hidden`、`iconPosition`、`icon` 等扩展属性。
+
+```tsx
+import React from "react";
+import { Button } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+export default () => (
+  <ChakraProvider
+    value={createSystem(defaultConfig, { disableLayers: true, preflight: false })}
+  >
+    <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+      <Button.Chakra colorPalette="blue">主要按钮</Button.Chakra>
+      <Button.Chakra variant="outline">描边按钮</Button.Chakra>
+      <Button.Chakra disabled>禁用</Button.Chakra>
+    </div>
+  </ChakraProvider>
+);
+```
+
 ## API
 
 在 [antd ButtonProps](https://ant.design/components/button-cn) 基础上扩展：

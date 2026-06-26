@@ -47,6 +47,40 @@ export default () => {
 };
 ```
 
+## 子组件
+
+### Checkbox.Group
+
+多选框组，支持 `hasAll`（全选）、`layout`（排列方向）与 `outline`（描边样式）。
+
+```tsx
+import React from "react";
+import { Checkbox } from "@hsu-react/ui";
+
+const options = [
+  { label: "苹果", value: "apple" },
+  { label: "香蕉", value: "banana" },
+  { label: "橙子", value: "orange" },
+];
+
+export default () => {
+  const [value, setValue] = React.useState(["apple"]);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <Checkbox.Group
+        options={options}
+        value={value}
+        onChange={setValue}
+        hasAll
+        outline
+        layout="vertical"
+      />
+    </div>
+  );
+};
+```
+
 ## API
 
 ### Checkbox

@@ -58,6 +58,219 @@ export default () => {
 };
 ```
 
+## 子组件
+
+`Search` 在基础形态外，额外提供多种搜索形态。除 `Search.Card` 使用 `options` 配置外，其余均复用 `searchItems`（`FormItemProps[]`）+ `onSearch` / `onReset`。
+
+### Search.Advanced 高级筛选
+
+不显示标签，通过抽屉承载更多筛选项；配合 `setFilter` 可显示筛选项下拉。
+
+```tsx
+import React from "react";
+import { Search } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+export default () => (
+  <ChakraProvider value={system}>
+    <Search.Advanced
+      columnNum={3}
+      setFilter
+      searchItems={[
+        { type: "INPUT", name: "name", label: "姓名" },
+        {
+          type: "SELECT",
+          name: "status",
+          label: "状态",
+          componentProps: {
+            options: [
+              { label: "启用", value: 1 },
+              { label: "禁用", value: 0 },
+            ],
+          },
+        },
+      ]}
+      moreSearchItems={[{ type: "INPUT", name: "remark", label: "备注" }]}
+      onSearch={(data) => console.log("search", data)}
+      onReset={() => console.log("reset")}
+    />
+  </ChakraProvider>
+);
+```
+
+### Search.Collapsible 可折叠
+
+整块搜索区可折叠 / 展开，通过 `defaultExpanded` 控制初始状态，`onCollapseToggle` 监听折叠变化。
+
+```tsx
+import React from "react";
+import { Search } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+export default () => (
+  <ChakraProvider value={system}>
+    <Search.Collapsible
+      columnNum={3}
+      defaultExpanded
+      searchItems={[
+        { type: "INPUT", name: "name", label: "姓名" },
+        {
+          type: "SELECT",
+          name: "status",
+          label: "状态",
+          componentProps: {
+            options: [
+              { label: "启用", value: 1 },
+              { label: "禁用", value: 0 },
+            ],
+          },
+        },
+      ]}
+      onCollapseToggle={(c) => console.log("collapse", c)}
+      onSearch={(data) => console.log("search", data)}
+      onReset={() => console.log("reset")}
+    />
+  </ChakraProvider>
+);
+```
+
+### Search.WithFilter 带筛选器
+
+在按钮组旁内置筛选下拉，允许用户动态勾选要显示的搜索项，`onFilterChange` 接收勾选变化。
+
+```tsx
+import React from "react";
+import { Search } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+export default () => (
+  <ChakraProvider value={system}>
+    <Search.WithFilter
+      columnNum={3}
+      searchItems={[
+        { type: "INPUT", name: "name", label: "姓名" },
+        {
+          type: "SELECT",
+          name: "status",
+          label: "状态",
+          componentProps: {
+            options: [
+              { label: "启用", value: 1 },
+              { label: "禁用", value: 0 },
+            ],
+          },
+        },
+        { type: "INPUT", name: "phone", label: "电话" },
+      ]}
+      onFilterChange={(items) => console.log("filter", items)}
+      onSearch={(data) => console.log("search", data)}
+      onReset={() => console.log("reset")}
+    />
+  </ChakraProvider>
+);
+```
+
+### Search.WithMore 带更多项
+
+把搜索项分为基础项（`searchItems`）与更多项（`moreSearchItems`，必填），始终展示全部并提供展开收起。
+
+```tsx
+import React from "react";
+import { Search } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+export default () => (
+  <ChakraProvider value={system}>
+    <Search.WithMore
+      columnNum={3}
+      searchItems={[
+        { type: "INPUT", name: "name", label: "姓名" },
+        {
+          type: "SELECT",
+          name: "status",
+          label: "状态",
+          componentProps: {
+            options: [
+              { label: "启用", value: 1 },
+              { label: "禁用", value: 0 },
+            ],
+          },
+        },
+      ]}
+      moreSearchItems={[
+        { type: "INPUT", name: "phone", label: "电话" },
+        { type: "INPUT", name: "remark", label: "备注" },
+      ]}
+      onSearch={(data) => console.log("search", data)}
+      onReset={() => console.log("reset")}
+    />
+  </ChakraProvider>
+);
+```
+
+### Search.Card 卡片式
+
+标签式快捷筛选，使用 `options`（`SearchCardOption[]`）而非 `searchItems`，`onChange` 返回当前选中值；支持 `multiple` 多选与 `showSearchBox` 搜索框。
+
+```tsx
+import React from "react";
+import { Search } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+export default () => (
+  <ChakraProvider value={system}>
+    <Search.Card
+      options={[
+        {
+          label: "状态",
+          name: "status",
+          items: [
+            { label: "启用", value: 1 },
+            { label: "禁用", value: 0 },
+          ],
+        },
+        {
+          label: "类型",
+          name: "type",
+          multiple: true,
+          items: [
+            { label: "普通", value: "normal" },
+            { label: "重要", value: "important" },
+            { label: "紧急", value: "urgent" },
+          ],
+        },
+      ]}
+      onChange={(data) => console.log("change", data)}
+    />
+  </ChakraProvider>
+);
+```
+
 ## API
 
 `SearchProps` 继承自 `BaseSearchProps`：

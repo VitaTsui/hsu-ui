@@ -70,6 +70,95 @@ export default () => {
 };
 ```
 
+## 子组件
+
+### Form.Drawer
+
+抽屉形态的表单，用法与 `Form.Modal` 一致，通过 `formItems` 配置表单项，适合内容较多的录入场景。
+
+```tsx
+import React, { useState } from "react";
+import { Form } from "@hsu-react/ui";
+import { Button, message } from "antd";
+
+export default () => {
+  const [open, setOpen] = useState(false);
+
+  const formItems = [
+    { type: "INPUT", name: "name", label: "姓名", required: true },
+    {
+      type: "SELECT",
+      name: "role",
+      label: "角色",
+      componentProps: {
+        options: [
+          { label: "管理员", value: "admin" },
+          { label: "访客", value: "guest" },
+        ],
+      },
+    },
+    { type: "TEXTAREA", name: "remark", label: "备注" },
+  ];
+
+  return (
+    <>
+      <Button type="primary" onClick={() => setOpen(true)}>
+        打开抽屉表单
+      </Button>
+      <Form.Drawer
+        open={open}
+        title="编辑用户"
+        formItems={formItems}
+        onClose={() => setOpen(false)}
+        buttonGroup={[
+          {
+            title: "取消",
+            onClick: () => setOpen(false),
+          },
+          {
+            title: "确定",
+            type: "primary",
+            onClick: () => {
+              message.success("已提交");
+              setOpen(false);
+            },
+          },
+        ]}
+      />
+    </>
+  );
+};
+```
+
+### Form.Import
+
+导入表单，弹窗内提供文件上传，可配置上传地址 `uploadAction` 与模板下载地址 `template`。
+
+```tsx
+import React, { useState } from "react";
+import { Form } from "@hsu-react/ui";
+import { Button } from "antd";
+
+export default () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button type="primary" onClick={() => setOpen(true)}>
+        导入数据
+      </Button>
+      <Form.Import
+        open={open}
+        title="导入数据"
+        uploadAction="https://example.com/api/upload"
+        templateName="导入模板.xlsx"
+        onCancel={() => setOpen(false)}
+      />
+    </>
+  );
+};
+```
+
 ## API
 
 `Form` 是一个对象，包含以下成员：

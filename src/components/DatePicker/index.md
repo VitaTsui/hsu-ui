@@ -42,6 +42,50 @@ export default () => {
 };
 ```
 
+## 子组件
+
+### DatePicker.RangePicker
+
+区间选择，`value` / `defaultValue` 为 `string[]`，`onChange` 返回格式化后的 `string[]`，同样支持 `picker` / `showPicker` 等粒度切换。
+
+```tsx
+import React, { useState } from "react";
+import { DatePicker } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = useState<string[]>();
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <DatePicker.RangePicker value={value} onChange={(dates) => setValue(dates)} />
+      <DatePicker.RangePicker showPicker onChange={(dates, picker) => console.log(dates, picker)} />
+      <div>当前值：{value ? value.join(" ~ ") : "（空）"}</div>
+    </div>
+  );
+};
+```
+
+### DatePicker.StepPicker
+
+按 `step` 步进的日期选择，支持 `picker: 'day' | 'month' | 'year'`，以及 `minDate` / `maxDate` 边界限制。
+
+```tsx
+import React, { useState } from "react";
+import { DatePicker } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = useState<string>();
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <DatePicker.StepPicker picker="day" step={1} onChange={(date) => setValue(date)} />
+      <DatePicker.StepPicker picker="month" onChange={(date) => setValue(date)} />
+      <div>当前值：{value || "（空）"}</div>
+    </div>
+  );
+};
+```
+
 ## API
 
 在 [antd DatePickerProps](https://ant.design/components/date-picker-cn) 基础上扩展（重写了 `picker`、`onChange`）：

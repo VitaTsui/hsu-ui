@@ -53,6 +53,43 @@ export default () => {
 };
 ```
 
+## 子组件
+
+### Chat.History
+
+历史会话列表，`historyList` 为按分组（如日期）组织的会话数据，支持新建、点击切换、重命名与删除会话。
+
+```tsx
+import React, { useState } from "react";
+import { Chat } from "@hsu-react/ui";
+
+export default () => {
+  const [currentChatId, setCurrentChatId] = useState("1");
+
+  const historyList = {
+    今天: [
+      { id: "1", name: "如何学习 React", conversationId: "c1" },
+      { id: "2", name: "TypeScript 入门", conversationId: "c2" },
+    ],
+    昨天: [{ id: "3", name: "前端性能优化", conversationId: "c3" }],
+  };
+
+  return (
+    <div style={{ height: 360, border: "1px solid #f0f0f0", borderRadius: 8 }}>
+      <Chat.History
+        historyList={historyList}
+        currentChatId={currentChatId}
+        width="240px"
+        onNewChat={() => setCurrentChatId("")}
+        onChatItemClick={(item) => setCurrentChatId(item.id)}
+        updateTitle={(chatId, title) => console.log("重命名", chatId, title)}
+        deleteHistory={(item) => console.log("删除", item)}
+      />
+    </div>
+  );
+};
+```
+
 ## Chat.List
 
 消息列表，渲染用户提问与 AI 回答。

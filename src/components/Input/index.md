@@ -35,6 +35,126 @@ export default () => {
 };
 ```
 
+## 子组件
+
+### Input.Number
+
+数字输入框，`onChange` 返回字符串，内置 `allowClear`、`controls={false}` 与 `stringMode`。
+
+```tsx
+import React from "react";
+import { Input } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = React.useState("");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <Input.Number placeholder="请输入数字" value={value} onChange={setValue} />
+      <Input.Number placeholder="带单位" addonAfter="元" />
+      <div>当前值：{value || "（空）"}</div>
+    </div>
+  );
+};
+```
+
+### Input.Password
+
+密码输入框，支持显示/隐藏切换，`onChange` 返回纯字符串。
+
+```tsx
+import React from "react";
+import { Input } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = React.useState("");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <Input.Password placeholder="请输入密码" value={value} onChange={setValue} />
+      <Input.Password placeholder="禁用状态" disabled />
+    </div>
+  );
+};
+```
+
+### Input.Range
+
+范围输入框，`type` 支持 `"NUMBER"` 或 `"INPUT"`，`onChange` 返回 `[起, 止]` 元组。
+
+```tsx
+import React from "react";
+import { Input } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = React.useState();
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <Input.Range
+        type="NUMBER"
+        value={value}
+        onChange={setValue}
+        placeholder={["最小值", "最大值"]}
+        allowClear
+      />
+      <div>当前值：{value ? value.join(" ~ ") : "（空）"}</div>
+    </div>
+  );
+};
+```
+
+### Input.Search
+
+搜索输入框，支持 `onSearch` 回调与搜索按钮，`onChange` 返回纯字符串。
+
+```tsx
+import React from "react";
+import { Input } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = React.useState("");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <Input.Search
+        placeholder="请输入关键字"
+        value={value}
+        onChange={setValue}
+        enterButton
+        onSearch={(v) => console.log("search:", v)}
+      />
+      <div>当前值：{value || "（空）"}</div>
+    </div>
+  );
+};
+```
+
+### Input.TextArea
+
+多行文本输入框，`onChange` 返回纯字符串，支持 `autoSize`、`prefix` / `suffix`。
+
+```tsx
+import React from "react";
+import { Input } from "@hsu-react/ui";
+
+export default () => {
+  const [value, setValue] = React.useState("");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 320 }}>
+      <Input.TextArea
+        placeholder="请输入内容"
+        value={value}
+        onChange={setValue}
+        autoSize={{ minRows: 2, maxRows: 4 }}
+      />
+      <div>当前值：{value || "（空）"}</div>
+    </div>
+  );
+};
+```
+
 ## API
 
 在 [antd InputProps](https://ant.design/components/input-cn) 基础上扩展（并移除了 `onCompositionStart`、`onCompositionEnd`、`ref`，重写了 `onChange`）：

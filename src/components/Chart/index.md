@@ -53,6 +53,279 @@ export default () => (
 | Chart.Group | 组合图表（可在 `Line`/`Bar`/`Pie` 间切换） |
 | Chart.Common | 通用图表，直接透传 echarts 的 `EChartsOption` |
 
+> 以下示例均放在固定高度的容器中（echarts 需要有尺寸的容器才能渲染）。
+
+### Chart.Bar
+
+柱状图，与 `Chart.Line` 用法一致，传入 `xAxisData` 与 `seriesData`。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Bar
+      legendData={["销量"]}
+      xAxisData={["一月", "二月", "三月", "四月", "五月", "六月"]}
+      seriesData={[120, 200, 150, 80, 70, 110]}
+    />
+  </div>
+);
+```
+
+### Chart.Pie
+
+饼图，`seriesData` 为 `{ name, value }` 对象数组。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Pie
+      chartTitle="访问来源"
+      seriesData={[
+        { name: "直接访问", value: 335 },
+        { name: "搜索引擎", value: 234 },
+        { name: "邮件营销", value: 154 },
+        { name: "联盟广告", value: 135 },
+      ]}
+    />
+  </div>
+);
+```
+
+### Chart.Radar
+
+雷达图，`indicators` 定义各维度（`{ name, max }`），`data` 为对应数值数组。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Radar
+      name="能力评估"
+      indicators={[
+        { name: "研发", max: 100 },
+        { name: "测试", max: 100 },
+        { name: "运维", max: 100 },
+        { name: "设计", max: 100 },
+        { name: "产品", max: 100 },
+      ]}
+      data={[80, 70, 65, 90, 75]}
+    />
+  </div>
+);
+```
+
+### Chart.Gauge
+
+仪表盘，`seriesData` 为 `{ value, name }` 数组（默认量程 0~100）。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Gauge seriesData={[{ value: 72, name: "完成率" }]} />
+  </div>
+);
+```
+
+### Chart.Sankey
+
+桑基图，`seriesData` 为节点 `{ name }` 数组，`seriesLinks` 为连线 `{ source, target }` 数组。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Sankey
+      seriesData={[
+        { name: "访问" },
+        { name: "注册" },
+        { name: "下单" },
+        { name: "复购" },
+      ]}
+      seriesLinks={[
+        { source: "访问", target: "注册" },
+        { source: "注册", target: "下单" },
+        { source: "下单", target: "复购" },
+      ]}
+    />
+  </div>
+);
+```
+
+### Chart.Heatmap
+
+热力图，`data` 为 `[xIndex, yIndex, value]` 数组，配合 `xAxisData`、`yAxisData` 类目。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Heatmap
+      xAxisData={["周一", "周二", "周三"]}
+      yAxisData={["上午", "下午", "晚上"]}
+      data={[
+        [0, 0, 5],
+        [0, 1, 7],
+        [0, 2, 3],
+        [1, 0, 8],
+        [1, 1, 2],
+        [1, 2, 6],
+        [2, 0, 4],
+        [2, 1, 9],
+        [2, 2, 1],
+      ]}
+    />
+  </div>
+);
+```
+
+### Chart.Bubble
+
+气泡图，`data` 为 `{ name, value }` 数组，气泡大小随 `value` 自适应。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Bubble
+      data={[
+        { name: "前端", value: 120 },
+        { name: "后端", value: 90 },
+        { name: "测试", value: 60 },
+        { name: "运维", value: 40 },
+        { name: "设计", value: 30 },
+      ]}
+    />
+  </div>
+);
+```
+
+### Chart.Tree
+
+树图，`seriesData` 为带 `children` 的层级节点数组（节点需含 `value` 字段）。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Tree
+      seriesData={[
+        {
+          name: "根节点",
+          value: 1,
+          children: [
+            {
+              name: "分支 A",
+              value: 1,
+              children: [
+                { name: "叶子 1", value: 1 },
+                { name: "叶子 2", value: 1 },
+              ],
+            },
+            { name: "分支 B", value: 1 },
+          ],
+        },
+      ]}
+    />
+  </div>
+);
+```
+
+### Chart.Polar
+
+极坐标进度环，`seriesData` 为单个 `{ name, value }` 对象（`angleAxis.max` 默认 100）。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Polar
+      title1="75%"
+      title2="完成度"
+      title1Style={{ color: "#333" }}
+      title2Style={{ color: "#999" }}
+      color={["#1675FB", "#5AB5F6"]}
+      seriesData={{ name: "完成度", value: 75 }}
+    />
+  </div>
+);
+```
+
+### Chart.Common
+
+通用图表，直接透传 echarts 原生 `EChartsOption`，适合上述封装未覆盖的场景。
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ height: 280 }}>
+    <Chart.Common
+      tooltip={{ trigger: "axis" }}
+      xAxis={{ type: "category", data: ["A", "B", "C", "D", "E"] }}
+      yAxis={{ type: "value" }}
+      series={[{ type: "line", smooth: true, data: [10, 22, 18, 30, 25] }]}
+    />
+  </div>
+);
+```
+
+### Chart.Group
+
+组合图表，通过 `chartGroup` 传入若干 `{ type, options }`，可按 `pageSize` 分页展示并在 `Line`/`Bar`/`Pie` 间组合。其内部依赖布局样式，建议在业务页面中使用：
+
+```tsx | pure
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <Chart.Group
+    style={{ height: 320 }}
+    pageSize={2}
+    chartGroup={[
+      {
+        type: "Bar",
+        options: {
+          chartTitle: "销量",
+          xAxisData: ["一月", "二月", "三月"],
+          seriesData: [120, 200, 150],
+        },
+      },
+      {
+        type: "Pie",
+        options: {
+          chartTitle: "占比",
+          seriesData: [
+            { name: "直接访问", value: 335 },
+            { name: "搜索引擎", value: 234 },
+          ],
+        },
+      },
+    ]}
+  />
+);
+```
+
 ## API
 
 ### Chart.Line / Chart.Bar

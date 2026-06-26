@@ -70,7 +70,7 @@ export default () => {
 
   return (
     <ChakraProvider value={system}>
-      <div style={{ height: 380 }}>
+      <div style={{ height: 360, display: "flex", flexDirection: "column" }}>
         <Panel.List
           searchProps={{
             searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
@@ -90,6 +90,8 @@ export default () => {
             dataSource: data,
             rowKey: "id",
             pagination: false,
+            // 文档容器较矮，关闭自动撑高避免表格内部滚动把内容裁掉
+            scrollAutoHeight: false,
           }}
         />
       </div>
@@ -122,6 +124,62 @@ import React from "react";
 import { Panel } from "@hsu-react/ui";
 
 export default () => <Panel.Iframe src="https://example.com" fullBtn />;
+```
+
+### Panel.List.Modal 弹窗内列表
+
+`Panel.List.Modal` 在 `Modal` 内复用列表布局，本身继承 `ModalProps`（`open` / `onClose` 等），并通过 `searchProps`、`tableProps` 配置搜索区与表格区。常用于从某条记录弹出其关联子列表。
+
+> 同样依赖 `Button.Chakra`，需外层包一层 `ChakraProvider`。
+
+```tsx
+import React, { useState } from "react";
+import { Panel, Button } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+const ALL = [
+  { id: 1, name: "明细一", status: "启用" },
+  { id: 2, name: "明细二", status: "禁用" },
+];
+
+export default () => {
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(ALL);
+
+  return (
+    <ChakraProvider value={system}>
+      <Button type="primary" onClick={() => setOpen(true)}>
+        打开子列表
+      </Button>
+      <Panel.List.Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        title="关联明细"
+        footer={null}
+        searchProps={{
+          searchItems: [{ type: "INPUT", name: "name", label: "名称" }],
+          onSearch: (v) =>
+            setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
+          onReset: () => setData(ALL),
+        }}
+        tableProps={{
+          columns: [
+            { title: "名称", dataIndex: "name" },
+            { title: "状态", dataIndex: "status" },
+          ],
+          dataSource: data,
+          rowKey: "id",
+          pagination: false,
+        }}
+      />
+    </ChakraProvider>
+  );
+};
 ```
 
 ## API

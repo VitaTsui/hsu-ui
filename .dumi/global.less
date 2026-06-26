@@ -18,6 +18,18 @@
   --cf-text-3: rgba(0, 0, 0, 0.35);
 }
 
+// 收窄文档内容区与 Demo 预览区的默认留白，给宽组件（Panel.List / Search 等）更多展示宽度，
+// 避免在较窄视口下因外框内边距过大而被裁切。
+.dumi-default-content {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+.dumi-default-previewer .dumi-default-previewer-demo {
+  padding: 24px 16px !important;
+  // 宽组件超出时内部横向滚动，而非被预览框硬裁切
+  overflow-x: auto;
+}
+
 // dumi 暗色模式跟随
 :root[data-prefers-color-scheme="dark"] {
   --text-color: rgba(255, 255, 255, 0.85);
