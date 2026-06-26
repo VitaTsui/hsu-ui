@@ -2,6 +2,15 @@
 @import "../src/styles/antd-overload.less";
 @import "../src/styles/utils.less";
 
+// 文档站缺少全局 box-sizing 重置（真实项目由全局样式 / antd reset 提供），
+// content-box 下组件的 height:100% 不含 border/padding，会溢出后被 overflow:hidden 裁切
+// （如 TabBar 默认样式上下边框、Panel 内层容器），故在此统一重置为 border-box。
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 // 组件依赖一组主题 CSS 变量（真实项目由 Theme 组件注入），
 // 文档站需自行定义，否则组件描边 / 背景 / 文字色缺失，样式异常。
 :root {
@@ -36,9 +45,6 @@
 // 横向滚动统一交给各 Demo 外层的 overflowX:auto 处理。
 .hsu-demo-panel-wrapper {
   overflow: visible !important;
-  // 文档站缺少全局 box-sizing 重置，content-box 下 height:100% 不含 padding，
-  // 会多出 padding(20px) 的纵向溢出；补 border-box 让高度包含 padding。
-  box-sizing: border-box;
 }
 
 // 全站滚动条统一收细
