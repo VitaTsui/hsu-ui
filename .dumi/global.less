@@ -26,8 +26,9 @@
 }
 .dumi-default-previewer .dumi-default-previewer-demo {
   padding: 24px 16px !important;
-  // 宽组件超出时内部横向滚动，而非被预览框硬裁切
-  overflow-x: auto;
+  // 注意：不要在此设 overflow，否则会形成裁切上下文，
+  // 把 Select/TreeSelect 等渲染在自身容器内的下拉框裁掉。
+  // 宽组件（Panel）的横向滚动改在各自 Demo 内部处理。
 }
 
 // 左侧菜单字体小一点

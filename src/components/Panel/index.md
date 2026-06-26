@@ -68,17 +68,19 @@ export default () => {
 
   return (
     <ChakraProvider value={system}>
-      <div
-        style={{
-          height: 360,
-          minWidth: 880,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Panel.List
-          searchProps={{
-            searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
+      {/* 外层横向滚动：窄屏时可滚动查看完整列表（Panel.List 无下拉，加 overflow 安全） */}
+      <div style={{ overflowX: "auto" }}>
+        <div
+          style={{
+            height: 360,
+            minWidth: 880,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Panel.List
+            searchProps={{
+              searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
             onSearch: (v) =>
               setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
             onReset: () => setData(ALL),
@@ -98,7 +100,8 @@ export default () => {
             // 文档容器较矮，关闭自动撑高避免表格内部滚动把内容裁掉
             scrollAutoHeight: false,
           }}
-        />
+          />
+        </div>
       </div>
     </ChakraProvider>
   );

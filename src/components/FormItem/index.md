@@ -27,7 +27,7 @@ import { Form } from "antd";
 
 export default () => (
   <Form>
-    <FormItem type="INPUT" name="input" label="输入框" required />
+    <FormItem type="INPUT" name="input" label="输入框" />
   </Form>
 );
 ```
@@ -116,7 +116,7 @@ import { Form } from "antd";
 
 export default () => (
   <Form>
-    <FormItem type="SLIDER" name="slider" label="滑块" />
+    <FormItem type="SLIDER" name="slider" label="滑块" initialValue={30} />
   </Form>
 );
 ```
@@ -134,7 +134,7 @@ export default () => (
       type="TEXT"
       name="text"
       label="只读文本"
-      componentProps={{ value: "只读文本内容" }}
+      initialValue="只读文本内容"
     />
   </Form>
 );
