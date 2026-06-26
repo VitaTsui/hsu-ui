@@ -1,6 +1,7 @@
 import { SwitchProps as AntSwitchProps, Switch as AntSwitch } from "antd";
 import React from "react";
 import { SelectOption } from "../Select";
+import styles from "./index.module.less";
 
 export interface SwitchProps extends AntSwitchProps {
   options?: SelectOption[];
@@ -19,17 +20,19 @@ const Switch: React.FC<SwitchProps> = (props) => {
   } = props;
 
   return (
-    <AntSwitch
-      {...rest}
-      checkedChildren={
-        checkedChildren ||
-        options?.find((item) => item.value === trueValue)?.label
-      }
-      unCheckedChildren={
-        unCheckedChildren ||
-        options?.find((item) => item.value === falseValue)?.label
-      }
-    />
+    <span className={styles.SwitchWrapper}>
+      <AntSwitch
+        {...rest}
+        checkedChildren={
+          checkedChildren ||
+          options?.find((item) => item.value === trueValue)?.label
+        }
+        unCheckedChildren={
+          unCheckedChildren ||
+          options?.find((item) => item.value === falseValue)?.label
+        }
+      />
+    </span>
   );
 };
 

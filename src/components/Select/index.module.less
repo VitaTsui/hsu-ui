@@ -6,6 +6,9 @@
 
   width: 100%;
   height: 100%;
+  // 父级未给定高度时（height:100% 解析为 auto），保证最小高度，
+  // 与 Input 等录入控件高度一致，避免被压扁或在搜索行中高度异常。
+  min-height: 32px;
   padding: 0px 11px;
 
   // CF 风格：随外观切换的描边输入控件

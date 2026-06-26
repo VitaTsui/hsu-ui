@@ -1,6 +1,9 @@
 .antdInput {
   width: 100%;
   height: 100%;
+  // 父级未给定高度时（height:100% 解析为 auto），保证最小高度，避免输入框被压扁；
+  // 内部 .ant-input-wrapper / .ant-input 通过 min-height: inherit 继承该值。
+  min-height: 32px;
 
   :global(.ant-input-clear-icon) {
     font-size: 14px;
