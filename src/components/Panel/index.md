@@ -60,9 +60,9 @@ export default () => {
 
   return (
     // Panel.List 为页面级宽组件；窄屏时外层横向滚动，避免溢出预览框。
-    // 该 Demo 内无下拉，overflow 安全（不会裁切别处的 Select/TreeSelect 弹层）。
-    <div style={{ overflowX: "auto" }}>
-      <div style={{ minWidth: 1000, height: 380 }}>
+    // overflowY:hidden 去掉垂直滚动条；该 Demo 内无下拉，overflow 安全。
+    <div style={{ overflowX: "auto", overflowY: "hidden" }}>
+      <div style={{ minWidth: 1000, height: 300 }}>
         <Panel.List
           searchProps={{
             searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
@@ -100,7 +100,11 @@ import { Panel } from "@hsu-react/ui";
 export default () => (
   <div style={{ height: 200 }}>
     <Panel.Default>
-      <div style={{ padding: 16 }}>这里是通用内容区域</div>
+      <div style={{ overflowX: "auto", padding: 16 }}>
+        <div style={{ width: 1400 }}>
+          这里是通用内容区域（内容较宽时可横向滚动查看）
+        </div>
+      </div>
     </Panel.Default>
   </div>
 );

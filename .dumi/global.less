@@ -31,6 +31,26 @@
   // 宽组件（Panel）的横向滚动改在各自 Demo 内部处理。
 }
 
+// 全站滚动条统一收细
+* {
+  scrollbar-width: thin; // Firefox
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.32);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 // 左侧菜单字体小一点
 .dumi-default-sidebar {
   font-size: 13px;
