@@ -15,16 +15,16 @@
     cursor: pointer;
   }
 
-  .ant-table-container {
+  :global(.ant-table-container) {
     border-left: none !important;
   }
 
-  .ant-table-thead {
+  :global(.ant-table-thead) {
     tr {
-      .ant-table-cell {
+      :global(.ant-table-cell) {
         padding: var(--th-padding);
 
-        &.ant-table-column-has-sorters {
+        &:global(.ant-table-column-has-sorters) {
           background: var(--cf-subtle);
 
           &:hover {
@@ -35,22 +35,22 @@
     }
   }
 
-  .ant-table-tbody {
-    .ant-table-placeholder {
+  :global(.ant-table-tbody) {
+    :global(.ant-table-placeholder) {
       height: 100%;
     }
 
-    .ant-table-expanded-row {
-      .ant-table-cell {
+    :global(.ant-table-expanded-row) {
+      :global(.ant-table-cell) {
         padding: var(--expanded-cell-padding);
       }
     }
 
-    .ant-table-row {
-      .ant-table-cell {
+    :global(.ant-table-row) {
+      :global(.ant-table-cell) {
         padding: var(--td-padding);
 
-        &:not(.ant-table-cell-ellipsis):not(.noWarp) {
+        &:not(:global(.ant-table-cell-ellipsis)):not(.noWarp) {
           white-space: pre-wrap;
           word-break: break-all;
         }
@@ -59,21 +59,21 @@
           white-space: nowrap;
         }
 
-        &.ant-table-column-sort {
+        &:global(.ant-table-column-sort) {
           background: transparent;
 
-          &.ant-table-cell-row-hover {
+          &:global(.ant-table-cell-row-hover) {
             background: var(--cf-subtle);
           }
         }
       }
 
-      &.ant-table-row-selected {
-        .ant-table-cell {
-          &.ant-table-column-sort {
+      &:global(.ant-table-row-selected) {
+        :global(.ant-table-cell) {
+          &:global(.ant-table-column-sort) {
             background: rgba(19, 194, 194, 0.12);
 
-            &.ant-table-cell-row-hover {
+            &:global(.ant-table-cell-row-hover) {
               background: rgba(19, 194, 194, 0.22);
             }
           }
@@ -82,15 +82,15 @@
     }
   }
 
-  .ant-table-summary {
+  :global(.ant-table-summary) {
     > tr {
-      .ant-table-cell {
+      :global(.ant-table-cell) {
         padding: var(--td-padding);
 
-        &.ant-table-column-sort {
+        &:global(.ant-table-column-sort) {
           background: transparent;
 
-          &.ant-table-cell-row-hover {
+          &:global(.ant-table-cell-row-hover) {
             background: var(--cf-subtle);
           }
         }
@@ -98,11 +98,11 @@
     }
   }
 
-  .ant-table-tbody-virtual-scrollbar {
+  :global(.ant-table-tbody-virtual-scrollbar) {
     display: none;
   }
 
-  .ant-table-cell {
+  :global(.ant-table-cell) {
     &.hidden {
       width: 0px !important;
       overflow: hidden !important;
@@ -115,7 +115,7 @@
       }
     }
 
-    .ant-table-row-expand-icon {
+    :global(.ant-table-row-expand-icon) {
       &::before {
         top: calc(50% - 0.5px);
       }
@@ -128,9 +128,9 @@
       content: none !important;
     }
 
-    .ant-checkbox {
-      &.ant-checkbox-checked {
-        .ant-checkbox-inner {
+    :global(.ant-checkbox) {
+      &:global(.ant-checkbox-checked) {
+        :global(.ant-checkbox-inner) {
           &::after {
             top: 45%;
             inset-inline-start: 25%;
@@ -147,10 +147,10 @@
   .antdTable {
     border-color: var(--cf-border-weak);
 
-    *:not(.ant-table-cell *) {
+    *:not(:global(.ant-table-cell) *) {
       border-color: inherit !important;
 
-      .ant-table-cell::after {
+      :global(.ant-table-cell)::after {
         border-color: inherit !important;
       }
     }
@@ -164,15 +164,15 @@
     }
 
     &.hideEmpty {
-      .ant-table-placeholder {
+      :global(.ant-table-placeholder) {
         display: none !important;
       }
     }
 
     &:not(.scroll) {
-      .ant-table-bordered {
-        .ant-table-container {
-          .ant-table-content {
+      :global(.ant-table-bordered) {
+        :global(.ant-table-container) {
+          :global(.ant-table-content) {
             > table {
               border-left: 1px solid var(--cf-border-weak);
             }
@@ -181,12 +181,12 @@
       }
     }
 
-    .ant-table {
+    :global(.ant-table) {
       line-height: normal;
     }
 
     &.isExpandedCellTable {
-      .ant-table-tbody {
+      :global(.ant-table-tbody) {
         tr {
           &:last-child {
             td {
@@ -196,9 +196,9 @@
         }
       }
 
-      .ant-table-bordered {
-        .ant-table-container {
-          > .ant-table-content {
+      :global(.ant-table-bordered) {
+        :global(.ant-table-container) {
+          > :global(.ant-table-content) {
             > table {
               border-radius: 0 !important;
               border-left: none !important;
@@ -212,7 +212,7 @@
                 }
               }
 
-              .ant-table-thead {
+              :global(.ant-table-thead) {
                 tr {
                   th {
                     &:first-child {
@@ -235,23 +235,23 @@
       width: 100%;
       min-height: 0px;
 
-      .ant-table-bordered {
-        .ant-table-container {
-          > .ant-table-header {
+      :global(.ant-table-bordered) {
+        :global(.ant-table-container) {
+          > :global(.ant-table-header) {
             > table {
               border-radius: 6px 6px 0 0;
               border-left: 1px solid var(--cf-border-weak);
             }
           }
 
-          > .ant-table-body {
+          > :global(.ant-table-body) {
             > table {
               border-radius: 0px !important;
               border-left: 1px solid var(--cf-border-weak);
             }
           }
 
-          > .ant-table-summary {
+          > :global(.ant-table-summary) {
             > table {
               border-radius: 0px !important;
               border-left: 1px solid var(--cf-border-weak);
@@ -262,23 +262,23 @@
       }
 
       &.isExpanded {
-        .ant-table-bordered {
-          .ant-table-container {
-            > .ant-table-header {
+        :global(.ant-table-bordered) {
+          :global(.ant-table-container) {
+            > :global(.ant-table-header) {
               > table {
                 border-radius: 0px !important;
                 border-left: none !important;
               }
             }
 
-            > .ant-table-body {
+            > :global(.ant-table-body) {
               > table {
                 border-radius: 0px !important;
                 border-left: none !important;
               }
             }
 
-            > .ant-table-summary {
+            > :global(.ant-table-summary) {
               > table {
                 border-radius: 0px !important;
                 border-left: none !important;
@@ -289,38 +289,38 @@
         }
       }
 
-      .ant-table-wrapper {
+      :global(.ant-table-wrapper) {
         width: 100%;
         height: 100%;
       }
 
-      .ant-spin-nested-loading {
+      :global(.ant-spin-nested-loading) {
         width: 100%;
         height: 100%;
 
-        .ant-spin-container {
+        :global(.ant-spin-container) {
           display: flex;
           flex-direction: column;
 
           width: 100%;
           height: 100%;
 
-          .ant-table {
+          :global(.ant-table) {
             width: 100%;
             height: 100%;
 
-            .ant-table-container {
+            :global(.ant-table-container) {
               display: flex;
               flex-direction: column;
 
               width: 100%;
               height: 100%;
 
-              > .ant-table-header {
+              > :global(.ant-table-header) {
                 min-height: max-content;
               }
 
-              > .ant-table-body {
+              > :global(.ant-table-body) {
                 position: relative;
 
                 flex: 1;
@@ -344,11 +344,11 @@
       }
 
       &.y-unScroll {
-        .ant-spin-nested-loading {
-          .ant-spin-container {
-            .ant-table {
-              .ant-table-container {
-                > .ant-table-body {
+        :global(.ant-spin-nested-loading) {
+          :global(.ant-spin-container) {
+            :global(.ant-table) {
+              :global(.ant-table-container) {
+                > :global(.ant-table-body) {
                   overflow-y: visible !important;
                 }
               }

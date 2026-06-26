@@ -61,7 +61,7 @@
 
     background-color: transparent !important;
 
-    &.ant-input-textarea-affix-wrapper {
+    &:global(.ant-input-textarea-affix-wrapper) {
       position: relative;
 
       padding: 0px;
@@ -76,13 +76,13 @@
         font-family: inherit;
       }
 
-      .ant-input-suffix {
+      :global(.ant-input-suffix) {
         position: absolute;
         top: 50%;
         right: 10px;
         transform: translateY(-50%);
 
-        .ant-input-data-count {
+        :global(.ant-input-data-count) {
           position: relative;
           bottom: auto;
 
@@ -90,7 +90,7 @@
           font-size: 14px;
         }
 
-        .ant-input-clear-icon {
+        :global(.ant-input-clear-icon) {
           position: relative;
 
           inset-inline-end: 0;
@@ -121,7 +121,7 @@
 
     box-shadow: 0 0 0 2px rgba(255, 38, 5, 0.06);
 
-    .ant-input-status-error {
+    :global(.ant-input-status-error) {
       border: none !important;
 
       box-shadow: none !important;

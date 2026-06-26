@@ -6,14 +6,14 @@
   overflow-x: hidden;
   overflow-y: visible;
 
-  .ant-slider-step,
-  .ant-slider-track,
-  .ant-slider-rail {
+  :global(.ant-slider-step),
+  :global(.ant-slider-track),
+  :global(.ant-slider-rail) {
     top: 0px;
     height: 100% !important;
   }
 
-  .ant-slider-handle {
+  :global(.ant-slider-handle) {
     position: relative;
     top: 50%;
     transform: translate(calc(-50% - 4px), calc(-50% + 1px)) !important;

@@ -18,6 +18,8 @@ import { Icon } from "@hsu-react/ui";
 
 ## 基础用法
 
+antd 图标名（驼峰）：
+
 ```tsx
 import React from "react";
 import { Icon } from "@hsu-react/ui";
@@ -28,6 +30,23 @@ export default () => (
     <Icon icon="SettingOutlined" />
     <Icon icon="HomeOutlined" />
     <Icon icon="HeartFilled" style={{ color: "#eb2f96" }} />
+  </div>
+);
+```
+
+iconify 图标名（`集合:名称`，需先注册对应图标集）：
+
+```tsx
+import React from "react";
+import { Icon } from "@hsu-react/ui";
+
+export default () => (
+  <div style={{ display: "flex", gap: 20, alignItems: "center", fontSize: 22 }}>
+    <Icon icon="ph:user-bold" />
+    <Icon icon="mdi:home" />
+    <Icon icon="tabler:settings" />
+    <Icon icon="solar:heart-bold" style={{ color: "#eb2f96" }} />
+    <Icon icon="carbon:document" />
   </div>
 );
 ```

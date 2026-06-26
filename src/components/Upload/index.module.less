@@ -4,18 +4,18 @@
   width: 100%;
   height: 100%;
 
-  span.ant-upload {
+  span:global(.ant-upload) {
     display: inline-flex;
   }
 
-  .ant-upload-list {
+  :global(.ant-upload-list) {
     display: flex;
     flex-direction: column;
     row-gap: 5px;
 
     width: 100%;
 
-    &.ant-upload-list-picture-card {
+    &:global(.ant-upload-list-picture-card) {
       flex-direction: row;
       flex-wrap: wrap;
       gap: 5px;

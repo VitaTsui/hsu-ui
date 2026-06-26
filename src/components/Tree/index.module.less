@@ -56,25 +56,25 @@
     overflow-y: auto;
     scrollbar-gutter: stable;
 
-    .ant-tree-treenode {
+    :global(.ant-tree-treenode) {
       &:hover {
         background: var(--cf-subtle);
       }
 
-      &:has(> .ant-tree-node-selected) {
+      &:has(> :global(.ant-tree-node-selected)) {
         background-color: #e6f4ff;
 
-        .ant-tree-node-selected {
+        :global(.ant-tree-node-selected) {
           background-color: transparent;
         }
       }
     }
 
-    .ant-tree-indent-unit {
+    :global(.ant-tree-indent-unit) {
       width: var(--tree-indent-unit-width);
     }
 
-    .ant-tree-switcher {
+    :global(.ant-tree-switcher) {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -95,7 +95,7 @@
       }
     }
 
-    .ant-tree-node-content-wrapper {
+    :global(.ant-tree-node-content-wrapper) {
       display: inline-flex;
       align-items: center;
       column-gap: 4px;
@@ -105,7 +105,7 @@
 
       padding: 2px 0px;
 
-      .ant-tree-title {
+      :global(.ant-tree-title) {
         display: inline-block;
       }
 
@@ -113,7 +113,7 @@
         background: transparent;
       }
 
-      .ant-tree-iconEle {
+      :global(.ant-tree-iconEle) {
         display: inline-flex;
         align-items: center;
 
@@ -123,17 +123,17 @@
   }
 
   &.hideLeafExpand {
-    .ant-tree-switcher-noop {
+    :global(.ant-tree-switcher-noop) {
       display: none;
     }
   }
 
   &.legacyHasSelectedNodeBackground {
     .treeContainer {
-      .ant-tree-treenode.ant-tree-treenode-selected {
+      :global(.ant-tree-treenode):global(.ant-tree-treenode-selected) {
         background-color: #e6f4ff;
 
-        .ant-tree-node-selected {
+        :global(.ant-tree-node-selected) {
           background-color: transparent;
         }
       }

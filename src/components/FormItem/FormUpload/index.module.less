@@ -1,7 +1,7 @@
 .upload {
   height: 100%;
 
-  .ant-upload {
+  :global(.ant-upload) {
     height: max-content;
 
     .upBtn {
@@ -15,7 +15,7 @@
     column-gap: 10px;
   }
 
-  .ant-upload-disabled {
+  :global(.ant-upload-disabled) {
     .singleFile {
       cursor: not-allowed;
 
@@ -97,7 +97,7 @@
     }
   }
 
-  &.ant-upload-drag {
+  &:global(.ant-upload-drag) {
     height: 180px;
 
     border-radius: 8px;
@@ -134,7 +134,7 @@
 }
 
 .FormUpload {
-  .ant-form-item-control-input-content {
+  :global(.ant-form-item-control-input-content) {
     > span {
       width: 100%;
     }

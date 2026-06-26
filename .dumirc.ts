@@ -19,7 +19,6 @@ export default defineConfig({
       github: "https://github.com/VitaTsui",
     },
   },
-  // 组件演示里全局引入 antd 覆盖样式，保证与库内观感一致
   styles: [],
   // dumi 原生支持 less，无需额外 loader
   resolve: {

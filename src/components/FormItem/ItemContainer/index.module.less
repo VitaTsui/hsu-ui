@@ -19,15 +19,15 @@
     cursor: pointer;
   }
 
-  .ant-picker {
+  :global(.ant-picker) {
     width: 100%;
   }
 
-  .ant-form-item-row {
+  :global(.ant-form-item-row) {
     width: 100%;
     height: 100%;
 
-    .ant-form-item-control {
+    :global(.ant-form-item-control) {
       display: flex;
       flex-direction: column;
       row-gap: 5px;
@@ -35,11 +35,11 @@
       width: var(--input-width) !important;
       max-width: 100%;
 
-      .ant-form-item-control-input {
+      :global(.ant-form-item-control-input) {
         height: var(--input-height);
         min-height: var(--input-min-height);
 
-        .ant-form-item-control-input-content {
+        :global(.ant-form-item-control-input-content) {
           display: flex;
           align-items: center;
 
@@ -54,7 +54,7 @@
     }
   }
 
-  .ant-form-item-label {
+  :global(.ant-form-item-label) {
     flex: 0 1 auto !important;
     display: inline-flex;
     align-items: center;
@@ -156,7 +156,7 @@
         cursor: pointer;
       }
 
-      &.ant-form-item-no-colon {
+      &:global(.ant-form-item-no-colon) {
         .label {
           &::after {
             content: none;
@@ -175,7 +175,7 @@
         content: none !important;
       }
 
-      &.ant-form-item-required {
+      &:global(.ant-form-item-required) {
         .label {
           &::before {
             content: "*";
@@ -212,7 +212,7 @@
   }
 
   &.after {
-    label.ant-form-item-required {
+    label:global(.ant-form-item-required) {
       .label {
         &::before {
           content: none !important;
@@ -241,7 +241,7 @@
     }
 
     &.hasLabelContent {
-      label.ant-form-item-required {
+      label:global(.ant-form-item-required) {
         &::after {
           content: none;
         }
@@ -266,7 +266,7 @@
   }
 
   &.hideRequired {
-    label.ant-form-item-required {
+    label:global(.ant-form-item-required) {
       .label {
         &::before {
           content: none !important;
@@ -281,7 +281,7 @@
     }
 
     &.after {
-      label.ant-form-item-required {
+      label:global(.ant-form-item-required) {
         .label {
           &::after {
             content: none !important;
@@ -292,11 +292,11 @@
   }
 
   &.horizontal {
-    .ant-form-item-row {
+    :global(.ant-form-item-row) {
       flex-wrap: nowrap;
       column-gap: 5px;
 
-      .ant-form-item-control {
+      :global(.ant-form-item-control) {
         flex: 1 !important;
         flex-grow: var(--input-horizontal-flex-grow) !important;
 
@@ -305,13 +305,13 @@
     }
 
     &.start {
-      .ant-form-item-control-input-content {
+      :global(.ant-form-item-control-input-content) {
         text-align: left;
       }
     }
 
     &.between {
-      .ant-form-item-control-input-content {
+      :global(.ant-form-item-control-input-content) {
         text-align: right;
       }
     }
@@ -320,13 +320,13 @@
   &.vertical {
     --label-height: max-content;
 
-    .ant-form-item-row {
+    :global(.ant-form-item-row) {
       flex-direction: column;
       row-gap: 5px;
 
       height: max-content;
 
-      .ant-form-item-label {
+      :global(.ant-form-item-label) {
         text-align: start;
 
         width: 100%;
@@ -353,7 +353,7 @@
         }
       }
 
-      .ant-form-item-control {
+      :global(.ant-form-item-control) {
         flex: 0 1 auto !important;
         display: flex;
         flex-direction: column;
@@ -364,8 +364,8 @@
   }
 
   &.legacyHasLabelExtra {
-    .ant-form-item-row {
-      .ant-form-item-label {
+    :global(.ant-form-item-row) {
+      :global(.ant-form-item-label) {
         label {
           flex-direction: column;
           flex-wrap: nowrap;
@@ -380,7 +380,7 @@
   }
 
   &.hideAdditiona {
-    .ant-form-item-additional {
+    :global(.ant-form-item-additional) {
       display: none;
     }
   }

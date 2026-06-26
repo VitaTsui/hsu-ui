@@ -4,8 +4,8 @@
 
   overflow: hidden;
 
-  .x-spreadsheet-toolbar,
-  .x-spreadsheet-bottombar {
+  :global(.x-spreadsheet-toolbar),
+  :global(.x-spreadsheet-bottombar) {
     width: 100% !important;
   }
 
@@ -13,14 +13,14 @@
     background-size: auto;
   }
 
-  .x-spreadsheet-menu {
+  :global(.x-spreadsheet-menu) {
     > li:first-child {
       display: none;
     }
   }
 
   &.showBottomTool {
-    .x-spreadsheet-menu {
+    :global(.x-spreadsheet-menu) {
       > li:first-child {
         display: list-item;
       }

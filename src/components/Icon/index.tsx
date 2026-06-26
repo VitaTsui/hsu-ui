@@ -4,7 +4,7 @@ import {
   IconProps as IconifyProps,
 } from "@iconify/react";
 
-import AntdIcon, * as AntdIcons from "@ant-design/icons";
+import * as AntdIcons from "@ant-design/icons";
 import React, { useEffect, useRef } from "react";
 import classNames from "classnames";
 import styles from "./index.module.less";
@@ -74,46 +74,18 @@ const Icon: React.FC<IconProps> = (props) => {
     );
   }
 
+  // iconify 图标：直接用 span 承载 Iconify 自带的 svg，避免把它嵌套进 antd Icon
+  // 的 svg（其 viewBox 会把内层 svg 缩放成极小值导致图标不可见）。
   return (
-    <AntdIcon
+    <span
       {...iconConfig}
-      // 与 antd 缺省值一致；显式传入以消除开发态 viewBox 告警（子节点是 Iconify 自带 viewBox 的 svg）
-      viewBox="0 0 1024 1024"
-      className={classNames([styles.icon, className])}
+      role="img"
+      ref={ref as unknown as React.Ref<HTMLSpanElement>}
+      className={classNames(["anticon", styles.icon, className])}
       style={mergedStyle}
-      ref={ref}
     >
-      <Iconify
-        {...iconProps}
-        icon={icon}
-        width="1em"
-        height="1em"
-        onLoad={() => {
-          setTimeout(() => {
-            if (ref.current) {
-              const svg = ref.current.childNodes[0] as SVGSVGElement;
-              const svg_i = svg.childNodes[0] as SVGSVGElement;
-
-              const { height } = svg.getBoundingClientRect();
-              const { height: height_i } = svg_i.getBoundingClientRect();
-
-              const viewBox_i = svg_i.getAttribute("viewBox");
-              const viewBox_i_height = viewBox_i?.split(" ")[3];
-
-              if (Number(viewBox_i_height) <= 24) return;
-
-              const y_i =
-                Number(viewBox_i_height) - (Number(height) - Number(height_i));
-
-              svg_i.setAttribute(
-                "viewBox",
-                `0 0 ${viewBox_i?.split(" ")[2]} ${y_i.toFixed(0)}`
-              );
-            }
-          }, 1);
-        }}
-      />
-    </AntdIcon>
+      <Iconify {...iconProps} icon={icon} width="1em" height="1em" />
+    </span>
   );
 };
 

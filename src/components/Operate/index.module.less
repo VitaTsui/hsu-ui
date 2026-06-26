@@ -42,13 +42,13 @@
 }
 
 .moreButton {
-  &.ant-btn-icon-only {
+  &:global(.ant-btn-icon-only) {
     width: max-content;
 
     padding-inline: 4px;
   }
 
-  .ant-btn-icon {
+  :global(.ant-btn-icon) {
     display: inline-flex;
     align-items: center;
 

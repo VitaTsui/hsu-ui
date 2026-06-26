@@ -30,11 +30,11 @@
     .antdSelect {
       cursor: not-allowed;
 
-      .ant-select-selection-item {
+      :global(.ant-select-selection-item) {
         color: var(--cf-text-3);
       }
 
-      .ant-select-arrow {
+      :global(.ant-select-arrow) {
         cursor: not-allowed;
       }
     }
@@ -77,7 +77,7 @@
     margin-inline-start: 4px;
   }
 
-  &:has(> .ant-select-status-error) {
+  &:has(> :global(.ant-select-status-error)) {
     border: 1px solid #ff4d4f;
 
     .prefix,
@@ -113,20 +113,20 @@
     font-weight: inherit;
     color: inherit !important;
 
-    &:has(> .ant-select-arrow),
-    &:has(> .ant-select-clear) {
-      .ant-select-selector {
+    &:has(> :global(.ant-select-arrow)),
+    &:has(> :global(.ant-select-clear)) {
+      :global(.ant-select-selector) {
         padding-right: 20px;
       }
     }
 
     &.legacyHasArrowOrClear {
-      .ant-select-selector {
+      :global(.ant-select-selector) {
         padding-right: 20px;
       }
     }
 
-    .ant-select-selector {
+    :global(.ant-select-selector) {
       width: 100%;
       height: 100%;
       padding: 0;
@@ -145,7 +145,7 @@
         content: none;
       }
 
-      .ant-select-selection-wrap {
+      :global(.ant-select-selection-wrap) {
         height: 100%;
 
         font-family: inherit;
@@ -154,7 +154,7 @@
         color: inherit;
       }
 
-      .ant-select-selection-search {
+      :global(.ant-select-selection-search) {
         inset-inline-start: 0px;
         inset-inline-end: 0px;
 
@@ -173,7 +173,7 @@
         }
       }
 
-      .ant-select-selection-placeholder {
+      :global(.ant-select-selection-placeholder) {
         display: inline-flex;
         align-items: center;
 
@@ -185,7 +185,7 @@
         font-weight: inherit;
       }
 
-      .ant-select-selection-item {
+      :global(.ant-select-selection-item) {
         padding-inline-end: 0px;
 
         font-family: inherit;
@@ -194,8 +194,8 @@
         color: inherit;
       }
 
-      .ant-select-selection-overflow-item {
-        .ant-select-selection-item {
+      :global(.ant-select-selection-overflow-item) {
+        :global(.ant-select-selection-item) {
           line-height: normal;
 
           padding-inline-end: 4px;
@@ -203,34 +203,34 @@
       }
     }
 
-    &.ant-select-focused {
-      .ant-select-selector {
+    &:global(.ant-select-focused) {
+      :global(.ant-select-selector) {
         border: none !important;
 
         box-shadow: none !important;
       }
     }
 
-    &.ant-select-open {
-      .ant-select-arrow {
+    &:global(.ant-select-open) {
+      :global(.ant-select-arrow) {
         transform: rotate(-180deg) translateY(50%);
       }
 
       &.noArrowAnimation {
-        .ant-select-arrow {
+        :global(.ant-select-arrow) {
           transform: translateY(-50%);
           transition: none !important;
         }
       }
     }
 
-    &.ant-select-status-error {
-      .ant-select-selector {
+    &:global(.ant-select-status-error) {
+      :global(.ant-select-selector) {
         border: none !important;
       }
     }
 
-    .ant-select-arrow {
+    :global(.ant-select-arrow) {
       width: 14px;
       height: 14px;
       margin-top: 0px;
@@ -244,7 +244,7 @@
       pointer-events: all;
     }
 
-    .ant-select-clear {
+    :global(.ant-select-clear) {
       width: 14px;
       height: 14px;
       margin-top: 0px;
@@ -256,17 +256,17 @@
       inset-inline-end: 0px;
     }
 
-    &.ant-select-multiple {
-      > .ant-select-selector {
-        > .ant-select-selection-overflow {
-          .ant-select-selection-search {
+    &:global(.ant-select-multiple) {
+      > :global(.ant-select-selector) {
+        > :global(.ant-select-selection-overflow) {
+          :global(.ant-select-selection-search) {
             width: 0px !important;
 
             margin-inline-start: 0px;
           }
         }
 
-        > .ant-select-selection-placeholder {
+        > :global(.ant-select-selection-placeholder) {
           inset-inline-start: 0px;
         }
       }
@@ -274,14 +274,14 @@
   }
 
   &.popupMatchContentWidth {
-    .ant-select-dropdown {
+    :global(.ant-select-dropdown) {
       [class="rc-virtual-list-holder-inner"] {
         position: relative !important;
       }
     }
   }
 
-  .ant-select-dropdown {
+  :global(.ant-select-dropdown) {
     position: fixed;
 
     font-family: inherit;
@@ -291,7 +291,7 @@
 
     border-radius: inherit;
 
-    .ant-select-item {
+    :global(.ant-select-item) {
       font-family: inherit;
       font-size: inherit;
       font-weight: inherit;
@@ -300,9 +300,9 @@
       border-radius: inherit;
     }
 
-    .ant-select-item-empty,
-    .ant-empty,
-    .ant-empty-description {
+    :global(.ant-select-item-empty),
+    :global(.ant-empty),
+    :global(.ant-empty-description) {
       font-family: inherit;
       font-size: inherit;
       font-weight: inherit;
