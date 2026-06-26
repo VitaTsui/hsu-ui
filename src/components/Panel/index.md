@@ -59,29 +59,33 @@ export default () => {
   ];
 
   return (
-    <div style={{ height: 380 }}>
-      <Panel.List
-        searchProps={{
-          searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
-          onSearch: (v) =>
-            setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
-          onReset: () => setData(ALL),
-          beforeButtonGroup: [
-            {
-              title: "新增",
-              colorPalette: "blue",
-              onClick: () => message.success("点击了新增"),
-            },
-          ],
-        }}
-        tableProps={{
-          columns,
-          dataSource: data,
-          rowKey: "id",
-          pagination: false,
-          scrollAutoHeight: false,
-        }}
-      />
+    // Panel.List 为页面级宽组件；窄屏时外层横向滚动，避免溢出预览框。
+    // 该 Demo 内无下拉，overflow 安全（不会裁切别处的 Select/TreeSelect 弹层）。
+    <div style={{ overflowX: "auto" }}>
+      <div style={{ minWidth: 1000, height: 380 }}>
+        <Panel.List
+          searchProps={{
+            searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
+            onSearch: (v) =>
+              setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
+            onReset: () => setData(ALL),
+            beforeButtonGroup: [
+              {
+                title: "新增",
+                colorPalette: "blue",
+                onClick: () => message.success("点击了新增"),
+              },
+            ],
+          }}
+          tableProps={{
+            columns,
+            dataSource: data,
+            rowKey: "id",
+            pagination: false,
+            scrollAutoHeight: false,
+          }}
+        />
+      </div>
     </div>
   );
 };
