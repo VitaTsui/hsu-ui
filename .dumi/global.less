@@ -31,6 +31,16 @@
   // 宽组件（Panel）的横向滚动改在各自 Demo 内部处理。
 }
 
+// 文档站 Panel Demo：放开组件内层容器（ListPanelWrapper / DefaultPanelWrapper）的
+// overflow:hidden，否则搜索区按钮组（antd Row 负 gutter）等右侧内容会被裁掉。
+// 横向滚动统一交给各 Demo 外层的 overflowX:auto 处理。
+.hsu-demo-panel-wrapper {
+  overflow: visible !important;
+  // 文档站缺少全局 box-sizing 重置，content-box 下 height:100% 不含 padding，
+  // 会多出 padding(20px) 的纵向溢出；补 border-box 让高度包含 padding。
+  box-sizing: border-box;
+}
+
 // 全站滚动条统一收细
 * {
   scrollbar-width: thin; // Firefox
