@@ -16,25 +16,7 @@ title: Chart 图表
 import { Chart } from "@hsu-react/ui";
 ```
 
-## 基础用法
-
-以 `Chart.Line` 为例，传入 `xAxisData` 与 `seriesData` 即可渲染折线图：
-
-```tsx
-import React from "react";
-import { Chart } from "@hsu-react/ui";
-
-export default () => (
-  <Chart.Line
-    style={{ height: 300 }}
-    legendData={["销量"]}
-    xAxisData={["周一", "周二", "周三", "周四", "周五", "周六", "周日"]}
-    seriesData={[120, 200, 150, 80, 70, 110, 130]}
-  />
-);
-```
-
-## 子组件
+## 子组件一览
 
 `Chart` 提供以下子组件：
 
@@ -55,7 +37,25 @@ export default () => (
 
 > 以下示例均放在固定高度的容器中（echarts 需要有尺寸的容器才能渲染）。
 
-### Chart.Bar
+## 折线图
+
+以 `Chart.Line` 为例，传入 `xAxisData` 与 `seriesData` 即可渲染折线图：
+
+```tsx
+import React from "react";
+import { Chart } from "@hsu-react/ui";
+
+export default () => (
+  <Chart.Line
+    style={{ height: 300 }}
+    legendData={["销量"]}
+    xAxisData={["周一", "周二", "周三", "周四", "周五", "周六", "周日"]}
+    seriesData={[120, 200, 150, 80, 70, 110, 130]}
+  />
+);
+```
+
+## 柱状图
 
 柱状图，与 `Chart.Line` 用法一致，传入 `xAxisData` 与 `seriesData`。
 
@@ -74,7 +74,7 @@ export default () => (
 );
 ```
 
-### Chart.Pie
+## 饼图
 
 饼图，`seriesData` 为 `{ name, value }` 对象数组。
 
@@ -97,7 +97,7 @@ export default () => (
 );
 ```
 
-### Chart.Radar
+## 雷达图
 
 雷达图，`indicators` 定义各维度（`{ name, max }`），`data` 为对应数值数组。
 
@@ -122,7 +122,7 @@ export default () => (
 );
 ```
 
-### Chart.Gauge
+## 仪表盘
 
 仪表盘，`seriesData` 为 `{ value, name }` 数组（默认量程 0~100）。
 
@@ -137,7 +137,7 @@ export default () => (
 );
 ```
 
-### Chart.Sankey
+## 桑基图
 
 桑基图，`seriesData` 为节点 `{ name }` 数组，`seriesLinks` 为连线 `{ source, target }` 数组。
 
@@ -164,7 +164,7 @@ export default () => (
 );
 ```
 
-### Chart.Heatmap
+## 热力图
 
 热力图，`data` 为 `[xIndex, yIndex, value]` 数组，配合 `xAxisData`、`yAxisData` 类目。
 
@@ -193,7 +193,7 @@ export default () => (
 );
 ```
 
-### Chart.Bubble
+## 气泡图
 
 气泡图，`data` 为 `{ name, value }` 数组，气泡大小随 `value` 自适应。
 
@@ -216,7 +216,7 @@ export default () => (
 );
 ```
 
-### Chart.Tree
+## 树图
 
 树图，`seriesData` 为带 `children` 的层级节点数组（节点需含 `value` 字段）。
 
@@ -249,7 +249,7 @@ export default () => (
 );
 ```
 
-### Chart.Polar
+## 极坐标图
 
 极坐标进度环，`seriesData` 为单个 `{ name, value }` 对象（`angleAxis.max` 默认 100）。
 
@@ -271,7 +271,7 @@ export default () => (
 );
 ```
 
-### Chart.Common
+## 通用图表
 
 通用图表，直接透传 echarts 原生 `EChartsOption`，适合上述封装未覆盖的场景。
 
@@ -291,7 +291,7 @@ export default () => (
 );
 ```
 
-### Chart.Group
+## 组合图表
 
 组合图表，通过 `chartGroup` 传入若干 `{ type, options }`，可按 `pageSize` 分页展示并在 `Line`/`Bar`/`Pie` 间组合。其内部依赖布局样式，建议在业务页面中使用：
 

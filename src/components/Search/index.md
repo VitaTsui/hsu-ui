@@ -16,7 +16,7 @@ title: Search 搜索
 import { Search } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 搜索
 
 `Search` 通过 `searchItems`（复用 `FormItem` 的配置）定义搜索项，`onSearch` / `onReset` 接收回调：
 
@@ -58,11 +58,9 @@ export default () => {
 };
 ```
 
-## 子组件
-
 `Search` 在基础形态外，额外提供多种搜索形态。除 `Search.Card` 使用 `options` 配置外，其余均复用 `searchItems`（`FormItemProps[]`）+ `onSearch` / `onReset`。
 
-### Search.Advanced 高级筛选
+## 高级筛选
 
 不显示标签，通过抽屉承载更多筛选项；配合 `setFilter` 可显示筛选项下拉。
 
@@ -103,7 +101,7 @@ export default () => (
 );
 ```
 
-### Search.Collapsible 可折叠
+## 可折叠搜索
 
 整块搜索区可折叠 / 展开，通过 `defaultExpanded` 控制初始状态，`onCollapseToggle` 监听折叠变化。
 
@@ -144,7 +142,7 @@ export default () => (
 );
 ```
 
-### Search.WithFilter 带筛选器
+## 带筛选器搜索
 
 在按钮组旁内置筛选下拉，允许用户动态勾选要显示的搜索项，`onFilterChange` 接收勾选变化。
 
@@ -185,7 +183,7 @@ export default () => (
 );
 ```
 
-### Search.WithMore 带更多项
+## 带更多项搜索
 
 把搜索项分为基础项（`searchItems`）与更多项（`moreSearchItems`，必填），始终展示全部并提供展开收起。
 
@@ -228,7 +226,7 @@ export default () => (
 );
 ```
 
-### Search.Card 卡片式
+## 卡片式搜索
 
 标签式快捷筛选，使用 `options`（`SearchCardOption[]`）而非 `searchItems`，`onChange` 返回当前选中值；支持 `multiple` 多选与 `showSearchBox` 搜索框。
 

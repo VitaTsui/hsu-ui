@@ -16,7 +16,7 @@ title: Icon 图标
 import { Icon } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## antd 图标
 
 antd 图标名（驼峰）：
 
@@ -33,6 +33,8 @@ export default () => (
   </div>
 );
 ```
+
+## iconify 图标
 
 iconify 图标名（`集合:名称`，需先注册对应图标集）：
 

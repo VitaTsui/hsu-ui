@@ -16,7 +16,7 @@ title: Table 表格
 import { Table } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 表格
 
 ```tsx
 import React from "react";

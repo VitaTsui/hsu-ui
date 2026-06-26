@@ -16,7 +16,7 @@ title: Editor 富文本
 import { Editor } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 富文本
 
 ```tsx
 import React from "react";

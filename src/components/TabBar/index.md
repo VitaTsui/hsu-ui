@@ -16,11 +16,9 @@ title: TabBar 标签栏
 import { TabBar } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 默认样式
 
 通过 `tabGroup` 配置页签，`onTabChange` 监听切换。
-
-### 默认样式
 
 ```tsx
 import React, { useState } from "react";
@@ -39,7 +37,7 @@ export default () => {
 };
 ```
 
-### 描边样式
+## 描边样式
 
 `variant="outline"` 渲染为描边胶囊样式。
 

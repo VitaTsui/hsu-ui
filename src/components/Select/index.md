@@ -16,7 +16,7 @@ title: Select 选择器
 import { Select } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 选择器
 
 ```tsx
 import React from "react";

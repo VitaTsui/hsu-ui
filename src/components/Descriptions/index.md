@@ -16,7 +16,7 @@ title: Descriptions 描述列表
 import { Descriptions } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 描述列表
 
 ```tsx
 import React from "react";

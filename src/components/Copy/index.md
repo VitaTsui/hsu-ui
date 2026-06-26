@@ -16,7 +16,7 @@ title: Copy 复制
 import { Copy } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 复制
 
 ```tsx
 import React from "react";

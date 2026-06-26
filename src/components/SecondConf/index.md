@@ -16,7 +16,7 @@ title: SecondConf 二次确认
 import { SecondConf } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 二次确认
 
 ```tsx
 import React, { useState } from "react";

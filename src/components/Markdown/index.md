@@ -16,7 +16,7 @@ Markdown 渲染与编辑组件，`Markdown.Views` 用于渲染展示（支持 GF
 import { Markdown } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## Markdown 展示
 
 `Markdown.Views` 渲染（依赖 KaTeX / highlight.js / Mermaid 等样式，建议在应用环境内使用）：
 
@@ -40,6 +40,8 @@ const b = a + 1;
 
 export default () => <Markdown.Views>{content}</Markdown.Views>;
 ```
+
+## Markdown 编辑器
 
 `Markdown.Editor` 编辑：
 

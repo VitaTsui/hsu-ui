@@ -16,7 +16,7 @@ title: Chat 对话
 import { Chat } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 对话
 
 ```tsx
 import React, { useState } from "react";
@@ -53,9 +53,7 @@ export default () => {
 };
 ```
 
-## 子组件
-
-### Chat.History
+## 历史会话
 
 历史会话列表，`historyList` 为按分组（如日期）组织的会话数据，支持新建、点击切换、重命名与删除会话。
 

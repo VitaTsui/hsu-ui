@@ -16,7 +16,7 @@ title: Input 输入框
 import { Input } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 输入框
 
 ```tsx
 import React from "react";
@@ -34,9 +34,7 @@ export default () => {
 };
 ```
 
-## 子组件
-
-### Input.Number
+## 数字输入框
 
 数字输入框，`onChange` 返回字符串，内置 `allowClear`、`controls={false}` 与 `stringMode`。
 
@@ -56,7 +54,7 @@ export default () => {
 };
 ```
 
-### Input.Password
+## 密码框
 
 密码输入框，支持显示/隐藏切换，`onChange` 返回纯字符串。
 
@@ -76,7 +74,7 @@ export default () => {
 };
 ```
 
-### Input.Range
+## 范围输入
 
 范围输入框，`type` 支持 `"NUMBER"` 或 `"INPUT"`，`onChange` 返回 `[起, 止]` 元组。
 
@@ -101,7 +99,7 @@ export default () => {
 };
 ```
 
-### Input.Search
+## 搜索框
 
 搜索输入框，支持 `onSearch` 回调与搜索按钮，`onChange` 返回纯字符串。
 
@@ -126,7 +124,7 @@ export default () => {
 };
 ```
 
-### Input.TextArea
+## 多行文本框
 
 多行文本输入框，`onChange` 返回纯字符串，支持 `autoSize`、`prefix` / `suffix`。
 

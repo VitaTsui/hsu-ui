@@ -16,7 +16,7 @@ title: Switch 开关
 import { Switch } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 开关
 
 ```tsx
 import React from "react";

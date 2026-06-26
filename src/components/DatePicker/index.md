@@ -16,7 +16,7 @@ title: DatePicker 日期选择
 import { DatePicker } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 日期选择
 
 ```tsx
 import React, { useState } from "react";
@@ -41,9 +41,7 @@ export default () => {
 };
 ```
 
-## 子组件
-
-### DatePicker.RangePicker
+## 日期范围选择
 
 区间选择，`value` / `defaultValue` 为 `string[]`，`onChange` 返回格式化后的 `string[]`，同样支持 `picker` / `showPicker` 等粒度切换。
 
@@ -63,7 +61,7 @@ export default () => {
 };
 ```
 
-### DatePicker.StepPicker
+## 步进日期选择
 
 按 `step` 步进的日期选择，支持 `picker: 'day' | 'month' | 'year'`，以及 `minDate` / `maxDate` 边界限制。
 

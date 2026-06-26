@@ -16,7 +16,7 @@ title: FileCol 文件列
 import { FileCol } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 文件列
 
 ```tsx
 import React from "react";

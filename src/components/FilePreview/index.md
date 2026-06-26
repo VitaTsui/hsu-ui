@@ -16,7 +16,7 @@ title: FilePreview 文件预览
 import { FilePreview } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 文件预览
 
 文本 / Markdown 类型通过 `text` 传入内容，无需远程地址即可预览；视频 / PDF / 图片 / Excel 类型则通过 `fileUrl` 传入文件地址。
 

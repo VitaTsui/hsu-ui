@@ -16,7 +16,7 @@ title: Modal 对话框
 import { Modal } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 对话框
 
 通过 `open` 受控显隐，配合 `Button` 切换状态。默认弹窗可按住标题栏拖动。
 

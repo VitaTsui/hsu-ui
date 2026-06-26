@@ -16,7 +16,7 @@ title: Tree 树形控件
 import { Tree } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 树形控件
 
 通过 `treeData` 传入树数据，开启 `search` 即可在标题栏内搜索过滤节点。
 

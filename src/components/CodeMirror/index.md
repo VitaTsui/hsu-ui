@@ -16,7 +16,7 @@ title: CodeMirror 代码编辑
 import { CodeMirror } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 代码编辑
 
 ```tsx
 import React from "react";

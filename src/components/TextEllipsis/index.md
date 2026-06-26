@@ -16,7 +16,7 @@ title: TextEllipsis 文本省略
 import { TextEllipsis } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 文本省略
 
 ```tsx
 import React from "react";

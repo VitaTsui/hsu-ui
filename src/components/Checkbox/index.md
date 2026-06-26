@@ -16,7 +16,7 @@ title: Checkbox 多选框
 import { Checkbox } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 多选框
 
 ```tsx
 import React from "react";
@@ -47,9 +47,7 @@ export default () => {
 };
 ```
 
-## 子组件
-
-### Checkbox.Group
+## 多选框组
 
 多选框组，支持 `hasAll`（全选）、`layout`（排列方向）与 `outline`（描边样式）。
 

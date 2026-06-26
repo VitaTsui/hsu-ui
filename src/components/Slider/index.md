@@ -16,7 +16,7 @@ title: Slider 滑动输入
 import { Slider } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 滑动输入
 
 ```tsx
 import React from "react";

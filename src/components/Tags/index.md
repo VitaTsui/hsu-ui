@@ -16,7 +16,7 @@ title: Tags 标签
 import { Tags } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 标签
 
 ```tsx
 import React from "react";

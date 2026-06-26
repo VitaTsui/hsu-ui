@@ -16,7 +16,7 @@ title: Upload 上传
 import { Upload } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 上传
 
 > 演示用的 `action` 为占位地址，真实使用时需替换为可用的上传接口（普通上传用 `action`，分片上传用 `chunkAction` / `mergeChunkAction`）。
 

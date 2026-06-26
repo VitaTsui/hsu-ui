@@ -16,7 +16,7 @@ title: Button 按钮
 import { Button } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 按钮
 
 ```tsx
 import React from "react";
@@ -35,9 +35,7 @@ export default () => (
 );
 ```
 
-## 子组件
-
-### Button.Chakra
+## Chakra 按钮
 
 基于 Chakra UI 的按钮，需用 `ChakraProvider` 提供 Chakra system。支持 `hasPermi`、`hidden`、`iconPosition`、`icon` 等扩展属性。
 

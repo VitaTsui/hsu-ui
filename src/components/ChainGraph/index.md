@@ -16,7 +16,7 @@ title: ChainGraph 关系图
 import { ChainGraph } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 关系图
 
 ```tsx
 import React from "react";

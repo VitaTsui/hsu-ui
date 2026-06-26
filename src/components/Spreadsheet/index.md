@@ -16,7 +16,7 @@ title: Spreadsheet 电子表格
 import { Spreadsheet } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 电子表格
 
 ```tsx
 import React from "react";

@@ -16,7 +16,7 @@ title: Panel 页面容器
 import { Panel } from "@hsu-react/ui";
 ```
 
-## 子组件
+## 子组件一览
 
 | 组件 | 说明 |
 | --- | --- |
@@ -25,9 +25,7 @@ import { Panel } from "@hsu-react/ui";
 | `Panel.Iframe` | iframe 内容容器，带加载态与全屏按钮 |
 | `Panel.Default` | 通用内容容器，可选左侧树与面包屑 |
 
-## 基础用法
-
-### Panel.List 列表页
+## 列表页
 
 `Panel.List` 通过 `searchProps`（搜索区）、`tableProps`（表格区）组合出标准增删改查列表页。下方为可交互示例：输入姓名搜索会实时过滤行，点击「新增」「编辑」有反馈。
 
@@ -107,7 +105,7 @@ export default () => {
 };
 ```
 
-### Panel.Default 内容页
+## 内容页
 
 ```tsx
 import React from "react";
@@ -122,7 +120,7 @@ export default () => (
 );
 ```
 
-### Panel.Iframe 内嵌页
+## 内嵌页
 
 `Panel.Iframe` 用于内嵌外部页面，带加载态与全屏按钮（外部站点受 X-Frame-Options 限制，此处仅示意用法）：
 
@@ -133,7 +131,7 @@ import { Panel } from "@hsu-react/ui";
 export default () => <Panel.Iframe src="https://example.com" fullBtn />;
 ```
 
-### Panel.List.Modal 弹窗内列表
+## 弹窗内列表
 
 `Panel.List.Modal` 在 `Modal` 内复用列表布局，本身继承 `ModalProps`（`open` / `onClose` 等），并通过 `searchProps`、`tableProps` 配置搜索区与表格区。常用于从某条记录弹出其关联子列表。
 

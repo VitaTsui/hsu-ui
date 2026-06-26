@@ -16,13 +16,9 @@ title: FormItem 表单项
 import { FormItem } from "@hsu-react/ui";
 ```
 
-## 基础用法
-
 `FormItem` 通过 `type` 指定控件类型，业务参数统一放在 `componentProps` 中，需置于 antd `Form` 之内。下面按类型分别演示：
 
-### 输入类
-
-#### INPUT 输入框
+## 输入框
 
 ```tsx
 import React from "react";
@@ -36,7 +32,7 @@ export default () => (
 );
 ```
 
-#### TEXTAREA 多行文本
+## 多行文本
 
 ```tsx
 import React from "react";
@@ -50,7 +46,7 @@ export default () => (
 );
 ```
 
-#### PASSWORD 密码
+## 密码
 
 ```tsx
 import React from "react";
@@ -64,7 +60,7 @@ export default () => (
 );
 ```
 
-#### PASSWORDSTRENGTH 密码强度
+## 密码强度
 
 ```tsx
 import React from "react";
@@ -78,7 +74,7 @@ export default () => (
 );
 ```
 
-#### INPUTNUMBER 数字
+## 数字
 
 ```tsx
 import React from "react";
@@ -97,7 +93,7 @@ export default () => (
 );
 ```
 
-#### RANGEINPUT 范围输入
+## 范围输入
 
 ```tsx
 import React from "react";
@@ -111,7 +107,7 @@ export default () => (
 );
 ```
 
-#### SLIDER 滑块
+## 滑块
 
 ```tsx
 import React from "react";
@@ -125,7 +121,7 @@ export default () => (
 );
 ```
 
-#### TEXT 只读文本
+## 只读文本
 
 ```tsx
 import React from "react";
@@ -144,7 +140,7 @@ export default () => (
 );
 ```
 
-#### AUTO 自定义控件
+## 自定义控件
 
 ```tsx
 import React from "react";
@@ -163,9 +159,7 @@ export default () => (
 );
 ```
 
-### 选择类
-
-#### SELECT 选择器
+## 下拉选择
 
 ```tsx
 import React from "react";
@@ -190,7 +184,7 @@ export default () => (
 );
 ```
 
-#### AUTOCOMPLETESELECT 自动完成
+## 自动完成
 
 ```tsx
 import React from "react";
@@ -215,7 +209,7 @@ export default () => (
 );
 ```
 
-#### TREESELECT 树选择
+## 树选择
 
 ```tsx
 import React from "react";
@@ -246,7 +240,7 @@ export default () => (
 );
 ```
 
-#### ICONSELECT 图标选择
+## 图标选择
 
 ```tsx
 import React from "react";
@@ -260,7 +254,7 @@ export default () => (
 );
 ```
 
-#### SEGMENTED 分段控制
+## 分段控制
 
 ```tsx
 import React from "react";
@@ -285,7 +279,7 @@ export default () => (
 );
 ```
 
-#### RADIO 单选
+## 单选
 
 ```tsx
 import React from "react";
@@ -310,7 +304,7 @@ export default () => (
 );
 ```
 
-#### CHECKBOX 单个多选框
+## 单个多选框
 
 ```tsx
 import React from "react";
@@ -324,7 +318,7 @@ export default () => (
 );
 ```
 
-#### CHECKBOXGROUP 多选组
+## 多选组
 
 ```tsx
 import React from "react";
@@ -349,7 +343,7 @@ export default () => (
 );
 ```
 
-#### SWITCH 开关
+## 开关
 
 ```tsx
 import React from "react";
@@ -363,7 +357,7 @@ export default () => (
 );
 ```
 
-#### DATEPICKER 日期
+## 日期选择
 
 ```tsx
 import React from "react";
@@ -377,7 +371,7 @@ export default () => (
 );
 ```
 
-#### RANGEPICKER 日期范围
+## 日期范围
 
 ```tsx
 import React from "react";
@@ -391,7 +385,7 @@ export default () => (
 );
 ```
 
-#### STEPPICKER 步进日期
+## 步进日期
 
 ```tsx
 import React from "react";
@@ -405,7 +399,7 @@ export default () => (
 );
 ```
 
-#### TREE 树形控件
+## 树形控件
 
 ```tsx
 import React from "react";
@@ -436,9 +430,7 @@ export default () => (
 );
 ```
 
-### 富文本 / 代码
-
-#### EDITOR 富文本
+## 富文本
 
 ```tsx
 import React from "react";
@@ -452,7 +444,7 @@ export default () => (
 );
 ```
 
-#### CODEMIRROR 代码
+## 代码
 
 ```tsx
 import React from "react";
@@ -471,9 +463,7 @@ export default () => (
 );
 ```
 
-### 上传类
-
-#### FILE 文件上传
+## 文件上传
 
 ```tsx
 import React from "react";
@@ -492,7 +482,7 @@ export default () => (
 );
 ```
 
-#### IMAGEFILE 图片上传
+## 图片上传
 
 ```tsx
 import React from "react";

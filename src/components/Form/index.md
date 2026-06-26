@@ -16,7 +16,7 @@ title: Form 表单
 import { Form } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 弹窗表单
 
 `Form` 是一个命名空间对象，常用 `Form.Modal` 渲染弹窗表单，表单项通过 `formItems` 配置。点击下方按钮试试：
 
@@ -70,9 +70,7 @@ export default () => {
 };
 ```
 
-## 子组件
-
-### Form.Drawer
+## 抽屉表单
 
 抽屉形态的表单，用法与 `Form.Modal` 一致，通过 `formItems` 配置表单项，适合内容较多的录入场景。
 
@@ -130,7 +128,7 @@ export default () => {
 };
 ```
 
-### Form.Import
+## 导入表单
 
 导入表单，弹窗内提供文件上传，可配置上传地址 `uploadAction` 与模板下载地址 `template`。
 

@@ -16,7 +16,7 @@ title: FlexFill 自适应填充
 import { FlexFill } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 自适应填充
 
 将 `FlexFill` 放在弹性容器的子元素末尾，即可让最后一行的卡片按正常间距左对齐排列。
 

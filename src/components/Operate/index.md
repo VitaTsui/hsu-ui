@@ -16,7 +16,7 @@ title: Operate 操作
 import { Operate } from "@hsu-react/ui";
 ```
 
-## 基础用法
+## 操作
 
 ```tsx
 import React from "react";
