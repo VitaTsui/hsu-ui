@@ -3,7 +3,6 @@ export interface ResType<T = unknown> {
   code: number;
   data: T;
   msg?: string;
-  [key: string]: unknown;
 }
 
 /** 分页列表响应 */

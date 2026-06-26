@@ -17,21 +17,12 @@ export interface RequestConfig<P = object> {
  * 由使用方通过 ConfigProvider 的 `request` 或 `configureRequest()` 注入，
  * 组件库自身不绑定任何具体 HTTP 客户端。
  */
+// 注意：config/data 用宽松类型，以兼容各类 axios 封装的方法签名差异
 export interface RequestImpl {
-  get<T = unknown, P = object>(
-    url: string,
-    config?: RequestConfig<P>,
-  ): Promise<ResType<T>>;
-  post<T = unknown, D = unknown, P = object>(
-    url: string,
-    data?: D,
-    config?: RequestConfig<P>,
-  ): Promise<ResType<T>>;
-  del<T = unknown, P = object>(
-    url: string,
-    config?: RequestConfig<P>,
-  ): Promise<ResType<T>>;
-  put<T = unknown, D = unknown>(url: string, data?: D): Promise<ResType<T>>;
+  get<T = unknown>(url: string, config?: any): Promise<ResType<T>>;
+  post<T = unknown>(url: string, data?: any, config?: any): Promise<ResType<T>>;
+  del<T = unknown>(url: string, config?: any): Promise<ResType<T>>;
+  put<T = unknown>(url: string, data?: any): Promise<ResType<T>>;
 }
 
 const notConfigured = (): never => {

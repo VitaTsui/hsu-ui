@@ -7,6 +7,25 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
+  "keywords": [
+    "react",
+    "antd",
+    "ant-design",
+    "components",
+    "ui",
+    "admin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitaTsui/hsu-ui.git"
+  },
+  "homepage": "https://github.com/VitaTsui/hsu-ui#readme",
+  "bugs": {
+    "url": "https://github.com/VitaTsui/hsu-ui/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "es",
     "lib",
@@ -14,7 +33,9 @@
   ],
   "sideEffects": [
     "*.less",
-    "*.css"
+    "*.css",
+    "*.png",
+    "*.svg"
   ],
   "scripts": {
     "dev": "dumi dev",
