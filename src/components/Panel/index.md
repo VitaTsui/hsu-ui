@@ -29,53 +29,99 @@ import { Panel } from "@hsu-react/ui";
 
 ### Panel.List 列表页
 
-`Panel.List` 通过 `searchProps`、`tableProps` 等组合出标准增删改查列表页，通常配合接口数据使用。
+`Panel.List` 通过 `searchProps`（搜索区）、`tableProps`（表格区）组合出标准增删改查列表页。下方为可交互示例：输入姓名搜索会实时过滤行，点击「新增」「编辑」有反馈。
 
-```tsx | pure
+> 注意：`Panel.List` / `Search` 内部用到 `Button.Chakra`，需要在外层包一层 `ChakraProvider`（真实项目通常在入口统一提供）。
+
+```tsx
+import React, { useState } from "react";
+import { Panel, Button } from "@hsu-react/ui";
+import { message } from "antd";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
+
+const ALL = [
+  { id: 1, name: "张三", role: "管理员", status: "启用" },
+  { id: 2, name: "李四", role: "成员", status: "启用" },
+  { id: 3, name: "王五", role: "成员", status: "禁用" },
+];
+
+export default () => {
+  const [data, setData] = useState(ALL);
+
+  const columns = [
+    { title: "姓名", dataIndex: "name" },
+    { title: "角色", dataIndex: "role" },
+    { title: "状态", dataIndex: "status" },
+    {
+      title: "操作",
+      dataIndex: "op",
+      render: (_, row) => (
+        <Button type="link" onClick={() => message.info("编辑：" + row.name)}>
+          编辑
+        </Button>
+      ),
+    },
+  ];
+
+  return (
+    <ChakraProvider value={system}>
+      <div style={{ height: 380 }}>
+        <Panel.List
+          searchProps={{
+            searchItems: [{ type: "INPUT", name: "name", label: "姓名" }],
+            onSearch: (v) =>
+              setData(ALL.filter((x) => !v.name || x.name.includes(v.name))),
+            onReset: () => setData(ALL),
+            beforeButtonGroup: [
+              {
+                title: "新增",
+                colorPalette: "blue",
+                onClick: () => message.success("点击了新增"),
+              },
+            ],
+          }}
+          tableProps={{
+            columns,
+            dataSource: data,
+            rowKey: "id",
+            pagination: false,
+          }}
+        />
+      </div>
+    </ChakraProvider>
+  );
+};
+```
+
+### Panel.Default 内容页
+
+```tsx
 import React from "react";
 import { Panel } from "@hsu-react/ui";
 
 export default () => (
-  <Panel.List
-    searchProps={{
-      formData: [{ type: "Input", name: "name", label: "名称" }],
-      onSearch: (values) => console.log(values),
-    }}
-    tableProps={{
-      title: "用户列表",
-      buttonGroup: [{ title: "新增", type: "primary" }],
-      columns: [
-        { title: "名称", dataIndex: "name" },
-        { title: "状态", dataIndex: "status" },
-      ],
-      dataSource: [{ name: "张三", status: "启用" }],
-    }}
-  />
+  <div style={{ height: 200 }}>
+    <Panel.Default>
+      <div style={{ padding: 16 }}>这里是通用内容区域</div>
+    </Panel.Default>
+  </div>
 );
 ```
 
 ### Panel.Iframe 内嵌页
 
-```tsx | pure
-import React from "react";
-import { Panel } from "@hsu-react/ui";
-
-export default () => (
-  <Panel.Iframe src="https://example.com" fullBtn />
-);
-```
-
-### Panel.Default 内容页
+`Panel.Iframe` 用于内嵌外部页面，带加载态与全屏按钮（外部站点受 X-Frame-Options 限制，此处仅示意用法）：
 
 ```tsx | pure
 import React from "react";
 import { Panel } from "@hsu-react/ui";
 
-export default () => (
-  <Panel.Default>
-    <div>页面内容区域</div>
-  </Panel.Default>
-);
+export default () => <Panel.Iframe src="https://example.com" fullBtn />;
 ```
 
 ## API

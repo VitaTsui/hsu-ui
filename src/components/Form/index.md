@@ -18,40 +18,49 @@ import { Form } from "@hsu-react/ui";
 
 ## 基础用法
 
-`Form` 是一个命名空间对象，常用 `Form.Modal` 渲染弹窗表单，表单项通过 `formItems` 配置：
+`Form` 是一个命名空间对象，常用 `Form.Modal` 渲染弹窗表单，表单项通过 `formItems` 配置。点击下方按钮试试：
 
-```tsx | pure
+```tsx
 import React, { useState } from "react";
 import { Form } from "@hsu-react/ui";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 export default () => {
   const [open, setOpen] = useState(false);
 
+  const formItems = [
+    { type: "INPUT", name: "name", label: "姓名", required: true },
+    {
+      type: "SELECT",
+      name: "role",
+      label: "角色",
+      componentProps: {
+        options: [
+          { label: "管理员", value: "admin" },
+          { label: "访客", value: "guest" },
+        ],
+      },
+    },
+    {
+      type: "INPUTNUMBER",
+      name: "age",
+      label: "年龄",
+      componentProps: { min: 0, max: 120 },
+    },
+    { type: "SWITCH", name: "enabled", label: "启用" },
+  ];
+
   return (
     <>
       <Button type="primary" onClick={() => setOpen(true)}>
-        新增
+        新增用户
       </Button>
       <Form.Modal
         open={open}
         title="新增用户"
-        formItems={[
-          { type: "INPUT", name: "name", label: "姓名", required: true },
-          {
-            type: "SELECT",
-            name: "role",
-            label: "角色",
-            componentProps: {
-              options: [
-                { label: "管理员", value: "admin" },
-                { label: "访客", value: "guest" },
-              ],
-            },
-          },
-        ]}
-        onOk={(data, form) => {
-          console.log(data);
+        formItems={formItems}
+        onOk={(data) => {
+          message.success("提交数据：" + JSON.stringify(data));
           setOpen(false);
         }}
         onCancel={() => setOpen(false)}
