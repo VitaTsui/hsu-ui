@@ -18,9 +18,9 @@ import { FilePreview } from "@hsu-react/ui";
 
 ## 基础用法
 
-> 预览依赖文件地址及对应预览库，以下为静态示例。
+文本 / Markdown 类型通过 `text` 传入内容，无需远程地址即可预览；视频 / PDF / 图片 / Excel 类型则通过 `fileUrl` 传入文件地址。
 
-```tsx | pure
+```tsx
 import React, { useState } from "react";
 import { FilePreview } from "@hsu-react/ui";
 import { Button } from "antd";
@@ -30,29 +30,19 @@ export default () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>预览 PDF</Button>
+      <Button type="primary" onClick={() => setOpen(true)}>
+        预览文本
+      </Button>
       <FilePreview
         open={open}
-        fileType="pdf"
-        fileUrl="https://example.com/doc.pdf"
-        fileName="文档.pdf"
-        pagination
+        fileType="txt"
+        fileName="说明.txt"
+        text={"第一行：这是一段示例文本内容。\n第二行：点击右上角关闭按钮可退出预览。\n第三行：txt / md 类型通过 text 传入，无需网络请求。"}
         onClose={() => setOpen(false)}
       />
     </>
   );
 };
-```
-
-文本 / Markdown 类型通过 `text` 传入内容：
-
-```tsx | pure
-import React from "react";
-import { FilePreview } from "@hsu-react/ui";
-
-export default () => (
-  <FilePreview open fileType="md" text="# 标题\n\n正文内容" onClose={() => {}} />
-);
 ```
 
 ## API

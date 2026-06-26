@@ -20,7 +20,7 @@ import { FormItem } from "@hsu-react/ui";
 
 `FormItem` 是配置驱动的，通过 `type` 指定控件类型，业务参数统一放在 `componentProps` 中，需置于 antd `Form` 之内：
 
-```tsx | pure
+```tsx
 import React from "react";
 import { FormItem } from "@hsu-react/ui";
 import { Form } from "antd";

@@ -18,35 +18,36 @@ import { Chat } from "@hsu-react/ui";
 
 ## 基础用法
 
-```tsx | pure
+```tsx
 import React, { useState } from "react";
 import { Chat } from "@hsu-react/ui";
 
 export default () => {
   const [list, setList] = useState([
     {
-      query: { query: "你好" },
-      answers: [{ answer: "你好，有什么可以帮你？" }],
+      query: { query: "你好，请介绍一下你自己" },
+      answers: [
+        { answer: "你好！我是 AI 助手，有什么可以帮你的吗？", messageId: "1" },
+      ],
     },
   ]);
-  const [assistanting, setAssistanting] = useState(false);
+
+  const handleSend = (value) => {
+    setList((prev) => [
+      ...prev,
+      {
+        query: { query: value },
+        answers: [{ answer: `已收到：${value}`, messageId: String(Date.now()) }],
+      },
+    ]);
+  };
 
   return (
-    <div style={{ display: "flex", height: 600 }}>
-      <Chat.History
-        currentChatId="1"
-        historyList={{ 今天: [{ id: "1", name: "新会话", conversationId: "1" }] }}
-        onNewChat={() => {}}
-        onChatItemClick={(item) => console.log(item)}
-      />
-      <div style={{ flex: 1 }}>
-        <Chat.List list={list} assistanting={assistanting} />
-        <Chat.Input
-          assistanting={assistanting}
-          onSend={(value) => console.log(value)}
-          onStop={() => setAssistanting(false)}
-        />
+    <div style={{ display: "flex", flexDirection: "column", height: 420 }}>
+      <div style={{ flex: 1, overflow: "auto" }}>
+        <Chat.List list={list} />
       </div>
+      <Chat.Input onSend={handleSend} uploadEnabled={false} />
     </div>
   );
 };

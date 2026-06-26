@@ -20,7 +20,7 @@ import { Tree } from "@hsu-react/ui";
 
 通过 `treeData` 传入树数据，开启 `search` 即可在标题栏内搜索过滤节点。
 
-```tsx | pure
+```tsx
 import React from "react";
 import { Tree } from "@hsu-react/ui";
 
@@ -43,13 +43,15 @@ const treeData = [
 ];
 
 export default () => (
-  <Tree
-    title="区域"
-    search
-    treeData={treeData}
-    defaultExpandLevel={1}
-    onSelectPath={(path) => console.log(path)}
-  />
+  <div style={{ height: 280 }}>
+    <Tree
+      title="区域"
+      search
+      treeData={treeData}
+      defaultExpandLevel={1}
+      onSelectPath={(path) => console.log(path)}
+    />
+  </div>
 );
 ```
 

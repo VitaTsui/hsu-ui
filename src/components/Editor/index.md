@@ -18,16 +18,18 @@ import { Editor } from "@hsu-react/ui";
 
 ## 基础用法
 
-```tsx | pure
-import React, { useState } from "react";
+```tsx
+import React from "react";
 import { Editor } from "@hsu-react/ui";
 
 export default () => {
-  const [html, setHtml] = useState("<p>请输入内容</p>");
+  const [html, setHtml] = React.useState(
+    "<p>这是一段<strong>富文本</strong>内容，可以编辑。</p>"
+  );
 
   return (
     <>
-      <Editor value={html} onChange={setHtml} height={400} />
+      <Editor value={html} onChange={setHtml} height={240} />
       {/* 只读展示 */}
       <Editor.Content value={html} />
     </>

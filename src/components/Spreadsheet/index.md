@@ -18,22 +18,27 @@ import { Spreadsheet } from "@hsu-react/ui";
 
 ## 基础用法
 
-```tsx | pure
+```tsx
 import React from "react";
 import { Spreadsheet } from "@hsu-react/ui";
-import { read } from "xlsx";
+import { utils } from "xlsx";
 
-export default () => {
-  // workbook 通常由 xlsx 读取文件得到
-  const workbook = read(/* ArrayBuffer / 二进制数据 */);
+// 用 xlsx 工具构建一个 WorkBook（实际项目中通常由 read() 读取文件得到）
+const aoa = [
+  ["姓名", "部门", "工资"],
+  ["张三", "研发部", 12000],
+  ["李四", "市场部", 9500],
+  ["王五", "财务部", 8800],
+];
+const ws = utils.aoa_to_sheet(aoa);
+const workbook = utils.book_new();
+utils.book_append_sheet(workbook, ws, "员工表");
 
-  return (
-    <Spreadsheet
-      data={workbook}
-      xOptions={{ showBottomTool: true, mode: "read" }}
-    />
-  );
-};
+export default () => (
+  <div style={{ height: 320, width: "100%" }}>
+    <Spreadsheet data={workbook} xOptions={{ showBottomTool: true }} />
+  </div>
+);
 ```
 
 ## API

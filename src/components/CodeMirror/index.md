@@ -18,17 +18,19 @@ import { CodeMirror } from "@hsu-react/ui";
 
 ## 基础用法
 
-```tsx | pure
-import React, { useState } from "react";
+```tsx
+import React from "react";
 import { CodeMirror } from "@hsu-react/ui";
 
 export default () => {
-  const [value, setValue] = useState("SELECT * FROM user;");
-  const [error, setError] = useState<string | null>(null);
+  const [value, setValue] = React.useState(
+    '{\n  "name": "hsu-ui",\n  "version": "1.0.0",\n  "private": true\n}'
+  );
+  const [error, setError] = React.useState(null);
 
   return (
     <CodeMirror
-      language="sql"
+      language="json"
       value={value}
       enableLint
       hasError={!!error}

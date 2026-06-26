@@ -20,20 +20,22 @@ import { Markdown } from "@hsu-react/ui";
 
 `Markdown.Views` 渲染（依赖 KaTeX / highlight.js / Mermaid 等样式，建议在应用环境内使用）：
 
-```tsx | pure
+```tsx
 import React from "react";
 import { Markdown } from "@hsu-react/ui";
 
 const content = `# 标题
 
+这是一段包含 **加粗** 文本的说明。
+
 - 列表项一
 - 列表项二
+- 列表项三
 
 \`\`\`ts
 const a = 1;
+const b = a + 1;
 \`\`\`
-
-行内公式 $E = mc^2$
 `;
 
 export default () => <Markdown.Views>{content}</Markdown.Views>;
@@ -41,19 +43,21 @@ export default () => <Markdown.Views>{content}</Markdown.Views>;
 
 `Markdown.Editor` 编辑：
 
-```tsx | pure
-import React, { useState } from "react";
+```tsx
+import React from "react";
 import { Markdown } from "@hsu-react/ui";
 
 export default () => {
-  const [value, setValue] = useState("# Hello");
+  const [value, setValue] = React.useState("# Hello\n\n开始编辑 **Markdown** 内容吧。");
 
   return (
-    <Markdown.Editor
-      value={value}
-      onChange={setValue}
-      view={{ menu: true, md: true, html: true }}
-    />
+    <div style={{ height: 240 }}>
+      <Markdown.Editor
+        value={value}
+        onChange={setValue}
+        view={{ menu: true, md: true, html: true }}
+      />
+    </div>
   );
 };
 ```

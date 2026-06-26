@@ -18,21 +18,28 @@ import { ChainGraph } from "@hsu-react/ui";
 
 ## 基础用法
 
-```tsx | pure
+```tsx
 import React from "react";
 import { ChainGraph } from "@hsu-react/ui";
 
+// TreeGraphData：每个节点含 id / label / 可选 children；level 用于标记根节点层级
 const data = {
   id: "root",
   label: "根节点",
+  level: 1,
   children: [
-    { id: "a", label: "节点 A" },
-    { id: "b", label: "节点 B", children: [{ id: "b-1", label: "节点 B-1" }] },
+    { id: "a", label: "节点 A", level: 2 },
+    {
+      id: "b",
+      label: "节点 B",
+      level: 2,
+      children: [{ id: "b-1", label: "节点 B-1", level: 3 }],
+    },
   ],
 };
 
 export default () => (
-  <div style={{ height: 500 }}>
+  <div style={{ height: 320, width: "100%" }}>
     <ChainGraph
       data={data}
       showSearch

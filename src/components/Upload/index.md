@@ -18,9 +18,9 @@ import { Upload } from "@hsu-react/ui";
 
 ## 基础用法
 
-> 需要配置真实上传地址（`action` 或分片相关接口），以下为静态示例。
+> 演示用的 `action` 为占位地址，真实使用时需替换为可用的上传接口（普通上传用 `action`，分片上传用 `chunkAction` / `mergeChunkAction`）。
 
-```tsx | pure
+```tsx
 import React, { useState } from "react";
 import { Upload } from "@hsu-react/ui";
 import { Button } from "antd";
@@ -32,10 +32,8 @@ export default () => {
     <Upload
       action="/api/upload"
       data={{ bizType: "demo" }}
-      headers={{ Authorization: "Bearer token" }}
       fileList={fileList}
       onChange={({ fileList }) => setFileList(fileList)}
-      onUploadSuccess={() => console.log("上传完成")}
     >
       <Button>点击上传</Button>
     </Upload>
@@ -43,25 +41,27 @@ export default () => {
 };
 ```
 
-分片上传与拖拽上传：
+拖拽上传，通过 `drop` 开启：
 
-```tsx | pure
-import React from "react";
+```tsx
+import React, { useState } from "react";
 import { Upload } from "@hsu-react/ui";
 
-export default () => (
-  <Upload
-    drop
-    sharding
-    chunkAction="/api/upload/chunk"
-    mergeChunkAction="/api/upload/merge"
-    chunkNum={3}
-    size={500}
-    accept=".zip,.pdf"
-  >
-    <p>将文件拖到此处，或点击上传</p>
-  </Upload>
-);
+export default () => {
+  const [fileList, setFileList] = useState([]);
+
+  return (
+    <Upload
+      drop
+      action="/api/upload"
+      accept=".zip,.pdf"
+      fileList={fileList}
+      onChange={({ fileList }) => setFileList(fileList)}
+    >
+      <p style={{ padding: 16, margin: 0 }}>将文件拖到此处，或点击上传</p>
+    </Upload>
+  );
+};
 ```
 
 ## API

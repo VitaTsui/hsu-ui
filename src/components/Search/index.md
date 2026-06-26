@@ -20,32 +20,40 @@ import { Search } from "@hsu-react/ui";
 
 `Search` 通过 `searchItems`（复用 `FormItem` 的配置）定义搜索项，`onSearch` / `onReset` 接收回调：
 
-```tsx | pure
+```tsx
 import React from "react";
 import { Search } from "@hsu-react/ui";
+import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+
+const system = createSystem(defaultConfig, {
+  disableLayers: true,
+  preflight: false,
+});
 
 export default () => {
   return (
-    <Search
-      columnNum={3}
-      searchItems={[
-        { type: "INPUT", name: "keyword", label: "关键字" },
-        {
-          type: "SELECT",
-          name: "status",
-          label: "状态",
-          componentProps: {
-            options: [
-              { label: "启用", value: 1 },
-              { label: "停用", value: 0 },
-            ],
+    <ChakraProvider value={system}>
+      <Search
+        columnNum={3}
+        searchItems={[
+          { type: "INPUT", name: "keyword", label: "关键字" },
+          {
+            type: "SELECT",
+            name: "status",
+            label: "状态",
+            componentProps: {
+              options: [
+                { label: "启用", value: 1 },
+                { label: "停用", value: 0 },
+              ],
+            },
           },
-        },
-        { type: "RANGEPICKER", name: "date", label: "时间范围" },
-      ]}
-      onSearch={(data) => console.log("search", data)}
-      onReset={() => console.log("reset")}
-    />
+          { type: "RANGEPICKER", name: "date", label: "时间范围" },
+        ]}
+        onSearch={(data) => console.log("search", data)}
+        onReset={() => console.log("reset")}
+      />
+    </ChakraProvider>
   );
 };
 ```
