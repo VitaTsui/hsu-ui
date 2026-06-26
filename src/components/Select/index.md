@@ -21,7 +21,6 @@ import { Select } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Select } from "@hsu-react/ui";
-import { Space } from "antd";
 
 const options = [
   { label: "苹果", value: "apple" },
@@ -33,15 +32,13 @@ export default () => {
   const [value, setValue] = React.useState("apple");
 
   return (
-    <Space style={{ width: 200 }}>
-      <Select
-        style={{ width: 200 }}
-        options={options}
-        value={value}
-        onChange={setValue}
-        placeholder="请选择"
-      />
-    </Space>
+    <Select
+      style={{ width: 200 }}
+      options={options}
+      value={value}
+      onChange={setValue}
+      placeholder="请选择"
+    />
   );
 };
 ```

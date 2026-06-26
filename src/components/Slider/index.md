@@ -21,16 +21,15 @@ import { Slider } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Slider } from "@hsu-react/ui";
-import { Space } from "antd";
 
 export default () => {
   const [value, setValue] = React.useState(30);
 
   return (
-    <Space direction="vertical" style={{ width: 240 }}>
+    <div style={{ width: 240 }}>
       <Slider value={value} onChange={setValue} />
-      <div>当前值：{value}</div>
-    </Space>
+      <div style={{ marginTop: 12 }}>当前值：{value}</div>
+    </div>
   );
 };
 ```

@@ -21,7 +21,6 @@ import { Switch } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Switch } from "@hsu-react/ui";
-import { Space } from "antd";
 
 const options = [
   { label: "启用", value: 1 },
@@ -29,11 +28,11 @@ const options = [
 ];
 
 export default () => (
-  <Space>
+  <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
     <Switch defaultChecked />
     <Switch options={options} trueValue={1} falseValue={0} defaultChecked />
     <Switch disabled />
-  </Space>
+  </div>
 );
 ```
 

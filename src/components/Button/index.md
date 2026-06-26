@@ -21,10 +21,9 @@ import { Button } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Button } from "@hsu-react/ui";
-import { Space } from "antd";
 
 export default () => (
-  <Space>
+  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
     <Button type="primary">主要按钮</Button>
     <Button>默认按钮</Button>
     <Button type="dashed">虚线按钮</Button>
@@ -32,7 +31,7 @@ export default () => (
     <Button type="primary" disabled>
       禁用
     </Button>
-  </Space>
+  </div>
 );
 ```
 

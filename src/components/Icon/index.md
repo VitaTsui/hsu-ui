@@ -21,15 +21,14 @@ import { Icon } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Icon } from "@hsu-react/ui";
-import { Space } from "antd";
 
 export default () => (
-  <Space size="large" style={{ fontSize: 22 }}>
+  <div style={{ display: "flex", gap: 20, alignItems: "center", fontSize: 22 }}>
     <Icon icon="UserOutlined" />
     <Icon icon="SettingOutlined" />
     <Icon icon="HomeOutlined" />
     <Icon icon="HeartFilled" style={{ color: "#eb2f96" }} />
-  </Space>
+  </div>
 );
 ```
 

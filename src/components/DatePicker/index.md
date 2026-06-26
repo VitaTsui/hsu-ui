@@ -21,17 +21,23 @@ import { DatePicker } from "@hsu-react/ui";
 ```tsx
 import React, { useState } from "react";
 import { DatePicker } from "@hsu-react/ui";
-import { Space } from "antd";
 
 export default () => {
   const [value, setValue] = useState<string>();
 
   return (
-    <Space direction="vertical">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+        alignItems: "flex-start",
+      }}
+    >
       <DatePicker value={value} onChange={(date) => setValue(date)} />
       <DatePicker showPicker onChange={(date, picker) => console.log(date, picker)} />
       <div>当前值：{value || "（空）"}</div>
-    </Space>
+    </div>
   );
 };
 ```

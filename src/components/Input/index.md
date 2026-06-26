@@ -21,17 +21,16 @@ import { Input } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Input } from "@hsu-react/ui";
-import { Space } from "antd";
 
 export default () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <Space direction="vertical" style={{ width: 240 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, width: 240 }}>
       <Input placeholder="请输入" value={value} onChange={setValue} />
       <Input placeholder="禁用状态" disabled />
       <div>当前值：{value}</div>
-    </Space>
+    </div>
   );
 };
 ```

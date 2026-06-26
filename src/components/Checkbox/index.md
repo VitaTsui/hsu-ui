@@ -21,7 +21,6 @@ import { Checkbox } from "@hsu-react/ui";
 ```tsx
 import React from "react";
 import { Checkbox } from "@hsu-react/ui";
-import { Space } from "antd";
 
 const options = [
   { label: "苹果", value: "apple" },
@@ -33,10 +32,17 @@ export default () => {
   const [value, setValue] = React.useState(["apple"]);
 
   return (
-    <Space direction="vertical">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+        alignItems: "flex-start",
+      }}
+    >
       <Checkbox outline>描边多选框</Checkbox>
       <Checkbox.Group options={options} value={value} onChange={setValue} />
-    </Space>
+    </div>
   );
 };
 ```
