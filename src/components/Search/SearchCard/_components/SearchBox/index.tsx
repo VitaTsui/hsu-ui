@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "../../../../Input";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 interface SearchBoxProps {
   value: string;

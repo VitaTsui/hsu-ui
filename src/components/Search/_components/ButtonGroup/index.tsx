@@ -3,7 +3,7 @@ import Button, {
   ChakraButtonProps as BasicButtonProps,
 } from "../../../Button";
 import { ReactNode } from "react";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 interface ChakraButtonProps extends Omit<
   BasicButtonProps,

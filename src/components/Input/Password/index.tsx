@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { InputRef } from "antd/es/input";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface PasswordProps
   extends Omit<

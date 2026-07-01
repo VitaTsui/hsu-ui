@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import classNames from "classnames";
 import { debounce } from "lodash";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export type { FormImageProps };
 

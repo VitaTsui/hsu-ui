@@ -1,7 +1,7 @@
 import React from "react";
 import { UploadFile } from "antd";
 import Icon from "../../../../Icon";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface FileListProps {
   fileList: UploadFile[];

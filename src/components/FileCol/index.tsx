@@ -4,7 +4,7 @@ import FilePreview, {
 } from "../FilePreview";
 import { Tooltip, UploadFile } from "antd";
 import React, { useState } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface UrlItemProps {
   item?: UploadFile[];

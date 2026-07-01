@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import Input, { InputProps } from "../";
 import { InputNumberProps } from "../Number";
 import { Equal } from "hsu-utils";

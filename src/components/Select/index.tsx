@@ -4,7 +4,7 @@ import { BaseSelectRef } from "rc-select";
 import { DefaultOptionType } from "antd/es/select";
 import Icon from "../Icon";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { generateRandomStr } from "hsu-utils";
 import { useSelectComposition, useSelectPopupPosition } from "./_hooks";
 import { getElementLeft, calculatePopupWidth, filterOption } from "./_utils";

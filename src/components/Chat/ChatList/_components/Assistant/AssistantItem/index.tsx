@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 import Markdown from "../../../../../Markdown";
 import { AnswerMessage } from "../../..";

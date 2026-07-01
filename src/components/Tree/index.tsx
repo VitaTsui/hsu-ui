@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from "react";
 import { generateRandomStr } from "hsu-utils";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 import TitleSearchBar from "./_components/TitleSearchBar";
 import { useTreeSearch } from "./_hooks/useTreeSearch";

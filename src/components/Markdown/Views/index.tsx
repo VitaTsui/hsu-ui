@@ -5,7 +5,7 @@ import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import "highlight.js/styles/atom-one-dark.min.css";
 import "katex/dist/katex.min.css";
 import { generateRandomStr } from "hsu-utils";

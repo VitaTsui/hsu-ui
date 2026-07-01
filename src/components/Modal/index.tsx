@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal as AntdModal, ModalProps as AntdModalProps } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { useModalElements, useModalDrag } from "./_hooks";
 import Button, { ButtonProps } from "../Button";
 

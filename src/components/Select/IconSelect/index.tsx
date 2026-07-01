@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import Icon from "../../Icon";
 import Input from "../../Input";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 
 import antDesignIcons from "@iconify/json/json/ant-design.json";

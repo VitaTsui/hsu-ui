@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";

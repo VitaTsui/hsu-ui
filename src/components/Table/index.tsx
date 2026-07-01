@@ -14,7 +14,7 @@ import React, { CSSProperties, ReactNode, useMemo, useRef } from "react";
 import { AnyObject } from "antd/es/_util/type";
 import { generateRandomStr } from "hsu-utils";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import useHideHeaderScrollbar from "./_hooks/useHideHeaderScrollbar";
 import useSetTableHeight from "./_hooks/useSetTableHeight";
 import { ColumnTitleProps } from "antd/lib/table/interface";

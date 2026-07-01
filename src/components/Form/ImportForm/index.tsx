@@ -10,7 +10,7 @@ import { UploadProps } from "../../FormItem/FormUpload";
 import { downloadFile } from "hsu-utils";
 import { get } from "../../../request";
 import { observer } from "mobx-react-lite";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import useLabelWidth from "../../../hooks/useLabelWidth";
 import usePermissions from "../../../hooks/usePermissions";
 import Modal, { ModalProps } from "../../Modal";

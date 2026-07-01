@@ -2,7 +2,7 @@ import { Form as AntdForm } from "antd";
 import FormItem from "../FormItem";
 import React, { CSSProperties } from "react";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { useSearchCommon } from "./_hooks";
 import SearchCard, { SearchCardProps } from "./SearchCard";
 import SearchAdvanced from "./SearchAdvanced";

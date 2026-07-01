@@ -4,7 +4,7 @@ import Icon from "../Icon";
 import TurndownService from "turndown";
 import classNames from "classnames";
 import { message } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface CopyProps {
   id: string;

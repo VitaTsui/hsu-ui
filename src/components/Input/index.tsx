@@ -12,7 +12,7 @@ import Search, { SearchProps } from "./Search";
 import TextArea, { TextAreaProps } from "./TextArea";
 
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import RangeInput, { RangeInputProps } from "./Range";
 import { useDebounceEffect } from "ahooks";
 

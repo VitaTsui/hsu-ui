@@ -7,7 +7,7 @@ import Chart, {
 import React, { useEffect, useState } from "react";
 
 import FlexFill from "../../FlexFill";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface GroupType {
   type: ChartTypes;

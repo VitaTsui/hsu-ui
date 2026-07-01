@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Markdown from "../../../../Markdown";
 import { Tooltip } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import Copy from "../../../../Copy";
 import { QueryMessage } from "../..";
 import classNames from "classnames";

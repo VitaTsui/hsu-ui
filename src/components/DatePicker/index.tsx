@@ -7,7 +7,7 @@ import Select, { SelectOption, SelectProps } from "../Select";
 import { PickerRef } from "rc-picker";
 
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import RangePicker, { RangePickerProps } from "./RangePicker";
 import StepPicker, { StepPickerProps } from "./StepPicker";

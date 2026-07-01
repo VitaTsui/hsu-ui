@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { DatePicker } from "antd";
 import { RangePickerProps as AntdRangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 import { PickerRef } from "rc-picker";
 import Select, { SelectOption, SelectProps } from "../../Select";

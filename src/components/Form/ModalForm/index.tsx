@@ -8,7 +8,7 @@ import FormItem, {
 import React, { useEffect, useRef } from "react";
 
 import { ItemContainerProps } from "../../FormItem/ItemContainer";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import usePermissions from "../../../hooks/usePermissions";
 import { useFormItems } from "./_hooks/useFormItems";
 import { FormRef } from "rc-field-form";

@@ -8,7 +8,7 @@ import {
 } from "..";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 
-import styles from "../index.module.less";
+import styles from "../index.module.scss";
 import { autoScrollLegend } from "../_utils/autoScrollLegend";
 import { autoScrollByItem } from "../_utils/autoSmooth";
 import {

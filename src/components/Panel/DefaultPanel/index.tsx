@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import { Breadcrumb, BreadcrumbProps } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { observer } from "mobx-react-lite";
 import classNames from "classnames";
 import Tree, { TreeProps } from "../../Tree";

@@ -8,7 +8,7 @@ import React, { useCallback } from "react";
 import { Canceler } from "axios";
 import { RcFile } from "antd/es/upload";
 import { deepCopy } from "hsu-utils";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 import { ButtonProps, ProgressProps } from "antd";
 import FilePreview, { FilePreviewType } from "../FilePreview";

@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "../../../Select";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface SearchSelectProps {
   onChange: (value: string) => void;

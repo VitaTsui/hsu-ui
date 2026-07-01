@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "../../../Icon";
 import classNames from "classnames";
-import styles from "../BasePreview/index.module.less";
+import styles from "../BasePreview/index.module.scss";
 
 interface VideoPreviewProps {
   fileUrl?: string;

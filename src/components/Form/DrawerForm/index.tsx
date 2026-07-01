@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import Icon from "../../Icon";
 import { ItemContainerProps } from "../../FormItem/ItemContainer";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import useLabelWidth from "../../../hooks/useLabelWidth";
 import usePermissions from "../../../hooks/usePermissions";
 

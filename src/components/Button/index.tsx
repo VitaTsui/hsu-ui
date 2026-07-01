@@ -3,7 +3,7 @@ import { Button as AntdButton, ButtonProps as AntdButtonProps } from "antd";
 import React from "react";
 import usePermissions from "../../hooks/usePermissions";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import ChakraButton, { ChakraButtonProps } from "./ChakraButton";
 
 export type { ChakraButtonProps };

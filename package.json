@@ -32,7 +32,7 @@
     "src"
   ],
   "sideEffects": [
-    "*.less",
+    "*.scss",
     "*.css",
     "*.png",
     "*.svg"
@@ -129,11 +129,11 @@
     "antd": "5.24.3",
     "dumi": "^2.4.0",
     "father": "^4.5.0",
-    "less": "^4.2.0",
     "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sass": "^1.101.0",
     "typescript": "^5.4.5"
   }
 }

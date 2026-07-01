@@ -1,7 +1,7 @@
 import { Tag } from "antd";
 import React from "react";
 import { getTagColor } from "../../_utils";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface MeasureContainerProps {
   tags: string[];

@@ -3,7 +3,7 @@ import React from "react";
 import Icon from "../../../../../../../Icon";
 import classNames from "classnames";
 import { message } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import clipboard from "copy-to-clipboard";
 import MarkdownIt from "markdown-it";
 import markdownLink from "markdown-it-link-attributes";

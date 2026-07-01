@@ -4,7 +4,7 @@ import React, { CSSProperties, ReactNode, useMemo } from "react";
 
 import Icon from "../../Icon";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import usePermissions from "../../../hooks/usePermissions";
 import { isLegacyHasSelectorBrowser } from "../../../utils/cssSupports";
 import { generateRandomStr } from "hsu-utils";

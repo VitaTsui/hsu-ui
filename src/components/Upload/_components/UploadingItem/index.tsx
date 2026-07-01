@@ -2,7 +2,7 @@ import React from "react";
 import { UploadFile, Progress, Tooltip, Popconfirm } from "antd";
 import classNames from "classnames";
 import Button from "../../../Button";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 interface UploadingItemProps {
   file: UploadFile;

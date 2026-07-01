@@ -4,7 +4,7 @@ import Icon from "../../../../../../../Icon";
 import { useCalculateRowIndex, Quote } from "../../../../../_hooks";
 import FilePreview, { FilePreviewType } from "../../../../../../../FilePreview";
 import { deepCopy, Equal } from "hsu-utils";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface QuoteListProps {
   retrieverResources?: Quote[];

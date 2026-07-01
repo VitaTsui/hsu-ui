@@ -6,7 +6,7 @@ import type { DragEndEvent } from "@dnd-kit/core";
 import { IColumnMgt } from "../..";
 import Input from "../../../../Input";
 import { arrayMove } from "@dnd-kit/sortable";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import usePermissions from "../../../../../hooks/usePermissions";
 import Modal, { ModalProps } from "../../../../Modal";
 import Checkbox from "../../../../Checkbox";

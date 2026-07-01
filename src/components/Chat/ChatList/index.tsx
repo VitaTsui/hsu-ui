@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import User from "./_components/User";
 import classNames from "classnames";
 import Assistant from "./_components/Assistant";

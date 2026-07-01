@@ -5,7 +5,7 @@ import { useVisibleTags } from "./_hooks";
 import { getTagColor } from "./_utils";
 import EllipsisTag from "./_components/EllipsisTag";
 import MeasureContainer from "./_components/MeasureContainer";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface TagsProps {
   className?: string;

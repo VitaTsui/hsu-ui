@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import XSpreadsheet, { Options } from "x-data-spreadsheet";
 import { Equal, generateRandomStr } from "hsu-utils";
 import "x-data-spreadsheet/dist/xspreadsheet.css";

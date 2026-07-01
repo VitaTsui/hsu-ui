@@ -20,7 +20,7 @@ export default defineConfig({
     },
   },
   styles: [],
-  // dumi 原生支持 less，无需额外 loader
+  // dumi(umi) 内置 sass-loader，安装 sass 后原生支持 scss，无需额外配置
   resolve: {
     docDirs: ["docs"],
     atomDirs: [{ type: "component", dir: "src/components" }],

@@ -2,7 +2,7 @@ import React from "react";
 import { Tooltip } from "antd";
 import Button from "../../../../Button";
 import Icon from "../../../../Icon";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface SendButtonProps {
   value: string;

@@ -5,7 +5,7 @@ import {
 } from "antd";
 import { get_string_size } from "hsu-utils";
 import usePermissions from "../../hooks/usePermissions";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface ColumnsType {
   title: string;

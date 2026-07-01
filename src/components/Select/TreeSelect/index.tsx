@@ -13,7 +13,7 @@ import React, {
 import { BaseSelectRef } from "rc-select";
 import Icon from "../../Icon";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { useSelectComposition, useSelectPopupPosition } from "../_hooks";
 import { getElementLeft } from "../_utils";
 import { generateRandomStr } from "hsu-utils";

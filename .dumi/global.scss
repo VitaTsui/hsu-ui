@@ -1,6 +1,6 @@
 // 文档站全局引入库的 antd 观感覆盖，保证 Demo 与实际使用一致
-@import "../src/styles/antd-overload.less";
-@import "../src/styles/utils.less";
+@import "../src/styles/antd-overload.scss";
+@import "../src/styles/utils.scss";
 
 // 文档站缺少全局 box-sizing 重置（真实项目由全局样式 / antd reset 提供），
 // content-box 下组件的 height:100% 不含 border/padding，会溢出后被 overflow:hidden 裁切

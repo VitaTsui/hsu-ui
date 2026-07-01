@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import Button from "../../Button";
 import classNames from "classnames";

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import { generateRandomStr } from "hsu-utils";
-import styles from "./blocks.module.less";
+import styles from "./blocks.module.scss";
 
 // mermaid 体积大，懒加载并全局只初始化一次
 let mermaidPromise: Promise<typeof import("mermaid")["default"]> | null = null;

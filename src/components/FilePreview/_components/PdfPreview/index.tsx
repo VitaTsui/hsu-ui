@@ -4,7 +4,7 @@ import { Spin, notification } from "antd";
 import Icon from "../../../Icon";
 import { RenderPDF } from "hsu-utils";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 const workerUrl = "/pdf.worker.min.js";
 

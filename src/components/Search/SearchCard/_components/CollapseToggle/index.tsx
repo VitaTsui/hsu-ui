@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "../../../../Icon";
 import classNames from "classnames";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 interface CollapseToggleProps {
   collapse: boolean;

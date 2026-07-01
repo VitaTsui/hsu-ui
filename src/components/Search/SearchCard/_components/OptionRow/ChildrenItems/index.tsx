@@ -3,7 +3,7 @@ import { array_is_includes, Equal } from "hsu-utils";
 import classNames from "classnames";
 import { ElementItem, SearchCardOption } from "..";
 import { updateRealValue } from "../../../_utils";
-import styles from "../../../index.module.less";
+import styles from "../../../index.module.scss";
 
 interface ChildrenItemsProps {
   parentItem: ElementItem;

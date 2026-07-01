@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Editor as WangEditor, Toolbar } from "@wangeditor/editor-for-react";
 import { IDomEditor, IEditorConfig } from "@wangeditor/editor";
 import "@wangeditor/editor/dist/css/style.css";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 interface EditorContentProps {
   value?: string;

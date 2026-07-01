@@ -3,7 +3,7 @@ import classNames from "classnames";
 import Input, { InputProps } from "../../../Input";
 import Icon from "../../../Icon";
 import Button, { ButtonProps } from "../../../Button";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 export interface TitleSearchBarProps {
   title?: React.ReactNode;

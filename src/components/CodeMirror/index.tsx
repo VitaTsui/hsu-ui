@@ -5,7 +5,7 @@ import ReactCodeMirror, {
 } from "@uiw/react-codemirror";
 import { Extension } from "@codemirror/state";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { vscodeLight } from "@uiw/codemirror-theme-vscode";
 import { linter, LintSource, Diagnostic } from "@codemirror/lint";
 import { sqlLinter, loadSqlParser } from "./linters/sqlLinter";

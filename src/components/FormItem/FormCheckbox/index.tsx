@@ -2,7 +2,7 @@ import ItemContainer, { ItemContainerProps } from "../ItemContainer";
 
 import React from "react";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import Checkbox, { CheckboxProps } from "../../Checkbox";
 import FormCheckboxGroup, { FormCheckboxGroupProps } from "./FormCheckboxGroup";
 

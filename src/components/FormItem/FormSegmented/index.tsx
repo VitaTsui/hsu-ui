@@ -1,6 +1,6 @@
 import { SegmentedProps as AntdSegmentedProps, Segmented } from "antd";
 import ItemContainer, { ItemContainerProps } from "../ItemContainer";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 import React from "react";
 

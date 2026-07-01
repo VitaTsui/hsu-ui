@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Button, ButtonProps } from "@chakra-ui/react";
 import usePermissions from "../../../hooks/usePermissions";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 
 export interface ChakraButtonProps extends ButtonProps {

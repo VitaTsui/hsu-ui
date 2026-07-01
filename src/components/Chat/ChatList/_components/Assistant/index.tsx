@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import AssistantItem from "./AssistantItem";
 import Icon from "../../../../Icon";
 import classNames from "classnames";

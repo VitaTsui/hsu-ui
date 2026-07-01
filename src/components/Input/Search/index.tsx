@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import AntdSearch from "antd/es/input/Search";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface SearchProps
   extends Omit<

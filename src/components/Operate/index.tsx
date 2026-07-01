@@ -3,7 +3,7 @@ import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Dropdown, Popconfirm, PopconfirmProps } from "antd";
 import React, { ReactNode, useCallback, useMemo } from "react";
 import { ItemType } from "antd/es/menu/interface";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import usePermissions from "../../hooks/usePermissions";
 import Icon from "../Icon";
 import useOperateEllipsis from "./_hooks/useOperateEllipsis";

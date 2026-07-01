@@ -1,7 +1,7 @@
 import { SwitchProps as AntSwitchProps, Switch as AntSwitch } from "antd";
 import React from "react";
 import { SelectOption } from "../Select";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface SwitchProps extends AntSwitchProps {
   options?: SelectOption[];

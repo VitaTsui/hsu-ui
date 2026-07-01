@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { ChartCommonProps, ChartOptionType, ChartsOption } from "../..";
 import { useMouseOverHandler, useGlobalOutHandler } from "./_hooks";
 import { getPie3DOption } from "./_utils/option";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 export interface Pie3DDataItem {
   name: string;

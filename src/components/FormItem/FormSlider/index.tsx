@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Slider, { SliderProps } from "../../Slider";
 
 import Input from "../../Input";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface FormSliderProps extends ItemContainerProps {
   componentProps?: SliderProps;

@@ -16,7 +16,7 @@ import { ChakraButtonProps as BasicButtonProps } from "../../Button";
 import TabBar, { TabBarProps } from "../../TabBar";
 import classNames from "classnames";
 import { cloneDeep } from "lodash";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import usePermissions from "../../../hooks/usePermissions";
 import Tree, { TreeProps } from "../../Tree";
 import ToolBar from "./_components/ToolBar";

@@ -13,7 +13,7 @@ import {
   calculateVisibleItems,
   calculateButtonGroupAndColumnWidth,
 } from "../_utils";
-import styles from "../index.module.less";
+import styles from "../index.module.scss";
 import { ChakraButtonProps } from "../../Button";
 
 export interface UseSearchCommonParams {

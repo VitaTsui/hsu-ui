@@ -12,7 +12,7 @@ import Icon from "../../../../Icon";
 import { useSearchCardMoreOptions } from "../../_hooks";
 import { Item } from "./Item";
 import { ChildrenItems } from "./ChildrenItems";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 export interface ElementItem {
   element?: React.ReactElement;

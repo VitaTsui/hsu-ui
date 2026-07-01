@@ -1,7 +1,7 @@
 import { AutoComplete, AutoCompleteProps } from "antd";
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { generateRandomStr } from "hsu-utils";
 import { Prefix } from "../_components/Prefix";
 import { Suffix } from "../_components/Suffix";

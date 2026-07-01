@@ -5,7 +5,7 @@ import Button from "../../../Button";
 import { downloadFile } from "hsu-utils";
 import { deepCopy } from "hsu-utils";
 import { FilePreviewTypeArr } from "../../../FilePreview";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 import { UploadProps } from "../..";
 
 interface UploadedItemProps {

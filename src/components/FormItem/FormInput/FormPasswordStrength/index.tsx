@@ -2,7 +2,7 @@ import Input, { InputProps as BasicInputProps } from "../../../Input";
 import ItemContainer, { ItemContainerProps } from "../../ItemContainer";
 import React, { useState } from "react";
 
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import zxcvbn from "zxcvbn";
 
 interface InputProps extends BasicInputProps {}

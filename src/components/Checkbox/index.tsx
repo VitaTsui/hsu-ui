@@ -3,7 +3,7 @@ import {
   Checkbox as AntdCheckbox,
   CheckboxProps as AntdCheckboxProps,
 } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import classNames from "classnames";
 import CheckboxGroup, { CheckboxGroupProps } from "./CheckboxGroup";
 

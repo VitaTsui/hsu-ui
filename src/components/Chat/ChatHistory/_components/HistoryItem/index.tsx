@@ -4,7 +4,7 @@ import { Dropdown } from "antd";
 import Icon from "../../../../Icon";
 import Input from "../../../../Input";
 import SecondConf from "../../../../SecondConf";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { ChatHistoryData } from "../..";
 import { formatChatName } from "../../_utils";
 import TextEllipsis from "../../../../TextEllipsis";

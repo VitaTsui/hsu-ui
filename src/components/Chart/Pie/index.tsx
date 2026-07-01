@@ -10,7 +10,7 @@ import {
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { autoScrollLegend } from "../chartUtils";
 
-import styles from "../index.module.less";
+import styles from "../index.module.scss";
 import ChartPie3D, { ChartPie3DProps } from "./Pie3D";
 
 export interface ChartPieProps extends ChartCommonProps {

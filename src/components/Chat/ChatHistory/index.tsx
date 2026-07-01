@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, ReactNode } from "react";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { NewChatButton, HistoryGroup } from "./_components";
 
 export interface ChatHistoryData {

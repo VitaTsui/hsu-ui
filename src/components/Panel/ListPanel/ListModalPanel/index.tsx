@@ -9,7 +9,7 @@ import { ChakraButtonProps as BasicButtonProps } from "../../../Button";
 import { TabBarProps } from "../../../TabBar";
 import classNames from "classnames";
 import { cloneDeep } from "lodash";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import usePermissions from "../../../../hooks/usePermissions";
 import Modal, { ModalProps } from "../../../Modal";
 import ToolBar from "../_components/ToolBar";

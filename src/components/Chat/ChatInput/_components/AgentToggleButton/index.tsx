@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import Icon from "../../../../Icon";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 export interface AgentToggleConfig {
   key: string;

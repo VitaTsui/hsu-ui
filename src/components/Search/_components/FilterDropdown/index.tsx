@@ -3,7 +3,7 @@ import { Dropdown } from "antd";
 import Checkbox from "../../../Checkbox";
 import Icon from "../../../Icon";
 import { FormItemProps } from "../../../FormItem";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 import Button from "../../../Button";
 
 interface FilterDropdownProps {

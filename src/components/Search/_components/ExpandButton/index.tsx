@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../../Button";
 import { DownOutlined, FilterFilled } from "@ant-design/icons";
 import classNames from "classnames";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 interface ExpandButtonProps {
   expand: boolean;

@@ -68,17 +68,17 @@
         height: 60%;
       }
     }
+  }
 
-    &-indeterminate {
-      :global(.ant-checkbox-inner) {
-        &::after {
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+  :global(.ant-checkbox-indeterminate) {
+    :global(.ant-checkbox-inner) {
+      &::after {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
 
-          width: 50%;
-          height: 50%;
-        }
+        width: 50%;
+        height: 50%;
       }
     }
   }

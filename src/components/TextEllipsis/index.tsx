@@ -1,6 +1,6 @@
 import { Tooltip, TooltipProps } from "antd";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import cssStyles from "./index.module.less";
+import cssStyles from "./index.module.scss";
 
 // 默认 Tooltip 宽度
 const DEFAULT_TOOLTIP_WIDTH = 200;

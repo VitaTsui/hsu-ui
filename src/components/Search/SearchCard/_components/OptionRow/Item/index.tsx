@@ -5,7 +5,7 @@ import { Tooltip } from "antd";
 import Icon from "../../../../../Icon";
 import { ElementItem, SearchCardOption } from "..";
 import { updateRealValue } from "../../../_utils";
-import styles from "../../../index.module.less";
+import styles from "../../../index.module.scss";
 
 interface ItemProps {
   item: ElementItem;

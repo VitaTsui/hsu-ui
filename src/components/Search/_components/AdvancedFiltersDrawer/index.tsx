@@ -6,7 +6,7 @@ import { FormItemProps } from "../../../FormItem";
 import { DrawerFormProps } from "../../../Form/DrawerForm";
 import Icon from "../../../Icon";
 import type useLabelWidth from "../../../../hooks/useLabelWidth";
-import styles from "../../index.module.less";
+import styles from "../../index.module.scss";
 
 interface AdvancedFiltersDrawerProps {
   expand: boolean;

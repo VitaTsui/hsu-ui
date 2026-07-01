@@ -3,7 +3,7 @@ import { Form as AntdForm } from "antd";
 import FormItem from "../../FormItem";
 import { CSSProperties, useCallback, useState } from "react";
 import classNames from "classnames";
-import styles from "../index.module.less";
+import styles from "../index.module.scss";
 import { useSearchCommon } from "../_hooks";
 import { ChakraButtonProps } from "../../Button";
 import { ButtonGroup } from "../_components/ButtonGroup";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Tooltip, UploadFile } from "antd";
 import Icon from "../../../../Icon";
 import Upload from "../../../../Upload";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { validateFileSize, processFileList } from "../../_utils";
 import Button from "../../../../Button";
 

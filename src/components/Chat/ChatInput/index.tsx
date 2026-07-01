@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Input from "../../Input";
 import { Select, Tooltip, UploadFile } from "antd";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 import { useFileList } from "./_hooks";
 import {
   FileList,

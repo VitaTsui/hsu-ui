@@ -6,7 +6,7 @@ import { ColumnsType as AntColumnsType } from "antd/lib/table";
 import { cloneDeep } from "lodash";
 import { Tooltip } from "antd";
 import Icon from "../../Icon";
-import styles from "../index.module.less";
+import styles from "../index.module.scss";
 import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 import { TablePaginationConfig } from "antd/es/table/interface";
 import { FilterValue } from "antd/es/table/interface";

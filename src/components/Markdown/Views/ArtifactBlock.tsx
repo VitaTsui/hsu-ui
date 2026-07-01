@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 
-import styles from "./blocks.module.less";
+import styles from "./blocks.module.scss";
 
 export interface ArtifactBlockProps {
   /** 原始代码（html/svg） */

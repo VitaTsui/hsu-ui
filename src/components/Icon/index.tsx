@@ -7,7 +7,7 @@ import {
 import * as AntdIcons from "@ant-design/icons";
 import React, { useEffect, useRef } from "react";
 import classNames from "classnames";
-import styles from "./index.module.less";
+import styles from "./index.module.scss";
 
 type AntdNamedIconComponent = React.ForwardRefExoticComponent<
   {
