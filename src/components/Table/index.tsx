@@ -46,6 +46,16 @@ export interface ColumnType<RecordType> extends AntColumnType<RecordType> {
   orderKey?: string;
   fixedWidth?: boolean;
   ellipsisPosition?: "start" | "end";
+  /**
+   * 参考数据资源大屏金额/单量列：列标题随 align 居中，单元格内容放进按本列最宽内容
+   * 测量出的定宽块内右对齐，使各行右边缘对齐、整体在列内居中（适合数字/金额列）。
+   */
+  measureAlign?: boolean;
+  /**
+   * measureAlign 列测量宽度所用的文本。默认取 dataIndex 原始值；当单元格由 render
+   * 产出复合/JSX 内容（无法从 dataIndex 直接得到展示文本）时，用它提供与展示一致的文本。
+   */
+  measureText?: (record: RecordType) => string;
 }
 export interface ColumnsGroupType<RecordType>
   extends Omit<AntColumnGroupType<RecordType>, "children"> {
@@ -62,6 +72,8 @@ export interface ColumnsGroupType<RecordType>
   orderKey?: string;
   fixedWidth?: boolean;
   ellipsisPosition?: "start" | "end";
+  measureAlign?: boolean;
+  measureText?: (record: RecordType) => string;
 }
 export type ColumnsType<RecordType = AnyObject> = (
   | ColumnType<RecordType>

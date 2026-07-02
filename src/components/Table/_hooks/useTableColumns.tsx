@@ -19,6 +19,30 @@ import {
 import usePermissions from "../../../hooks/usePermissions";
 import { PaginationProps } from "../_components/Pagination";
 
+// measureAlign 列：与表体、autoWidth 标题测量一致，统一按 14px 测量
+const MEASURE_ALIGN_FONT_SIZE = 14;
+// Canvas measureText 仅返回 advance width，较 DOM 实际渲染偏窄约 1px，补 2px 缓冲避免最宽行被挤压
+const MEASURE_ALIGN_BUFFER_PX = 2;
+
+// 计算 measureAlign 列的定宽（取本列所有行展示文本的最大像素宽）
+const getMeasureAlignWidth = <T extends AnyObject>(
+  column: ColumnType<T>,
+  dataSource?: readonly T[]
+): number => {
+  if (!dataSource?.length) return 0;
+  const { measureText, dataIndex } = column;
+  const max = dataSource.reduce((acc, record) => {
+    const text = measureText
+      ? measureText(record)
+      : String((dataIndex ? record[dataIndex] : "") ?? "");
+    return Math.max(
+      acc,
+      get_string_size(text, { size: MEASURE_ALIGN_FONT_SIZE }).width
+    );
+  }, 0);
+  return max > 0 ? Math.ceil(max) + MEASURE_ALIGN_BUFFER_PX : 0;
+};
+
 interface UseTableColumnsParams<T extends AnyObject> {
   columns?: ColumnsType<T>;
   scroll?: boolean | { y: boolean };
@@ -276,6 +300,34 @@ const useTableColumns = <T extends AnyObject>(
         const orderKey = column.orderKey || column.dataIndex;
         const isOrderColumn = orderKey && orderKey !== "serialNumber";
 
+        // measureAlign 列：把展示内容包进定宽右对齐块（块随列 align 居中），各行右边缘对齐。
+        // 不适用于 render 返回 { children, rowSpan } 这类 RenderedCell 的合并单元格场景。
+        let render = column.render;
+        if (column.measureAlign) {
+          const cellWidth = getMeasureAlignWidth(
+            column as ColumnType<T>,
+            dataSource
+          );
+          if (cellWidth > 0) {
+            const innerRender = column.render;
+            render = (value: unknown, record: T, index: number) => (
+              <span
+                style={{
+                  display: "inline-block",
+                  width: cellWidth,
+                  textAlign: "right",
+                }}
+              >
+                {
+                  (innerRender
+                    ? innerRender(value, record, index)
+                    : value) as React.ReactNode
+                }
+              </span>
+            );
+          }
+        }
+
         return {
           showSorterTooltip: false,
           sorter:
@@ -283,6 +335,7 @@ const useTableColumns = <T extends AnyObject>(
           ...column,
           orderKey,
           title: renderColumnTitle(column),
+          render,
           children: column?.children
             ? renderColumns(column.children)
             : undefined,
@@ -328,6 +381,7 @@ const useTableColumns = <T extends AnyObject>(
       renderColumnTitle,
       order,
       mergeRowDataSource,
+      dataSource,
     ]
   );
 

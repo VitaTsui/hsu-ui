@@ -45,7 +45,7 @@ export default () => (
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| columns | 列配置，使用自定义 `ColumnsType`（支持 `hidden`、`sort`、`hasPermi`、`help`、`mergeRow`、`fixedWidth`、`ellipsisPosition` 等） | `ColumnsType<RecordType>` | `[]` |
+| columns | 列配置，使用自定义 `ColumnsType`（支持 `hidden`、`sort`、`hasPermi`、`help`、`mergeRow`、`fixedWidth`、`ellipsisPosition`、`measureAlign`、`measureText` 等） | `ColumnsType<RecordType>` | `[]` |
 | scroll | 是否开启滚动；`{ y: false }` 可关闭纵向滚动 | `boolean \| { y: boolean }` | `false` |
 | pagination | 分页配置；为 `false` 时不展示分页 | `false \| PaginationProps` | `{}` |
 | autoWidth | 列宽自适应 | `boolean` | - |
@@ -72,5 +72,16 @@ export default () => (
 | sorter | 是否启用排序 | `boolean` | - |
 | showTotal | 自定义分页总数展示；为 `false` 时不展示 | `false \| ((total, range) => ReactNode)` | - |
 | isExpandedCellTable | 是否为展开行内嵌表格样式 | `boolean` | `false` |
+
+### ColumnType 扩展字段：measureAlign
+
+数字/金额/单量列适用：按本列所有行展示文本测量出最大像素宽，把单元格内容包进该定宽块内右对齐，块本身随列 `align` 居中——各行右边缘对齐、整体在列内居中。
+
+| 字段 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| measureAlign | 开启定宽右对齐（配合列 `align: "center"` 使用） | `boolean` | - |
+| measureText | 测量宽度所用文本；当单元格由 `render` 产出复合/JSX 内容时，用它提供与展示一致的文本（默认取 `dataIndex` 原始值） | `(record) => string` | - |
+
+> 注意：不适用于 `render` 返回 `{ children, rowSpan }` 这类合并单元格场景。
 
 > 另导出 `TableDrag`，用于行拖拽排序场景。
