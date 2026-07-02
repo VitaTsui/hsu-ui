@@ -1718,10 +1718,10 @@
   dependencies:
     ws "^8.17.0"
 
-"@hsu-react/single-router@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.npmjs.org/@hsu-react/single-router/-/single-router-0.0.24.tgz#bd163fbccb44ad34743af002f7d9998e4e5d78cd"
-  integrity sha512-05tPFCY6iPuwlSRtlLJEX22NbVIIg69lRzW8Zxj8aPWl0zfhCiGXLlUZBQdwBB4BsW0Jkoxm0boGfzd3XUPNLA==
+"@hsu-react/single-router@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.npmjs.org/@hsu-react/single-router/-/single-router-0.0.26.tgz#6d8ba9f541961bee3b3b906402711838ca896348"
+  integrity sha512-QyP3vYhA1LCtmSpMtwpEp4TcXUFetaBCqhs2UzWexnkmc65gYkMIcfRnVbYwHyX+OecRG7JTqWEk2TJYNYXAsA==
   dependencies:
     hsu-utils "^0.0.9"
 
@@ -13679,7 +13679,7 @@ sass@1.54.0:
     immutable "^4.0.0"
     source-map-js ">=0.6.2 <2.0.0"
 
-sass@^1.64.1:
+sass@^1.101.0, sass@^1.64.1:
   version "1.101.0"
   resolved "https://registry.npmjs.org/sass/-/sass-1.101.0.tgz#c2db5bbf2f956be7277f6223b899d0d4be3c899b"
   integrity sha512-OL3GoQyoUdDt843DpVmDO6y2k1sc5IhUDSpu8XucEI+35neq5QivZ1iuegnpraEVTJXlQGK1gl27zKcTLEPbQw==

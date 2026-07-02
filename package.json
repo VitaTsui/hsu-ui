@@ -63,7 +63,7 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@hsu-react/single-router": "^0.0.24",
+    "@hsu-react/single-router": "0.0.26",
     "@iconify/json": "^2.2.385",
     "@iconify/react": "^5.0.1",
     "@uiw/codemirror-theme-vscode": "^4.25.1",
