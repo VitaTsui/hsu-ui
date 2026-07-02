@@ -47,7 +47,7 @@ export interface ColumnType<RecordType> extends AntColumnType<RecordType> {
   fixedWidth?: boolean;
   ellipsisPosition?: "start" | "end";
   /**
-   * 参考数据资源大屏金额/单量列：列标题随 align 居中，单元格内容放进按本列最宽内容
+   * 定宽对齐列：列标题随 align 居中，单元格内容放进按本列最宽内容
    * 测量出的定宽块内右对齐，使各行右边缘对齐、整体在列内居中（适合数字/金额列）。
    */
   measureAlign?: boolean;
