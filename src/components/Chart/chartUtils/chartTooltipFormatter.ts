@@ -22,6 +22,8 @@ export interface ChartTooltipFormatterProps {
   hideMarker?: boolean;
   textStyle?: Record<string, unknown>;
   unit?: string;
+  /** 多系列时按数值从大到小排序展示（大的在上） */
+  sortDescending?: boolean;
 }
 
 const chartTooltipFormatter = (props: ChartTooltipFormatterProps) => {
@@ -31,6 +33,7 @@ const chartTooltipFormatter = (props: ChartTooltipFormatterProps) => {
     hideMarker,
     textStyle = { fontSize: 14, color: "#666", fontWeight: 400 },
     unit,
+    sortDescending,
   } = props;
 
   if (!Array.isArray(params)) {
@@ -77,13 +80,19 @@ const chartTooltipFormatter = (props: ChartTooltipFormatterProps) => {
     `;
   }
 
-  const items = params
+  const sortedParams = sortDescending
+    ? [...params].sort(
+        (a, b) => (Number(b.value) || 0) - (Number(a.value) || 0),
+      )
+    : params;
+
+  const items = sortedParams
     ?.map((item, idx) => {
       const value = item.value ?? "";
 
       return `
       <div style="margin: 0 0 ${
-        idx === params.length - 1 ? "0" : "10px"
+        idx === sortedParams.length - 1 ? "0" : "10px"
       } 0;line-height:1;">
         <div style="margin: 0px 0 0;line-height:1;">
           ${hideMarker ? "" : `${item?.marker}`}

@@ -7,6 +7,10 @@ import Table, { ColumnsType, TableProps } from "../../../Table";
 
 import { ChakraButtonProps as BasicButtonProps } from "../../../Button";
 import { TabBarProps } from "../../../TabBar";
+import {
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+} from "@ant-design/icons";
 import classNames from "classnames";
 import { cloneDeep } from "lodash";
 import styles from "./index.module.scss";
@@ -99,6 +103,13 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
   const { permitted } = usePermissions(hasPermi);
   const [_columns, setColumns] = useState<ColumnsType | undefined>(columns);
   const [showColumnMgt, setShowColumnMgt] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (modalConfig.open) {
+      setIsFullscreen(false);
+    }
+  }, [modalConfig.open]);
 
   useEffect(() => {
     if (columnMgt && columns?.length) {
@@ -181,9 +192,25 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
   return (
     <>
       <Modal
-        width={1400}
-        className={classNames(modalClassName)}
         {...modalConfig}
+        width={isFullscreen ? "100vw" : (modalConfig.width ?? 1400)}
+        {...(isFullscreen ? { full: true } : {})}
+        className={classNames(styles.modal, modalClassName, {
+          [styles.fullscreen]: isFullscreen,
+        })}
+        titleButtonGroup={[
+          {
+            type: "text",
+            icon: isFullscreen ? (
+              <FullscreenExitOutlined />
+            ) : (
+              <FullscreenOutlined />
+            ),
+            title: isFullscreen ? "退出全屏" : "全屏",
+            onClick: () => setIsFullscreen((v) => !v),
+          },
+          ...(modalConfig.titleButtonGroup ?? []),
+        ]}
       >
         <div className={classNames(styles.ListModalPanel, className)}>
           {extraContent}
@@ -210,6 +237,7 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
                 scroll: true,
                 serialNumberColumn: true,
                 bordered: true,
+                fillPanel: true,
                 ...tableConfig,
                 columns: _columns,
               }}

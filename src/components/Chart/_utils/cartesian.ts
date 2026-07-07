@@ -21,6 +21,34 @@ export interface NormalizedScrollConfig {
   wheelModeWhenSliderHidden: "scroll" | "none";
 }
 
+/** dataZoom 当前可见窗口对应的 x 轴索引区间（闭区间） */
+export interface DataZoomIndexWindow {
+  startIndex: number;
+  endIndex: number;
+}
+
+/**
+ * 把 dataZoom 的 start/end 百分比换算为 x 轴索引窗口。
+ * 与本组件族写入 dataZoom 的百分比约定一致（index / total * 100），
+ * 对 echarts 原生交互产生的百分比做外扩取整，边界最多多含一项，不影响坐标轴量级。
+ */
+export const percentWindowToIndexWindow = (
+  startPercent: number,
+  endPercent: number,
+  total: number,
+): DataZoomIndexWindow => {
+  if (total <= 0) return { startIndex: 0, endIndex: 0 };
+  const startIndex = Math.max(
+    0,
+    Math.min(total - 1, Math.floor((startPercent / 100) * total)),
+  );
+  const endIndex = Math.max(
+    startIndex,
+    Math.min(total - 1, Math.ceil((endPercent / 100) * total) - 1),
+  );
+  return { startIndex, endIndex };
+};
+
 export const createDefaultCategoryXAxis = (
   xAxisData?: Array<string>,
 ): ChartOptionType => ({

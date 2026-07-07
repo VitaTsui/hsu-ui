@@ -8,6 +8,8 @@ export interface AutoScrollByItemProps {
   startIndex?: number;
   autoPlay?: boolean;
   enableWheelScroll?: boolean;
+  /** 窗口变化回调（创建同步、自动滚动、滚轮、resize 均触发），参数为当前窗口 start/end 百分比 */
+  onWindowChange?: (startPercent: number, endPercent: number) => void;
 }
 
 export function autoScrollByItem(props: AutoScrollByItemProps) {
@@ -19,6 +21,7 @@ export function autoScrollByItem(props: AutoScrollByItemProps) {
     startIndex = 0,
     autoPlay = true,
     enableWheelScroll = true,
+    onWindowChange,
   } = props;
   const total = xAxisData?.length ?? 0;
   if (total <= 0) {
@@ -39,6 +42,19 @@ export function autoScrollByItem(props: AutoScrollByItemProps) {
   let start = initialStartPercent;
   let end = Math.min(initialStartPercent + windowSizePercent, 100);
 
+  // 图表已有 dataZoom 窗口时（组件重渲染重建滚动器）从当前位置继续，
+  // 避免图例点选、坐标轴重算等触发的重渲染把已滚动位置重置回初始窗口
+  const currentZoom = (
+    chart.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> }
+  )?.dataZoom?.[0];
+  if (
+    typeof currentZoom?.start === "number" &&
+    typeof currentZoom?.end === "number"
+  ) {
+    start = currentZoom.start;
+    end = currentZoom.end;
+  }
+
   const syncDataZoomRange = () => {
     const option = chart.getOption() as {
       dataZoom?: Array<Record<string, unknown>>;
@@ -52,6 +68,7 @@ export function autoScrollByItem(props: AutoScrollByItemProps) {
         end,
       })),
     });
+    onWindowChange?.(start, end);
   };
 
   syncDataZoomRange();

@@ -87,7 +87,7 @@
 
     width: 100%;
     min-height: 0px;
-    padding: 14px 16px;
+    padding: 10px;
 
     background: var(--cf-surface);
 
@@ -102,23 +102,22 @@
     align-items: center;
     justify-content: space-between;
     column-gap: 10px;
+  }
 
-    padding: 10px;
+  // 页面级页签：无底色容器，页签拆成独立圆角块、块间留空；
+  // margin/radius 需 !important 压过 TabBar 内部的连体分段样式（负 margin + 首尾切角）
+  .headerTabBar {
+    column-gap: 4px;
 
-    background: var(--cf-subtle);
+    > div {
+      margin-left: 0 !important;
+      border-radius: 6px !important;
 
-    border-radius: 8px 8px 0px 0px;
-    border: 1px solid var(--cf-border);
+      background: var(--cf-surface);
+    }
   }
 
   &.hasHeaderTabBar {
-    .search {
-      padding: 10px;
-      margin-top: -10px;
-
-      border-radius: 0px 0px 8px 8px;
-    }
-
     &:not(:has(.search)) {
       .headerTabBarContainer {
         border-radius: 8px;

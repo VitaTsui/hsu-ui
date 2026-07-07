@@ -16,7 +16,9 @@ import {
   ChartScrollConfig,
   createDefaultCategoryXAxis,
   createDefaultValueYAxis,
+  DataZoomIndexWindow,
   getSliderShow,
+  percentWindowToIndexWindow,
   resolveScrollConfig,
 } from "../_utils/cartesian";
 
@@ -27,6 +29,10 @@ export interface ChartBarProps extends ChartCommonProps {
   legendData?: string[];
   scrollConfig?: ChartScrollConfig;
   onClick?: (event: echarts.ECElementEvent) => void;
+  /** 图例点选变化回调，参数为当前各系列选中状态（配合 legend.selected 可实现坐标轴重算） */
+  onLegendSelectChanged?: (selected: Record<string, boolean>) => void;
+  /** dataZoom 可见窗口变化回调（滑块/滚轮/自动滚动/初始同步均触发），参数为当前可见的 x 轴索引区间（配合 useDataZoomWindow 可按展示部分重算坐标轴） */
+  onDataZoomWindowChanged?: (window: DataZoomIndexWindow) => void;
   /** 是否启用图例自动滚动，默认 false */
   enableLegendAutoScroll?: boolean;
   /** 图例每页可见数量，默认 8 */
@@ -55,6 +61,8 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     insideDataZoom,
     sliderDataZoom,
     onClick,
+    onLegendSelectChanged,
+    onDataZoomWindowChanged,
     enableLegendAutoScroll = false,
     legendVisibleCount = 8,
     legendScrollInterval = 1500,
@@ -63,6 +71,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstanceRef = useRef<echarts.ECharts | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const prevXAxisKeyRef = useRef<string | null>(null);
   const legendScrollRef = useRef<ReturnType<typeof autoScrollLegend> | null>(
     null,
   );
@@ -268,8 +277,46 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       chartInstanceRef.current = chart;
     }
 
-    // 设置配置
+    // 设置配置：notMerge 会把 dataZoom 窗口重置回初始位置，
+    // x 轴数据未变化时（如坐标轴重算/图例点选触发的重渲染）先记录当前窗口，设置后恢复
+    const xAxisKey = xAxisData?.join("\u0001") ?? "";
+    const prevZoomRanges =
+      prevXAxisKeyRef.current === xAxisKey
+        ? ((chart.getOption() as ChartsOption | undefined)?.dataZoom as
+            | Array<{ start?: number; end?: number }>
+            | undefined)
+        : undefined;
+    prevXAxisKeyRef.current = xAxisKey;
     chart.setOption(chartOption as ChartOptionType, true);
+    const nextZooms = (chartOption as ChartsOption).dataZoom;
+    if (
+      prevZoomRanges?.length &&
+      Array.isArray(nextZooms) &&
+      nextZooms.length === prevZoomRanges.length
+    ) {
+      chart.setOption({
+        dataZoom: prevZoomRanges.map((z) => ({ start: z.start, end: z.end })),
+      });
+    }
+
+    // 向调用方同步当前可见窗口（初始渲染与恢复后），用于按展示部分重算坐标轴
+    if (onDataZoomWindowChanged) {
+      const zooms = (chart.getOption() as ChartsOption | undefined)
+        ?.dataZoom as Array<{ start?: number; end?: number }> | undefined;
+      const zoom = zooms?.[0];
+      const totalLen = xAxisData?.length ?? 0;
+      if (typeof zoom?.start === "number" && typeof zoom?.end === "number") {
+        onDataZoomWindowChanged(
+          percentWindowToIndexWindow(zoom.start, zoom.end, totalLen),
+        );
+      } else {
+        // 无 dataZoom（如数据量不足未启用滚动）时窗口即全量，同步一次避免残留旧窗口
+        onDataZoomWindowChanged({
+          startIndex: 0,
+          endIndex: Math.max(0, totalLen - 1),
+        });
+      }
+    }
 
     // 添加 resize 监听
     window.addEventListener("resize", handleResize);
@@ -283,6 +330,59 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     // 添加点击事件
     if (onClick) {
       chartInstanceRef.current?.on("click", onClick);
+    }
+
+    // 图例点选事件
+    const handleLegendSelectChanged = (params: unknown) => {
+      onLegendSelectChanged?.(
+        (params as { selected: Record<string, boolean> }).selected,
+      );
+    };
+    if (onLegendSelectChanged) {
+      chartInstanceRef.current?.on(
+        "legendselectchanged",
+        handleLegendSelectChanged,
+      );
+    }
+
+    // dataZoom 原生交互（slider 拖动 / inside 缩放）→ 同步可见窗口
+    const handleDataZoom = (params: unknown) => {
+      const raw = params as {
+        start?: number;
+        end?: number;
+        startValue?: number;
+        endValue?: number;
+        batch?: Array<{
+          start?: number;
+          end?: number;
+          startValue?: number;
+          endValue?: number;
+        }>;
+      };
+      const info = raw?.batch?.[0] ?? raw;
+      if (
+        typeof info?.startValue === "number" &&
+        typeof info?.endValue === "number"
+      ) {
+        onDataZoomWindowChanged?.({
+          startIndex: Math.max(0, Math.round(info.startValue)),
+          endIndex: Math.max(0, Math.round(info.endValue)),
+        });
+      } else if (
+        typeof info?.start === "number" &&
+        typeof info?.end === "number"
+      ) {
+        onDataZoomWindowChanged?.(
+          percentWindowToIndexWindow(
+            info.start,
+            info.end,
+            xAxisData?.length ?? 0,
+          ),
+        );
+      }
+    };
+    if (onDataZoomWindowChanged) {
+      chartInstanceRef.current?.on("datazoom", handleDataZoom);
     }
 
     // 图例自动滚动（参考 Pie 组件）
@@ -317,6 +417,17 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
         chartInstanceRef.current?.off("click", onClick);
       }
 
+      if (onLegendSelectChanged) {
+        chartInstanceRef.current?.off(
+          "legendselectchanged",
+          handleLegendSelectChanged,
+        );
+      }
+
+      if (onDataZoomWindowChanged) {
+        chartInstanceRef.current?.off("datazoom", handleDataZoom);
+      }
+
       if (legendScrollRef.current) {
         legendScrollRef.current.dispose();
         legendScrollRef.current = null;
@@ -326,6 +437,9 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     chartOption,
     handleResize,
     onClick,
+    onLegendSelectChanged,
+    onDataZoomWindowChanged,
+    xAxisData,
     enableLegendAutoScroll,
     legendVisibleCount,
     legendScrollInterval,
@@ -358,10 +472,26 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       startIndex: normalizedScroll.startIndex,
       autoPlay: normalizedScroll.autoScroll,
       enableWheelScroll,
+      onWindowChange: onDataZoomWindowChanged
+        ? (startPercent, endPercent) =>
+            onDataZoomWindowChanged(
+              percentWindowToIndexWindow(
+                startPercent,
+                endPercent,
+                xAxisData.length,
+              ),
+            )
+        : undefined,
     });
 
     return dispose;
-  }, [dataZoom, normalizedScroll, sliderDataZoom, xAxisData]);
+  }, [
+    dataZoom,
+    normalizedScroll,
+    sliderDataZoom,
+    xAxisData,
+    onDataZoomWindowChanged,
+  ]);
 
   // 组件卸载时清理资源
   useEffect(() => {
