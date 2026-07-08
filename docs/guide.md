@@ -43,11 +43,11 @@ import { get, post, del, put } from "@/services/Axios";
 
 ## 引入全局样式（可选）
 
-库附带了对 antd 的全局观感覆盖，按需在入口引入：
+库附带了对 antd 的全局观感覆盖，按需在入口引入（产物为 scss，宿主项目需安装 `sass` 并具备 scss 编译能力）：
 
 ```ts
-import "@hsu-react/ui/es/styles/antd-overload.less";
-import "@hsu-react/ui/es/styles/utils.less";
+import "@hsu-react/ui/es/styles/antd-overload.scss";
+import "@hsu-react/ui/es/styles/utils.scss";
 ```
 
 ## 按需引入
