@@ -30,10 +30,10 @@ export default function App() {
 - `ConfigProvider.permissions` — 当前用户权限码，驱动所有 `hasPermi` 的显隐校验。
 - `ConfigProvider.request` — 注入 HTTP 请求实现（库本身不绑定 HTTP 客户端）。
 
-可选引入全局 antd 观感覆盖：
+可选引入全局 antd 观感覆盖（产物为 scss，宿主项目需具备 scss 编译能力）：
 
 ```ts
-import "@hsu-react/ui/es/styles/antd-overload.less";
+import "@hsu-react/ui/es/styles/antd-overload.scss";
 ```
 
 ## 开发
