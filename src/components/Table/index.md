@@ -82,6 +82,8 @@ export default () => (
 | measureAlign | 开启定宽右对齐（配合列 `align: "center"` 使用） | `boolean` | - |
 | measureText | 测量宽度所用文本；当单元格由 `render` 产出复合/JSX 内容时，用它提供与展示一致的文本（默认取 `dataIndex` 原始值） | `(record) => string` | - |
 
+- 列宽自适应：声明的 `width` 只作下限——实际列宽会按「本列最宽内容块的测量宽 + 单元格左右内边距」自动抬升，出现超长值（如 `+3357.52%`）时内容不会被声明宽度截断。
+
 > 注意：不适用于 `render` 返回 `{ children, rowSpan }` 这类合并单元格场景。
 
 > 另导出 `TableDrag`，用于行拖拽排序场景。
