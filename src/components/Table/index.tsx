@@ -222,6 +222,7 @@ const Table: TableFC = <T extends AnyObject>(props: TableProps<T>) => {
     bordered,
     rowSelection,
     expandable,
+    tdPadding,
   });
 
   useSetTableHeight({

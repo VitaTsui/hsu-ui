@@ -23,8 +23,29 @@ import { PaginationProps } from "../_components/Pagination";
 const MEASURE_ALIGN_FONT_SIZE = 14;
 // Canvas measureText 仅返回 advance width，较 DOM 实际渲染偏窄约 1px，补 2px 缓冲避免最宽行被挤压
 const MEASURE_ALIGN_BUFFER_PX = 2;
-// 单元格左右内边距合计（--td-padding: 4px 8px），用于把列宽抬到能放下定宽内容块
+// 单元格左右内边距合计的默认值（默认 --td-padding: 4px 8px），用于把列宽抬到能放下定宽内容块
 const MEASURE_ALIGN_CELL_PADDING_PX = 16;
+
+/**
+ * 解析 tdPadding（CSS padding 简写）的左右内边距合计；
+ * 未传或解析不出时回退默认值（与默认 --td-padding: 4px 8px 一致）。
+ */
+const getCellHorizontalPadding = (tdPadding?: string): number => {
+  if (!tdPadding) return MEASURE_ALIGN_CELL_PADDING_PX;
+
+  const parts = tdPadding
+    .trim()
+    .split(/\s+/)
+    .map((v) => parseFloat(v));
+  if (!parts.length || parts.some((v) => Number.isNaN(v))) {
+    return MEASURE_ALIGN_CELL_PADDING_PX;
+  }
+
+  // CSS 简写：1 值=四边；2/3 值=第 2 个为左右；4 值=右+左
+  if (parts.length === 1) return parts[0] * 2;
+  if (parts.length === 4) return parts[1] + parts[3];
+  return parts[1] * 2;
+};
 
 // 计算 measureAlign 列的定宽（取本列所有行展示文本的最大像素宽）
 const getMeasureAlignWidth = <T extends AnyObject>(
@@ -65,6 +86,7 @@ interface UseTableColumnsParams<T extends AnyObject> {
   bordered?: boolean;
   rowSelection?: TableRowSelection<T>;
   expandable?: TableProps<T>["expandable"];
+  tdPadding?: string;
 }
 
 const useTableColumns = <T extends AnyObject>(
@@ -94,6 +116,7 @@ const useTableColumns = <T extends AnyObject>(
     bordered,
     rowSelection,
     expandable,
+    tdPadding,
   } = params;
   const { checkPermission } = usePermissions();
   const [tableWidth, setTableWidth] = useState<number | null>(null);
@@ -171,7 +194,7 @@ const useTableColumns = <T extends AnyObject>(
           if (measured > 0) {
             item.width = Math.max(
               item.width,
-              measured + MEASURE_ALIGN_CELL_PADDING_PX
+              measured + getCellHorizontalPadding(tdPadding)
             );
           }
         }
@@ -190,7 +213,7 @@ const useTableColumns = <T extends AnyObject>(
       });
 
     return newColumns;
-  }, [autoWidth, columns, dataSource, checkPermission, scroll]);
+  }, [autoWidth, columns, dataSource, checkPermission, scroll, tdPadding]);
 
   // 渲染列标题
   const renderColumnTitle = useCallback(
