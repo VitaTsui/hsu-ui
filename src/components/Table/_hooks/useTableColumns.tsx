@@ -23,6 +23,8 @@ import { PaginationProps } from "../_components/Pagination";
 const MEASURE_ALIGN_FONT_SIZE = 14;
 // Canvas measureText 仅返回 advance width，较 DOM 实际渲染偏窄约 1px，补 2px 缓冲避免最宽行被挤压
 const MEASURE_ALIGN_BUFFER_PX = 2;
+// 单元格左右内边距合计（--td-padding: 4px 8px），用于把列宽抬到能放下定宽内容块
+const MEASURE_ALIGN_CELL_PADDING_PX = 16;
 
 // 计算 measureAlign 列的定宽（取本列所有行展示文本的最大像素宽）
 const getMeasureAlignWidth = <T extends AnyObject>(
@@ -157,6 +159,21 @@ const useTableColumns = <T extends AnyObject>(
               }, 0) ?? 0
             : 0;
           item.width = Math.max(titleWidth, dataIndexWidth) + 32;
+        }
+
+        // measureAlign 列：列宽须容得下最宽行的定宽内容块 + 单元格左右内边距，
+        // 否则出现超长值（如 +3357.52%）时内容会被列宽截断；声明的 width 只作下限。
+        if (item.measureAlign && typeof item.width === "number") {
+          const measured = getMeasureAlignWidth(
+            item as ColumnType<T>,
+            dataSource
+          );
+          if (measured > 0) {
+            item.width = Math.max(
+              item.width,
+              measured + MEASURE_ALIGN_CELL_PADDING_PX
+            );
+          }
         }
 
         return item;
