@@ -12,6 +12,7 @@ import {
   cleanSearchData,
   calculateVisibleItems,
   calculateButtonGroupAndColumnWidth,
+  shouldDisplayExtraItem,
 } from "../_utils";
 import styles from "../index.module.scss";
 import { ChakraButtonProps } from "../../Button";
@@ -119,12 +120,10 @@ export const useSearchCommon = (
   }, [moreSearchItems]);
 
   // 计算可见的搜索项数量
-  const visibleSearchItemCount = useMemo(() => {
-    return visibleSearchItems.length;
-  }, [visibleSearchItems]);
+  const visibleSearchItemCount = visibleSearchItems.length;
 
   // 计算总列数（包括按钮组）
-  const baseTotalColumnNum = useMemo(() => columnNum + 1, [columnNum]);
+  const baseTotalColumnNum = columnNum + 1;
 
   // 根据容器宽度动态调整列数
   const totalColumnNum = useAdaptiveColumnNum(
@@ -138,10 +137,7 @@ export const useSearchCommon = (
   );
 
   // 计算调整后的搜索项列数（不包括按钮组）
-  const adaptiveColumnNum = useMemo(
-    () => Math.max(1, totalColumnNum - 1),
-    [totalColumnNum],
-  );
+  const adaptiveColumnNum = Math.max(1, totalColumnNum - 1);
 
   // 使用基于宽度的展开/收起控制
   const { expand, setExpand, toggleExpand, visibleItemCount } = useSearchExpand(
@@ -241,11 +237,12 @@ export const useSearchCommon = (
 
     // 判断按钮组宽度是否大于列宽，如果是，则显示 实际搜索项数量+1
     if (
-      buttonGroupWidth !== undefined &&
-      columnWidth !== undefined &&
-      (buttonGroupWidth > columnWidth ||
-        (buttonGroupWidth < columnWidth &&
-          adaptiveColumnNum + 1 === visibleSearchItemCount))
+      shouldDisplayExtraItem(
+        buttonGroupWidth,
+        columnWidth,
+        adaptiveColumnNum,
+        visibleSearchItemCount,
+      )
     ) {
       return adaptiveColumnNum + 1;
     }

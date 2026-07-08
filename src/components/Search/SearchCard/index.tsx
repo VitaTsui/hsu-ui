@@ -77,7 +77,7 @@ const SearchCard: React.FC<SearchCardProps> = memo((props) => {
       style={
         {
           "--searchCard-column-gap": `${gap}px`,
-          " --searchCard-padding-left-right": `${padding}px`,
+          "--searchCard-padding-left-right": `${padding}px`,
         } as CSSProperties
       }
     >

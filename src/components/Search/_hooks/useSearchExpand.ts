@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { FormItemProps } from "../../FormItem";
+import { measureButtonGroupWidth } from "../_utils";
 
 /**
  * 基于宽度自适应控制展开/收起的Hook
@@ -46,19 +47,8 @@ export function useSearchExpand(
       const availableWidth = containerWidth - 30; // 15px padding on each side
 
       // 获取按钮组的实际宽度（计算所有子元素宽度总和）
-      let buttonGroupWidth = 0;
-      const buttonChildren = Array.from(buttonGroupRef.current.children);
-      if (buttonChildren.length > 0) {
-        // 计算所有子元素的宽度总和
-        let totalWidth = 0;
-        buttonChildren?.forEach((child) => {
-          totalWidth += (child as HTMLElement).offsetWidth;
-        });
-        // 加上子元素之间的间距（column-gap: 10px）
-        const childGap = 5;
-        totalWidth += (buttonChildren.length - 1) * childGap;
-        buttonGroupWidth = totalWidth;
-      }
+      const buttonGroupWidth =
+        measureButtonGroupWidth(buttonGroupRef.current) ?? 0;
 
       // 获取所有搜索项元素
       const items = container.querySelectorAll(`${itemClassName}`);

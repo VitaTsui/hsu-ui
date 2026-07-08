@@ -22,16 +22,15 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    document.addEventListener("click", () => {
+    const handleDocumentClick = () => {
       setOpen(false);
-    });
+    };
+    document.addEventListener("click", handleDocumentClick);
 
     return () => {
-      document.removeEventListener("click", () => {
-        setOpen(false);
-      });
+      document.removeEventListener("click", handleDocumentClick);
     };
-  }, [searchItems]);
+  }, []);
 
   return (
     <Dropdown

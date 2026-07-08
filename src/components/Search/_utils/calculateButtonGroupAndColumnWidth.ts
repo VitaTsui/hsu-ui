@@ -1,4 +1,5 @@
 import { RefObject } from "react";
+import { measureButtonGroupWidth } from "./measureButtonGroupWidth";
 
 /**
  * 计算按钮组宽度和列宽
@@ -26,16 +27,7 @@ export function calculateButtonGroupAndColumnWidth(
     const gap = 10; // 项之间的间距
 
     // 计算按钮组宽度
-    const buttonChildren = Array.from(buttonGroupRef.current.children);
-    if (buttonChildren.length > 0) {
-      let totalWidth = 0;
-      buttonChildren?.forEach((child) => {
-        totalWidth += (child as HTMLElement).offsetWidth;
-      });
-      const childGap = 5;
-      totalWidth += (buttonChildren.length - 1) * childGap;
-      buttonGroupWidth = totalWidth;
-    }
+    buttonGroupWidth = measureButtonGroupWidth(buttonGroupRef.current);
 
     // 计算列宽（单个搜索项的默认宽度）
     if (adaptiveColumnNum > 0) {

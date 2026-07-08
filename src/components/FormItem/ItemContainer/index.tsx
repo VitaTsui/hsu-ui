@@ -46,6 +46,8 @@ export interface ItemContainerProps extends FormItemProps {
   labelBreak?: boolean;
   hideAdditiona?: boolean;
   hideLabel?: boolean;
+  /** 显隐开关，由 FormItem 消费；在此解构剥离，避免透传到 DOM */
+  visible?: boolean;
 }
 
 const ItemContainer: React.FC<ItemContainerProps> = (props) => {
@@ -84,6 +86,7 @@ const ItemContainer: React.FC<ItemContainerProps> = (props) => {
     labelBreak = false,
     hideAdditiona = false,
     hideLabel = false,
+    visible: _visible,
     ...formItemProps
   } = props;
   const { icon = "material-symbols:help", iconClassName, ...tipsConfig } = tips;
@@ -198,15 +201,9 @@ const ItemContainer: React.FC<ItemContainerProps> = (props) => {
     return null;
   }
 
-  // 页面层 FormItemProps 的展示控制属性（如 visible）不属于 antd Form.Item，
-  // 剥离后再透传，避免被 antd 转发到 DOM 触发 React 非法属性警告。
-  const restFormItemProps = Object.fromEntries(
-    Object.entries(formItemProps).filter(([key]) => key !== "visible")
-  );
-
   return (
     <Form.Item
-      {...restFormItemProps}
+      {...formItemProps}
       name={name}
       rules={[
         {
