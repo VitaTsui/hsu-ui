@@ -45,6 +45,8 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
   const measureRef = useRef<HTMLSpanElement>(null);
   const [isOverflow, setIsOverflow] = useState(false);
   const [truncatedText, setTruncatedText] = useState<ReactNode>(children);
+  // 容器实际渲染宽度：未声明 width 时（如表格列宽动态分配）作为 Tooltip 宽度
+  const [measuredWidth, setMeasuredWidth] = useState(0);
 
   useEffect(() => {
     const element = textRef.current;
@@ -105,29 +107,42 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
     };
 
     const textContent = getTextContent(children);
-    const isTextOverflow =
-      element.scrollWidth > element.clientWidth ||
-      element.scrollHeight > element.clientHeight;
 
-    setIsOverflow(isTextOverflow);
+    const update = () => {
+      const isTextOverflow =
+        element.scrollWidth > element.clientWidth ||
+        element.scrollHeight > element.clientHeight;
 
-    // 如果是省略前面且文本溢出，需要计算截断后的文本
-    if (ellipsisPosition === "start" && isTextOverflow && textContent) {
-      const maxWidth = element.clientWidth;
-      const truncated = calculateTruncatedText(textContent, maxWidth);
-      setTruncatedText(truncated);
-    } else {
-      setTruncatedText(children);
-    }
+      setIsOverflow(isTextOverflow);
+      setMeasuredWidth(element.clientWidth);
+
+      // 如果是省略前面且文本溢出，需要计算截断后的文本
+      if (ellipsisPosition === "start" && isTextOverflow && textContent) {
+        const maxWidth = element.clientWidth;
+        const truncated = calculateTruncatedText(textContent, maxWidth);
+        setTruncatedText(truncated);
+      } else {
+        setTruncatedText(children);
+      }
+    };
+
+    update();
+
+    // 容器宽度动态变化（如表格列宽重分配、窗口 resize）时重测溢出与宽度
+    const resizeObserver = new ResizeObserver(update);
+    resizeObserver.observe(element);
+    return () => resizeObserver.disconnect();
   }, [children, ellipsisPosition, style]);
 
-  // 计算 Tooltip 的宽度
+  // 计算 Tooltip 的宽度：显式 width 优先；未声明（或百分比）时用容器实际渲染宽度，
+  // 实测不到再回退 defaultWidth
   const getTooltipWidth = () => {
     const defaultWidth = tooltipConfig?.defaultWidth ?? DEFAULT_TOOLTIP_WIDTH;
-    if (!width) return defaultWidth;
+    const dynamicWidth = measuredWidth > 0 ? measuredWidth : defaultWidth;
+    if (!width) return dynamicWidth;
     if (typeof width === "number") return width;
-    if (typeof width === "string" && width.includes("%")) return defaultWidth;
-    return parseInt(width) || defaultWidth;
+    if (typeof width === "string" && width.includes("%")) return dynamicWidth;
+    return parseInt(width) || dynamicWidth;
   };
 
   const tooltipWidth = getTooltipWidth();

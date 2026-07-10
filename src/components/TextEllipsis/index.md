@@ -37,7 +37,7 @@ export default () => (
 | --- | --- | --- | --- |
 | children | 要显示的文本内容 | `ReactNode` | - |
 | width | 容器宽度，用于计算 Tooltip 宽度 | `number \| string` | - |
-| tooltipConfig | Tooltip 配置（可附加 `defaultWidth`） | `Omit<TooltipProps, 'title' \| 'children'> & { defaultWidth?: number }` | - |
+| tooltipConfig | Tooltip 配置（可附加 `defaultWidth`：容器实际宽度实测不到时的兜底宽） | `Omit<TooltipProps, 'title' \| 'children'> & { defaultWidth?: number }` | - |
 | disabled | 是否禁用 Tooltip（即使溢出也不显示） | `boolean` | `false` |
 | ellipsisPosition | 省略号位置，`start` 省略前面，`end` 省略后面 | `'start' \| 'end'` | `'end'` |
 | style | 文本自定义样式 | `React.CSSProperties` | - |
