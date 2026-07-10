@@ -32,11 +32,9 @@ const useEllipsisTooltip = <T extends AnyObject>(
                   ? text
                   : String(text ?? "");
 
+              // 不传 width：由 TextEllipsis 实测单元格实际渲染宽度作为 Tooltip 宽度
+              // （声明的列宽经 fixedWidth 比例分配后与实际宽度并不一致）
               return React.createElement(TextEllipsis, {
-                width:
-                  Math.max(Number(column.width ?? 0), 300) === 300
-                    ? undefined
-                    : Math.max(Number(column.width ?? 0), 300),
                 tooltipConfig: tooltipConfig,
                 children: displayValue,
                 ellipsisPosition:
