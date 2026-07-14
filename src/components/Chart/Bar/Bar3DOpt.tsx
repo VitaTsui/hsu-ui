@@ -102,25 +102,45 @@ echarts.graphic.registerShape("CubeFront", CubeFront);
 echarts.graphic.registerShape("CubeRight", CubeRight);
 echarts.graphic.registerShape("CubeTop", CubeTop);
 
+export interface Bar3DSeriesOptions {
+  /** 同组 3D 柱系列总数（图例隐藏的不计入），用于整组相对类目刻度居中，默认 1 */
+  seriesCount?: number;
+  /** 当前系列在同组内的序号（图例隐藏的不占位），默认取 params.seriesIndex */
+  seriesOrder?: number;
+  /** 堆叠模式：同一类目上各系列纵向叠放（共用同一根柱） */
+  stack?: boolean;
+  /** 堆叠基底：每个数据点下方已累计的值，由调用方按可见系列累加 */
+  stackBase?: number[];
+}
+
 /**
  * 3D柱状图series生成
  * @param _colors 颜色
  * @param barGap 柱间距，必须大于等于柱宽
  * @param barWidth 柱宽
+ * @param options 分组居中 / 堆叠配置
  * @returns
  */
 const bar3DSeries = (
   _colors: echarts.Color,
   barGap: number = 25,
   barWidth: number = 20,
+  options: Bar3DSeriesOptions = {},
 ): echarts.SeriesOption & ChartOptionType => {
+  const { seriesCount = 1, seriesOrder, stack = false, stackBase } = options;
+  // 单根柱的视觉足迹为 [x - barWidth, x + depthOffset]（depthOffset 为 3D 深度）
+  const depthOffset = (barWidth * 8) / 20;
+  // 整组（堆叠时只有一根柱）相对类目刻度的居中补偿
+  const groupSpan = stack ? 0 : Math.max(0, seriesCount - 1) * barGap;
+  const centerOffset = (barWidth - depthOffset - groupSpan) / 2;
+
   const series = {
     type: "custom",
     renderItem: (
       params: echarts.CustomSeriesRenderItemParams,
       api: echarts.CustomSeriesRenderItemAPI,
     ) => {
-      const { seriesIndex = 0 } = params;
+      const { seriesIndex = 0, dataIndex = 0 } = params;
 
       const cubeLeftStyle =
         _colors ??
@@ -161,13 +181,17 @@ const bar3DSeries = (
 
       const [value0, value1] = [api.value!(0), api.value!(1)];
 
-      const location = api.coord!([value0, value1]);
-
-      const xAxisTranslation = seriesIndex * barGap;
-
       if (value1 === 0) {
         return { type: "group", children: [] };
       }
+
+      // 堆叠时从基底（下方各系列累计值）画到基底+自身值；非堆叠从 0 画起
+      const stackBottom = stack ? (stackBase?.[dataIndex] ?? 0) : 0;
+      const location = api.coord!([value0, stackBottom + value1]);
+      const bottomPoint = api.coord!([value0, stackBottom]);
+
+      const order = seriesOrder ?? seriesIndex;
+      const xAxisTranslation = (stack ? 0 : order * barGap) + centerOffset;
 
       return {
         type: "group",
@@ -180,7 +204,7 @@ const bar3DSeries = (
               yValue: value1,
               x: location[0],
               y: location[1],
-              xAxisPoint: api.coord!([value0, 0]),
+              xAxisPoint: bottomPoint,
               xAxisTranslation,
               barWidth,
             },
@@ -196,7 +220,7 @@ const bar3DSeries = (
               yValue: value1,
               x: location[0],
               y: location[1],
-              xAxisPoint: api.coord!([value0, 0]),
+              xAxisPoint: bottomPoint,
               xAxisTranslation,
               barWidth,
             },
@@ -212,7 +236,7 @@ const bar3DSeries = (
               yValue: value1,
               x: location[0],
               y: location[1],
-              xAxisPoint: api.coord!([value0, 0]),
+              xAxisPoint: bottomPoint,
               xAxisTranslation,
               barWidth,
             },

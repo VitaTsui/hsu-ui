@@ -80,10 +80,16 @@ const chartTooltipFormatter = (props: ChartTooltipFormatterProps) => {
     `;
   }
 
+  // value 可能是数值、拼了单位的字符串("123次")或带千分位("1,234"），排序前统一还原成数值
+  const toSortValue = (v: unknown): number => {
+    if (typeof v === "number") return v;
+    if (Array.isArray(v)) return toSortValue(v[v.length - 1]);
+    const n = parseFloat(String(v ?? "").replace(/,/g, ""));
+    return Number.isNaN(n) ? 0 : n;
+  };
+
   const sortedParams = sortDescending
-    ? [...params].sort(
-        (a, b) => (Number(b.value) || 0) - (Number(a.value) || 0),
-      )
+    ? [...params].sort((a, b) => toSortValue(b.value) - toSortValue(a.value))
     : params;
 
   const items = sortedParams
