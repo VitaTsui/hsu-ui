@@ -187,7 +187,7 @@ const bar3DSeries = (
 
       // 堆叠时从基底（下方各系列累计值）画到基底+自身值；非堆叠从 0 画起
       const stackBottom = stack ? (stackBase?.[dataIndex] ?? 0) : 0;
-      const location = api.coord!([value0, stackBottom + value1]);
+      const location = api.coord!([value0, stackBottom + Number(value1)]);
       const bottomPoint = api.coord!([value0, stackBottom]);
 
       const order = seriesOrder ?? seriesIndex;
