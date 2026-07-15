@@ -30,6 +30,8 @@ interface TableTools {
 }
 
 export interface ListModalPanelTabelProps extends Omit<TableProps, "title"> {
+  /** 透传给内部 Table 的 key，用于在异构列集切换时强制重挂载表格 */
+  key?: React.Key;
   title?: string;
   buttonGroup?: ButtonProps[];
   tabBarProps?: TabBarProps;
@@ -97,6 +99,9 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
     tableContainerClassName,
     tips,
     otherTool,
+    // 异构列集切换时用于强制重挂载表格的 key；显式提取，避免随 ...tableConfig
+    // 展开进 JSX 触发 React "key prop being spread" 警告
+    key: tableInstanceKey,
     ...tableConfig
   } = tableProps;
   const { columnMgt } = tableTools;
@@ -232,6 +237,7 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
               otherTool={otherTool}
             />
             <Table
+              key={tableInstanceKey}
               className={`${styles.table} ${tableClassName ?? ""}`}
               {...{
                 scroll: true,
