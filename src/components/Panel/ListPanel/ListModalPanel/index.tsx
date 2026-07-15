@@ -109,6 +109,9 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
   const [_columns, setColumns] = useState<ColumnsType | undefined>(columns);
   const [showColumnMgt, setShowColumnMgt] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  // 弹窗打开动画是否已完成：Search 的列数/展开等 DOM 测量要等弹窗完全展开
+  // 才能取到准确尺寸（zoom 动画只变 transform，不触发 ResizeObserver）
+  const [modalReady, setModalReady] = useState<boolean>(false);
 
   useEffect(() => {
     if (modalConfig.open) {
@@ -198,6 +201,10 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
     <>
       <Modal
         {...modalConfig}
+        afterOpenChange={(open) => {
+          setModalReady(open);
+          modalConfig.afterOpenChange?.(open);
+        }}
         width={isFullscreen ? "100vw" : (modalConfig.width ?? 1400)}
         {...(isFullscreen ? { full: true } : {})}
         className={classNames(styles.modal, modalClassName, {
@@ -219,7 +226,10 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
       >
         <div className={classNames(styles.ListModalPanel, className)}>
           {extraContent}
-          {SearchComponent}
+          {/* 动画完成后重挂载 Search，使其在弹窗完全展开后重新初测 DOM 尺寸 */}
+          {React.cloneElement(SearchComponent, {
+            key: modalReady ? "modal-ready" : "modal-pending",
+          })}
           <div
             className={classNames(
               styles.tableContainer,
