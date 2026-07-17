@@ -1,7 +1,7 @@
 import { ShapeStyle } from "@antv/g6";
 
 /**
- * 根节点文字样式
+ * Root node text style
  */
 export const rootTextStyle: ShapeStyle = {
   fontSize: 20,
@@ -9,14 +9,14 @@ export const rootTextStyle: ShapeStyle = {
 };
 
 /**
- * 节点文字样式
+ * Node text style
  */
 export const nodeTextStyle: ShapeStyle = {
   fontSize: 16,
 };
 
 /**
- * 边样式
+ * Edge style
  */
 export const edgeStyle: ShapeStyle = {
   stroke: "#4096ff",

@@ -29,15 +29,15 @@ export interface ChartBarProps extends ChartCommonProps {
   legendData?: string[];
   scrollConfig?: ChartScrollConfig;
   onClick?: (event: echarts.ECElementEvent) => void;
-  /** 图例点选变化回调，参数为当前各系列选中状态（配合 legend.selected 可实现坐标轴重算） */
+  /** Legend selection change callback; the argument is the current selected state of each series (combined with legend.selected, enables axis recalculation) */
   onLegendSelectChanged?: (selected: Record<string, boolean>) => void;
-  /** dataZoom 可见窗口变化回调（滑块/滚轮/自动滚动/初始同步均触发），参数为当前可见的 x 轴索引区间（配合 useDataZoomWindow 可按展示部分重算坐标轴） */
+  /** dataZoom visible-window change callback (fired by slider/wheel/auto-scroll/initial sync); the argument is the currently visible x-axis index range (combined with useDataZoomWindow, enables recalculating axes based on the displayed portion) */
   onDataZoomWindowChanged?: (window: DataZoomIndexWindow) => void;
-  /** 是否启用图例自动滚动，默认 false */
+  /** Whether to enable legend auto-scroll, default false */
   enableLegendAutoScroll?: boolean;
-  /** 图例每页可见数量，默认 8 */
+  /** Number of legend items visible per page, default 8 */
   legendVisibleCount?: number;
-  /** 图例滚动间隔时间(ms)，默认 1500 */
+  /** Legend scroll interval (ms), default 1500 */
   legendScrollInterval?: number;
 }
 
@@ -80,12 +80,12 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     [scrollConfig],
   );
 
-  // 使用 useMemo 缓存 chart 配置
+  // Cache the chart option with useMemo
   const chartOption = useMemo(() => {
     const def_xAxis = createDefaultCategoryXAxis(xAxisData);
     const def_yAxis = createDefaultValueYAxis("bar");
 
-    // 处理 xAxis 配置
+    // Process xAxis config
     const processedXAxis = Array.isArray(xAxis)
       ? xAxis?.map((item) => ({
           ...def_xAxis,
@@ -98,7 +98,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
           ...xAxis,
         };
 
-    // 处理 yAxis 配置
+    // Process yAxis config
     const processedYAxis = Array.isArray(yAxis)
       ? yAxis?.map((item) => ({
           ...def_yAxis,
@@ -111,7 +111,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
           ...yAxis,
         };
 
-    // 计算 grid 配置
+    // Compute grid config
     let gridTop: string | undefined = "5%";
     if ((yAxis as ChartOptionType)?.name) {
       gridTop = "15%";
@@ -130,7 +130,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       delete gridConfig.top;
     }
 
-    // 处理 dataZoom 配置
+    // Process dataZoom config
     const totalLen = xAxisData?.length ?? 1;
     const {
       zoomEnabled,
@@ -261,24 +261,24 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     coreOption,
   ]);
 
-  // 处理图表 resize 的回调
+  // Callback for handling chart resize
   const handleResize = useCallback(() => {
     chartInstanceRef.current?.resize();
   }, []);
 
-  // 初始化图表
+  // Initialize the chart
   useEffect(() => {
     if (!chartRef.current) return;
 
-    // 初始化或获取已存在的实例
+    // Initialize or reuse the existing instance
     let chart = chartInstanceRef.current;
     if (!chart) {
       chart = echarts.init(chartRef.current);
       chartInstanceRef.current = chart;
     }
 
-    // 设置配置：notMerge 会把 dataZoom 窗口重置回初始位置，
-    // x 轴数据未变化时（如坐标轴重算/图例点选触发的重渲染）先记录当前窗口，设置后恢复
+    // Set the option: notMerge resets the dataZoom window to its initial position,
+    // so when x-axis data is unchanged (e.g. re-render triggered by axis recalculation / legend selection), record the current window first and restore it afterwards
     const xAxisKey = xAxisData?.join("\u0001") ?? "";
     const prevZoomRanges =
       prevXAxisKeyRef.current === xAxisKey
@@ -299,7 +299,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       });
     }
 
-    // 向调用方同步当前可见窗口（初始渲染与恢复后），用于按展示部分重算坐标轴
+    // Sync the current visible window to the caller (on initial render and after restore), used to recalculate axes based on the displayed portion
     if (onDataZoomWindowChanged) {
       const zooms = (chart.getOption() as ChartsOption | undefined)
         ?.dataZoom as Array<{ start?: number; end?: number }> | undefined;
@@ -310,7 +310,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
           percentWindowToIndexWindow(zoom.start, zoom.end, totalLen),
         );
       } else {
-        // 无 dataZoom（如数据量不足未启用滚动）时窗口即全量，同步一次避免残留旧窗口
+        // Without dataZoom (e.g. scrolling not enabled due to insufficient data) the window is the full range; sync once to avoid a stale old window
         onDataZoomWindowChanged({
           startIndex: 0,
           endIndex: Math.max(0, totalLen - 1),
@@ -318,21 +318,21 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       }
     }
 
-    // 添加 resize 监听
+    // Add resize listener
     window.addEventListener("resize", handleResize);
 
-    // 添加 ResizeObserver
+    // Add ResizeObserver
     if (chartRef.current && !resizeObserverRef.current) {
       resizeObserverRef.current = new ResizeObserver(handleResize);
       resizeObserverRef.current.observe(chartRef.current);
     }
 
-    // 添加点击事件
+    // Add click event
     if (onClick) {
       chartInstanceRef.current?.on("click", onClick);
     }
 
-    // 图例点选事件
+    // Legend selection event
     const handleLegendSelectChanged = (params: unknown) => {
       onLegendSelectChanged?.(
         (params as { selected: Record<string, boolean> }).selected,
@@ -345,7 +345,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       );
     }
 
-    // dataZoom 原生交互（slider 拖动 / inside 缩放）→ 同步可见窗口
+    // Native dataZoom interaction (slider drag / inside zoom) → sync the visible window
     const handleDataZoom = (params: unknown) => {
       const raw = params as {
         start?: number;
@@ -385,7 +385,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       chartInstanceRef.current?.on("datazoom", handleDataZoom);
     }
 
-    // 图例自动滚动（参考 Pie 组件）
+    // Legend auto-scroll (modeled on the Pie component)
     const opt = chartOption as ChartsOption;
     const legendDataLen = Array.isArray(opt.legend)
       ? opt.legend[0]?.data?.length
@@ -409,7 +409,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
       });
     }
 
-    // 清理函数
+    // Cleanup function
     return () => {
       window.removeEventListener("resize", handleResize);
 
@@ -445,7 +445,7 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     legendScrollInterval,
   ]);
 
-  // 处理自动播放
+  // Handle auto play
   useEffect(() => {
     if (
       !normalizedScroll.zoomEnabled ||
@@ -493,15 +493,15 @@ const ChartBar: React.FC<ChartBarProps> = (props) => {
     onDataZoomWindowChanged,
   ]);
 
-  // 组件卸载时清理资源
+  // Clean up resources when the component unmounts
   useEffect(() => {
     return () => {
-      // 清理 ResizeObserver
+      // Clean up ResizeObserver
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
         resizeObserverRef.current = null;
       }
-      // 销毁图表实例
+      // Dispose the chart instance
       if (chartInstanceRef.current) {
         chartInstanceRef.current.dispose();
         chartInstanceRef.current = null;

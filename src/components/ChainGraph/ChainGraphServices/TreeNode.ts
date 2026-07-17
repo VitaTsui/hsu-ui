@@ -8,19 +8,19 @@ import G6, {
 import { getTextSize, NodeColor, NodeStyle } from ".";
 import { TreeGraphData } from "..";
 
-// ==================== 常量定义 ====================
-const DEFAULT_PADDING = 20; // 节点内边距
-const DEFAULT_LINE_HEIGHT = 18; // 行高
-const DEFAULT_LINE_GAP = 2; // 行间距
-const DEFAULT_ICON_RADIUS = 8; // 折叠图标半径
-const DEFAULT_PORT_WIDTH = 3; // 连接桩宽度
-const DEFAULT_PORT_HEIGHT = 18; // 连接桩高度
-const DEFAULT_FONT_SIZE = 16; // 树节点默认字体大小
-const DEFAULT_TEXT_COLOR = "#0c0d0e"; // 默认文本颜色
-const DEFAULT_BG_COLOR = "#fff"; // 默认背景颜色
-const DEFAULT_STROKE_COLOR = "#4096ff"; // 默认边框颜色
-const DEFAULT_HOVER_TEXT_COLOR = "#fff"; // 悬停时文本颜色
-const TEXT_WIDTH_TOLERANCE = 0.01; // 文本宽度容差
+// ==================== Constant definitions ====================
+const DEFAULT_PADDING = 20; // Node padding
+const DEFAULT_LINE_HEIGHT = 18; // Line height
+const DEFAULT_LINE_GAP = 2; // Line spacing
+const DEFAULT_ICON_RADIUS = 8; // Collapse icon radius
+const DEFAULT_PORT_WIDTH = 3; // Connection port width
+const DEFAULT_PORT_HEIGHT = 18; // Connection port height
+const DEFAULT_FONT_SIZE = 16; // Default font size for tree node
+const DEFAULT_TEXT_COLOR = "#0c0d0e"; // Default text color
+const DEFAULT_BG_COLOR = "#fff"; // Default background color
+const DEFAULT_STROKE_COLOR = "#4096ff"; // Default border color
+const DEFAULT_HOVER_TEXT_COLOR = "#fff"; // Text color on hover
+const TEXT_WIDTH_TOLERANCE = 0.01; // Text width tolerance
 
 interface TreeNodeProps {
   showPort?: boolean;
@@ -62,7 +62,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     render,
   } = styles || {};
 
-  // ==================== 文本样式 ====================
+  // ==================== Text styles ====================
   const _textStyle: ShapeStyle = {
     fill: DEFAULT_TEXT_COLOR,
     fontSize: DEFAULT_FONT_SIZE,
@@ -79,7 +79,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     ...textHoverStyle,
   };
 
-  // ==================== 背景样式 ====================
+  // ==================== Background styles ====================
   const _bgStyle: ShapeStyle = {
     fill: DEFAULT_BG_COLOR,
     stroke: DEFAULT_STROKE_COLOR,
@@ -98,7 +98,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     ...hoverBgStyle,
   };
 
-  // ==================== 展开折叠Icon样式 ====================
+  // ==================== Expand/collapse icon style ====================
   const _collapseIconStyle: ShapeStyle = {
     stroke: DEFAULT_STROKE_COLOR,
     lineWidth: 1,
@@ -106,17 +106,17 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     ...collapseIconStyle,
   };
 
-  // ==================== 连接桩样式 ====================
+  // ==================== Connection port style ====================
   const _portStyle: ShapeStyle = {
     fill: DEFAULT_STROKE_COLOR,
   };
 
-  // ==================== 配置 ====================
+  // ==================== Options ====================
   const options = {
     styles: {},
   };
 
-  // ==================== 获取颜色配置 ====================
+  // ==================== Get color config ====================
   const getColorConfig = (item: Item) => {
     const index = (item._cfg?.model?.level as number) - rootLevel;
     const colorArrayLength = colors.length + 1;
@@ -127,7 +127,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     };
   };
 
-  // ==================== 设置状态 ====================
+  // ==================== Set state ====================
   const setState = (name?: string, value?: string | boolean, item?: Item) => {
     if (!item) return;
 
@@ -138,7 +138,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
 
     const { color, hoverColor, selectedColor } = getColorConfig(item);
 
-    // 处理折叠状态
+    // Handle collapse state
     if (name === "collapse") {
       collapseShape?.attr({
         symbol: value ? G6.Marker.collapse : G6.Marker.expand,
@@ -146,7 +146,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
       return;
     }
 
-    // 处理悬停状态
+    // Handle hover state
     if (name === "hover" && !item.hasState("click") && hasHover) {
       const isHover = Boolean(value);
       const renderStyle = render?.(
@@ -175,7 +175,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
       return;
     }
 
-    // 处理选中状态
+    // Handle selected state
     if (name === "click" && hasSelected) {
       const isSelected = Boolean(value);
       const renderStyle = render?.(
@@ -204,7 +204,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     }
   };
 
-  // ==================== 文本换行处理 ====================
+  // ==================== Text wrapping ====================
   const wrapText = (label: string, maxWidth: number): string[] => {
     const lines: string[] = [];
     let currentLine = "";
@@ -229,7 +229,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     return lines.length > 0 ? lines : [label || ""];
   };
 
-  // ==================== 计算节点尺寸 ====================
+  // ==================== Calculate node size ====================
   const calculateNodeSize = (
     label: string,
     fontSize: number
@@ -250,7 +250,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     return { width: nodeWidth, height: nodeHeight, lines };
   };
 
-  // ==================== 计算文本位置 ====================
+  // ==================== Calculate text position ====================
   const calculateTextPosition = (
     lineWidth: number,
     nodeWidth: number,
@@ -267,7 +267,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     return -lineWidth + nodeWidth / 2 - DEFAULT_PADDING;
   };
 
-  // ==================== 绘制 ====================
+  // ==================== Draw ====================
   const draw = (cfg: ModelConfig, group: IGroup) => {
     const renderStyle = render?.(cfg, "default");
     cfg.textStyle = { ..._textStyle, ...renderStyle?.textStyle };
@@ -291,7 +291,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
     cfg.height = nodeHeight;
     cfg.line = lineCount;
 
-    // 绘制背景
+    // Draw background
     const node = group.addShape("rect", {
       attrs: {
         ..._bgStyle,
@@ -306,7 +306,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
       name: "rect-shape",
     });
 
-    // 绘制文本
+    // Draw text
     lines?.forEach((line, lineIndex) => {
       const { width: lineWidth } = getTextSize(line, _textStyle);
       const textX = calculateTextPosition(lineWidth, nodeWidth, direction);
@@ -329,7 +329,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
       });
     });
 
-    // 绘制展开折叠图标
+    // Draw expand/collapse icon
     const hasChildren =
       cfg.children && (cfg.children as TreeGraphData[]).length > 0;
     if (hasChildren) {
@@ -350,7 +350,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
       });
     }
 
-    // 绘制连接桩
+    // Draw connection port
     if (showPort) {
       const portX =
         direction === "right"
@@ -378,7 +378,7 @@ export default function TreeNode(treeNodeProps: TreeNodeProps): ShapeOptions {
       });
     }
 
-    // 自定义形状
+    // Custom shapes
     if (addShape) {
       addShape(group, cfg);
     }

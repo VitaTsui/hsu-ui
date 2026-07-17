@@ -4,7 +4,7 @@ import { CheckedKeys, TreeData } from "..";
 import { normalizeCheckedKeys } from "../_utils/normalizeCheckedKeys";
 
 /**
- * 同步外部 expandedKeys 的 hook
+ * Hook for syncing external expandedKeys
  */
 export const useExpandedKeys = (
   expandedKeysProps?: Key[],
@@ -15,10 +15,10 @@ export const useExpandedKeys = (
   );
   const prevPropsRef = useRef<Key[] | undefined>(expandedKeysProps);
   const prevDefaultRef = useRef<Key[] | undefined>(defaultExpandedKeys);
-  // 标记用户是否已手动操作过展开状态
+  // Flag indicating whether the user has manually changed the expanded state
   const hasUserInteractedRef = useRef(false);
 
-  // 监听受控模式的 expandedKeysProps 变化
+  // Watch for expandedKeysProps changes in controlled mode
   useEffect(() => {
     if (
       expandedKeysProps !== undefined &&
@@ -29,9 +29,9 @@ export const useExpandedKeys = (
     }
   }, [expandedKeysProps]);
 
-  // 监听 defaultExpandedKeys 变化（非受控模式下，用于响应异步数据加载）
+  // Watch for defaultExpandedKeys changes (in uncontrolled mode, used to respond to async data loading)
   useEffect(() => {
-    // 只有在非受控模式下，且用户未手动操作过，才响应 defaultExpandedKeys 变化
+    // Only respond to defaultExpandedKeys changes in uncontrolled mode when the user has not manually interacted
     if (
       expandedKeysProps === undefined &&
       !hasUserInteractedRef.current &&
@@ -42,7 +42,7 @@ export const useExpandedKeys = (
     }
   }, [defaultExpandedKeys, expandedKeysProps]);
 
-  // 包装 setExpandedKeys，标记用户已手动操作
+  // Wrap setExpandedKeys to mark that the user has manually interacted
   const handleSetExpandedKeys = (
     keys: Key[] | undefined | ((prev: Key[] | undefined) => Key[] | undefined)
   ) => {
@@ -54,14 +54,14 @@ export const useExpandedKeys = (
 };
 
 /**
- * 同步外部 checkedKeys 的 hook
- * 自动规范化：当父级在 checked 中但子项未全选时，将父级设为半选
+ * Hook for syncing external checkedKeys
+ * Auto-normalizes: when a parent is in checked but its children are not all checked, the parent is set to half-checked
  */
 export const useCheckedKeys = (
   checkedKeysProps?: CheckedKeys,
   treeData?: TreeData[]
 ) => {
-  // 规范化 checkedKeys
+  // Normalize checkedKeys
   const normalizedCheckedKeys = useMemo(() => {
     if (!checkedKeysProps || !treeData?.length) {
       return checkedKeysProps;
@@ -77,7 +77,7 @@ export const useCheckedKeys = (
   );
 
   useEffect(() => {
-    // 只有当规范化后的值真正变化时才更新
+    // Only update when the normalized value has actually changed
     if (
       normalizedCheckedKeys !== undefined &&
       !Equal.ObjEqual(prevNormalizedRef.current, normalizedCheckedKeys)

@@ -84,7 +84,7 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectProps> = (props) => {
       })
     : autoCompleteWidth;
 
-  // 转换 options 格式为 AutoComplete 需要的格式
+  // Convert options into the format AutoComplete requires
   const autoCompleteOptions = useMemo(() => {
     return options?.map((option) => {
       const { label, value, disabled, ...rest } = option;
@@ -97,16 +97,16 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectProps> = (props) => {
     });
   }, [options]);
 
-  // 处理 filterOption
+  // Handle filterOption
   const handleFilterOption = useMemo(() => {
-    // 如果提供了自定义 filterOption，优先使用
+    // If a custom filterOption is provided, use it first
     if (customFilterOption) {
       return (inputValue: string, option?: AutoCompleteOption) => {
         return customFilterOption(inputValue, option);
       };
     }
 
-    // 默认过滤逻辑：不区分大小写的包含匹配
+    // Default filtering logic: case-insensitive substring match
     return (inputValue: string, option?: AutoCompleteOption): boolean => {
       if (!isComposing && option) {
         const searchText = inputValue.toUpperCase();

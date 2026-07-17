@@ -28,7 +28,7 @@ const TitleSearchBar: React.FC<TitleSearchBarProps> = ({
   titleClassName,
   className,
 }) => {
-  // 渲染按钮组
+  // Render the button group
   const renderButtonGroup = useMemo(() => {
     if (!buttonGroup?.length) {
       return null;
@@ -42,7 +42,7 @@ const TitleSearchBar: React.FC<TitleSearchBarProps> = ({
       </div>
     );
   }, [buttonGroup]);
-  // 如果没有内容，不渲染
+  // Do not render if there is no content
   if (!search && !title && !buttonGroup?.length) {
     return null;
   }

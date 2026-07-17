@@ -1,15 +1,15 @@
 import { useEffect, useState, RefObject } from "react";
 
 /**
- * 根据容器宽度动态调整列数的Hook
- * @param containerRef 容器引用
- * @param totalColumnNum 基础总列数（包括按钮组）
- * @param enabled 是否启用自适应（默认true）
- * @param minColumnNum 最小列数（默认1）
- * @param maxColumnNum 最大列数（默认不限制）
- * @param breakpoints 断点配置，格式：{ width: columnNum }，例如 { 1200: 5, 800: 3 }
- * @param baseWidth 基准宽度，用于计算宽度比例（默认1200px）
- * @returns 调整后的总列数
+ * Hook that dynamically adjusts the column count based on container width
+ * @param containerRef Container ref
+ * @param totalColumnNum Base total column count (including the button group)
+ * @param enabled Whether adaptive mode is enabled (default true)
+ * @param minColumnNum Minimum column count (default 1)
+ * @param maxColumnNum Maximum column count (unlimited by default)
+ * @param breakpoints Breakpoint config, format: { width: columnNum }, e.g. { 1200: 5, 800: 3 }
+ * @param baseWidth Base width used to compute the width ratio (default 1200px)
+ * @returns Adjusted total column count
  */
 export function useAdaptiveColumnNum(
   containerRef: RefObject<HTMLDivElement>,
@@ -36,11 +36,11 @@ export function useAdaptiveColumnNum(
 
       let calculatedColumnNum = totalColumnNum;
 
-      // 如果提供了断点配置，优先使用断点
+      // If breakpoint config is provided, use breakpoints first
       if (breakpoints) {
         const sortedBreakpoints = Object.keys(breakpoints)
           ?.map(Number)
-          .sort((a, b) => b - a); // 从大到小排序
+          .sort((a, b) => b - a); // Sort descending
 
         for (const breakpoint of sortedBreakpoints) {
           if (containerWidth >= breakpoint) {
@@ -49,13 +49,13 @@ export function useAdaptiveColumnNum(
           }
         }
       } else {
-        // 默认策略：根据容器宽度自动计算
-        // 基于基础列数，根据容器宽度比例调整
+        // Default strategy: compute automatically from container width
+        // Based on the base column count, adjusted by the container width ratio
         const widthRatio = containerWidth / baseWidth;
         calculatedColumnNum = Math.round(totalColumnNum * widthRatio);
       }
 
-      // 应用最小值和最大值限制
+      // Apply min and max limits
       if (calculatedColumnNum < minColumnNum) {
         calculatedColumnNum = minColumnNum;
       }
@@ -67,24 +67,24 @@ export function useAdaptiveColumnNum(
     };
 
     const resizeObserver = new ResizeObserver(() => {
-      // 使用 requestAnimationFrame 延迟到下一帧，确保DOM已更新
+      // Use requestAnimationFrame to defer to the next frame, ensuring the DOM has updated
       requestAnimationFrame(() => {
         calculateColumnNum();
       });
     });
 
-    // 延迟观察，确保 ref 已被赋值
+    // Defer observation to ensure the ref has been assigned
     const observeContainer = () => {
       if (containerRef.current) {
         resizeObserver.observe(containerRef.current);
       } else {
-        // 如果 ref 还未赋值，稍后重试
+        // If the ref is not assigned yet, retry later
         requestAnimationFrame(observeContainer);
       }
     };
     observeContainer();
 
-    // 监听窗口大小变化
+    // Listen for window resize
     const handleWindowResize = () => {
       requestAnimationFrame(() => {
         calculateColumnNum();
@@ -92,7 +92,7 @@ export function useAdaptiveColumnNum(
     };
     window.addEventListener("resize", handleWindowResize);
 
-    // 初始计算（延迟执行以确保DOM已渲染）
+    // Initial calculation (deferred to ensure the DOM has rendered)
     requestAnimationFrame(() => {
       calculateColumnNum();
     });

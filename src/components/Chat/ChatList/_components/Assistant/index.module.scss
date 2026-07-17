@@ -15,7 +15,7 @@
 
         .time {
           font-size: 12px;
-          color: #666;
+          color: var(--cf-text-2);
           font-weight: normal;
         }
       }
@@ -45,7 +45,7 @@
       margin-top: 10px;
 
       font-size: 12px;
-      color: #666;
+      color: var(--cf-text-2);
 
       > div {
         display: flex;
@@ -63,7 +63,7 @@
         cursor: pointer;
 
         &.disabled {
-          color: #ccc;
+          color: var(--cf-text-3);
 
           cursor: not-allowed;
         }

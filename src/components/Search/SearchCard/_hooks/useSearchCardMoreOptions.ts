@@ -3,21 +3,21 @@ import { useEffect, useState, RefObject, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { ElementItem, Font, SearchCardOption } from "../_components/OptionRow";
 
-// 优化：缓存测量结果
+// Optimization: cache measurement results
 const measurementCache = new Map<string, number>();
 
 function directMeasureWidth(element: React.ReactElement): Promise<number> {
-  // 尝试从缓存获取
+  // Try to get from the cache
   const cacheKey = JSON.stringify(element.props);
   if (measurementCache.has(cacheKey)) {
     return Promise.resolve(measurementCache.get(cacheKey)!);
   }
 
   return new Promise((resolve) => {
-    // 创建隐藏容器
+    // Create a hidden container
     const container = document.createElement("div");
 
-    // 设置样式使其不可见但能正确计算尺寸
+    // Set styles so it is invisible but its size can be computed correctly
     Object.assign(container.style, {
       position: "absolute",
       visibility: "hidden",
@@ -30,27 +30,27 @@ function directMeasureWidth(element: React.ReactElement): Promise<number> {
 
     document.body.appendChild(container);
 
-    // 创建根并渲染
+    // Create a root and render
     const root = createRoot(container);
 
     try {
-      // 直接渲染元素
+      // Render the element directly
       root.render(element);
 
-      // 等待渲染完成
+      // Wait for rendering to finish
       setTimeout(() => {
         try {
-          // 获取容器中第一个子元素的宽度
+          // Get the width of the first child element in the container
           const width = container.clientWidth || 0;
 
-          // 缓存结果
+          // Cache the result
           measurementCache.set(cacheKey, width);
           resolve(width);
         } catch {
           resolve(0);
         }
 
-        // 清理
+        // Clean up
         try {
           root.unmount();
           if (document.body.contains(container)) {
@@ -63,7 +63,7 @@ function directMeasureWidth(element: React.ReactElement): Promise<number> {
     } catch {
       resolve(0);
 
-      // 清理
+      // Clean up
       try {
         if (document.body.contains(container)) {
           document.body.removeChild(container);
@@ -76,7 +76,7 @@ function directMeasureWidth(element: React.ReactElement): Promise<number> {
 }
 
 /**
- * 自定义Hook，用于计算需要显示"更多"按钮的选项
+ * Custom hook that computes which options need to display the "More" button
  */
 export function useSearchCardMoreOptions(
   containerRef: RefObject<HTMLDivElement>,
@@ -91,7 +91,7 @@ export function useSearchCardMoreOptions(
 ) {
   const [showMore, setShowMore] = useState<Record<string, boolean>>({});
 
-  // 优化：缓存计算函数
+  // Optimization: cache the calculation function
   const calculateMoreOptions = useCallback(async () => {
     if (containerRef.current) {
       const div = containerRef.current;
@@ -162,7 +162,7 @@ export function useSearchCardMoreOptions(
   useEffect(() => {
     calculateMoreOptions();
 
-    // 添加窗口大小调整监听器
+    // Add a window resize listener
     window.addEventListener("resize", calculateMoreOptions);
 
     return () => {

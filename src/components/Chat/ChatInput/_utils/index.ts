@@ -2,7 +2,7 @@ import { UploadFile } from "antd";
 import { notification } from "antd";
 
 /**
- * 处理文件上传响应
+ * Handle the file upload response
  */
 export const handleUploadResponse = (
   fileList: UploadFile[],
@@ -45,7 +45,7 @@ export const handleUploadResponse = (
 };
 
 /**
- * 验证文件大小
+ * Validate the file size
  */
 export const validateFileSize = (file: File, maxSize: number): boolean => {
   if (file.size > maxSize * 1024 * 1024) {
@@ -58,7 +58,7 @@ export const validateFileSize = (file: File, maxSize: number): boolean => {
 };
 
 /**
- * 处理文件列表变更
+ * Handle file list changes
  */
 export const processFileList = (fileList: UploadFile[]): UploadFile[] => {
   const processedList: UploadFile[] = [];

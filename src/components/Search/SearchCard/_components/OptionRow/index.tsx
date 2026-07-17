@@ -67,7 +67,7 @@ const OptionRow: React.FC<OptionRowProps> = memo((props) => {
   const labelRef = useRef<HTMLSpanElement>(null);
   const [labelWidth, setLabelWidth] = useState(0);
 
-  // 测量标签宽度
+  // Measure the label width
   useEffect(() => {
     if (labelRef.current) {
       const width = labelRef.current.offsetWidth;
@@ -83,11 +83,11 @@ const OptionRow: React.FC<OptionRowProps> = memo((props) => {
     gap
   );
 
-  // 优化：缓存过滤后的子项
+  // Optimization: cache the filtered child items
   const filteredChildrenItems = useMemo(() => {
     return option.items.filter(
       (item) =>
-        // 过滤条件：1. 有子项 2. 父项被选中
+        // Filter criteria: 1. has children 2. the parent item is selected
         item.children &&
         item.children.length > 0 &&
         (option.multiple
@@ -98,11 +98,11 @@ const OptionRow: React.FC<OptionRowProps> = memo((props) => {
     );
   }, [option.items, option.multiple, option.name, value]);
 
-  // 优化：缓存"全部"按钮点击处理函数
+  // Optimization: cache the "All" button click handler
   const handleAllClick = useCallback(() => {
     const newValue = { ...value, [option.name]: "" };
 
-    // 清除所有子项的选择
+    // Clear the selection of all child items
     option.items?.forEach((parentItem) => {
       if (parentItem.children && parentItem.children.length > 0) {
         const parentChildrenName = `${parentItem.name || option.name}Children`;
@@ -110,13 +110,13 @@ const OptionRow: React.FC<OptionRowProps> = memo((props) => {
       }
     });
 
-    // 设置Real值为空
+    // Set the Real value to empty
     newValue[`${option.name}Real`] = "";
 
     setValue(newValue);
   }, [value, option, setValue]);
 
-  // 优化：缓存"更多"按钮点击处理函数
+  // Optimization: cache the "More" button click handler
   const handleMoreClick = useCallback(() => {
     const newShowMore = {
       ...showMore,
@@ -125,7 +125,7 @@ const OptionRow: React.FC<OptionRowProps> = memo((props) => {
     setShowMore(newShowMore);
   }, [showMore, option.name, setShowMore]);
 
-  // 优化：缓存"全部"按钮的激活状态
+  // Optimization: cache the active state of the "All" button
   const isAllActive = useMemo(() => {
     return option.multiple
       ? !((value[option.name] as unknown[]) || []).length
@@ -180,7 +180,7 @@ const OptionRow: React.FC<OptionRowProps> = memo((props) => {
         )}
       </div>
 
-      {/* 渲染所有有子项的父项的子项选项 */}
+      {/* Render the child options of every parent item that has children */}
       {filteredChildrenItems?.map((item, idx) => (
         <div
           key={`${String(item.value)}-children-${idx}`}

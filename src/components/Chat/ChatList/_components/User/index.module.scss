@@ -16,7 +16,7 @@
 
         .time {
           font-size: 12px;
-          color: #666;
+          color: var(--cf-text-2);
           font-weight: normal;
         }
       }
@@ -101,9 +101,9 @@
 
       border-radius: 4px;
 
-      border: 1px solid #e5e5e5;
+      border: 1px solid var(--cf-border);
 
-      background: #ffffff;
+      background: var(--cf-surface);
 
       opacity: 0;
 
@@ -119,16 +119,16 @@
 
         font-size: 18px;
         line-height: 18px;
-        color: #5e6772;
+        color: var(--cf-text-2);
 
         cursor: pointer;
 
         transition: color 0.3s, background-color 0.3s;
 
         &:hover {
-          color: #060607;
+          color: var(--cf-text);
 
-          background-color: #f3f5fc;
+          background-color: var(--cf-row-hover);
 
           border-radius: 4px;
         }

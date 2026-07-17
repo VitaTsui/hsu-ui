@@ -20,7 +20,7 @@ export type CommonObj<T = unknown> = Record<string, T>;
  * ChartTypes
  * ChartOptionsType
  *
- * 关联 Group
+ * Associated with Group
  */
 export type ChartTypes = "Line" | "Bar" | "Pie";
 export type ChartOptionsType = ChartLineProps | ChartBarProps | ChartPieProps;
@@ -51,7 +51,7 @@ export interface ChartCommonProps extends ChartsOption {
   style?: ChartCSSProperties;
   insideDataZoom?: echarts.DataZoomComponentOption;
   sliderDataZoom?: echarts.DataZoomComponentOption;
-  /** 图表实例就绪回调，可用于图例自动滚动等 */
+  /** Callback fired when the chart instance is ready; can be used for legend auto-scroll, etc. */
   onChart?: (chart: echarts.ECharts) => void;
 }
 

@@ -1,7 +1,7 @@
 /**
- * 清理搜索数据，移除 undefined 值
- * @param data 原始搜索数据
- * @returns 清理后的搜索数据
+ * Cleans search data by removing undefined values
+ * @param data Raw search data
+ * @returns Cleaned search data
  */
 export function cleanSearchData<T = Record<string, unknown>>(
   data: Record<string, unknown>

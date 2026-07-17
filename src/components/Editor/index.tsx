@@ -11,7 +11,7 @@ interface EditorContentProps {
 const EditorContent: React.FC<EditorContentProps> = (props) => {
   const { value = "" } = props;
 
-  // 编辑器配置
+  // Editor configuration
   const editorConfig: Partial<IEditorConfig> = {
     readOnly: true,
     autoFocus: false,
@@ -51,10 +51,10 @@ const Editor: EditorFC = (props) => {
     setHtml(value || "");
   }, [value]);
 
-  // 工具栏配置
+  // Toolbar configuration
   const toolbarConfig = {};
 
-  // 编辑器配置
+  // Editor configuration
   const editorConfig: Partial<IEditorConfig> = {
     placeholder,
     autoFocus: false,

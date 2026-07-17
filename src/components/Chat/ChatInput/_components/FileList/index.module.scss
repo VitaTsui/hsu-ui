@@ -11,8 +11,8 @@
     column-gap: 5px;
     padding: 4px 10px;
     font-size: 14px;
-    color: #424242;
-    background: #f2f4f7;
+    color: var(--cf-text);
+    background: var(--cf-subtle);
     border-radius: 3px;
     transition: box-shadow 0.3s, color 0.3s;
     cursor: pointer;
@@ -22,7 +22,7 @@
     }
     
     &:hover {
-      color: #0e59ef;
+      color: var(--primary-color);
     }
   }
 }

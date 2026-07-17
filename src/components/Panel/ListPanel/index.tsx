@@ -36,7 +36,7 @@ interface TableTools {
 }
 
 export interface ListPanelTabelProps extends Omit<TableProps, "title"> {
-  /** 透传给内部 Table 的 key，用于在异构列集切换时强制重挂载表格 */
+  /** Key passed through to the inner Table, used to force-remount the table when switching between heterogeneous column sets */
   key?: React.Key;
   title?: string;
   buttonGroup?: ButtonProps[];
@@ -77,7 +77,7 @@ export interface ListPanelProps<T extends SearchModeKeys = "Default"> {
   headerTabBarChildren?: ReactNode;
   treeProps?: TreeProps;
   searchProps?: SearchModePropsMap[T];
-  /** Search 组件模式：default-基础 | Advanced-高级筛选 | Collapsible-可折叠 | WithFilter-带筛选器 | WithMore-带更多项 | Card-卡片式 */
+  /** Search component mode: default-basic | Advanced-advanced filtering | Collapsible-collapsible | WithFilter-with filter | WithMore-with more items | Card-card style */
   searchMode?: T;
   tableProps?: ListPanelTabelProps;
   hasPermi?: string[];
@@ -129,8 +129,8 @@ const ListPanel: ListPanelFC = (props) => {
     tableContainerClassName,
     tips,
     otherTool,
-    // 异构列集切换时用于强制重挂载表格的 key；显式提取，避免随 ...tableConfig
-    // 展开进 JSX 触发 React "key prop being spread" 警告
+    // Key used to force-remount the table when switching between heterogeneous column sets; extracted
+    // explicitly so it is not spread into JSX via ...tableConfig, which triggers React's "key prop being spread" warning
     key: tableInstanceKey,
     ...tableConfig
   } = tableProps;
@@ -291,7 +291,7 @@ const ListPanel: ListPanelFC = (props) => {
     };
   }, [hasHeaderTabBar, legacyHasSelector, searchMode, searchProps]);
 
-  // 根据 searchMode 渲染对应的 Search 组件
+  // Render the matching Search component based on searchMode
   const SearchComponent = useMemo(() => {
     const searchClassName = classNames(searchProps?.className, styles.search);
 

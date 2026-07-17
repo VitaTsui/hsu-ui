@@ -62,12 +62,12 @@ export interface TreeProps extends Omit<
   hideLeafExpand?: boolean;
   buttonGroup?: ButtonProps[];
   btnPosition?: "left" | "right";
-  /** 默认展开层级（从 1 开始，1 表示第一层，2 表示第二层，以此类推） */
+  /** Default expand level (starting from 1: 1 means the first level, 2 the second, and so on) */
   defaultExpandLevel?: number;
   hasPermi?: string[];
-  /** 节点被选中时的回调，返回选中节点的完整路径 */
+  /** Callback when a node is selected, returns the full path of the selected node */
   onSelectPath?: (path: TreeData[] | null, selectedKeys: Key[]) => void;
-  /** 点击已选中的节点时是否允许取消选中，默认 true（允许取消选中） */
+  /** Whether clicking an already selected node deselects it; defaults to true (deselection allowed) */
   allowDeselect?: boolean;
   titleSearchBarClassName?: string;
 }
@@ -107,10 +107,10 @@ const Tree: React.FC<TreeProps> = (props) => {
   const { permitted } = usePermissions(hasPermi);
   const legacyHasSelector = isLegacyHasSelectorBrowser();
 
-  // 生成唯一类名（用于样式隔离）
+  // Generate a unique class name (for style isolation)
   const cls = useMemo(() => generateRandomStr(10), []);
-  // 根据 defaultExpandLevel 计算默认展开的 keys
-  // 如果同时提供了 defaultExpandedKeys 和 defaultExpandLevel，优先使用 defaultExpandedKeys
+  // Compute the default expanded keys based on defaultExpandLevel
+  // If both defaultExpandedKeys and defaultExpandLevel are provided, defaultExpandedKeys takes precedence
   const computedDefaultExpandedKeys = useMemo(() => {
     if (defaultExpandedKeys !== undefined) {
       return defaultExpandedKeys;
@@ -121,39 +121,39 @@ const Tree: React.FC<TreeProps> = (props) => {
     return undefined;
   }, [defaultExpandLevel, treeData, defaultExpandedKeys]);
 
-  // 管理展开状态
+  // Manage expanded state
   const [expandedKeys, setExpandedKeys] = useExpandedKeys(
     expandedKeysProps,
     computedDefaultExpandedKeys,
   );
 
-  // 管理勾选状态（自动规范化：父级在 checked 中但子项未全选时，设为半选）
+  // Manage checked state (auto-normalized: a parent in checked whose children are not all checked becomes half-checked)
   const [checkedKeys, setCheckedKeys] = useCheckedKeys(
     checkedKeysProps,
     treeData,
   );
 
-  // 管理选中状态（用于支持 allowDeselect 功能）
+  // Manage selected state (used to support the allowDeselect feature)
   const [internalSelectedKeys, setInternalSelectedKeys] = React.useState<Key[]>(
     defaultSelectedKeys ?? [],
   );
 
-  // 受控模式使用外部传入的 selectedKeys，非受控模式使用内部状态
+  // Controlled mode uses the externally provided selectedKeys; uncontrolled mode uses internal state
   const selectedKeys = selectedKeysProps ?? internalSelectedKeys;
 
-  // 处理搜索
+  // Handle search
   const { searchKey, handleSearchChange, filteredTreeData } = useTreeSearch(
     treeData,
     setExpandedKeys,
   );
 
-  // 处理勾选（使用 antd 默认逻辑）
+  // Handle checking (uses antd's default logic)
   const handleCheck = useTreeCheck(setCheckedKeys, onCheck, onChange);
 
-  // 清空节点 title 属性（防止悬浮显示）
+  // Clear the node title attribute (prevents hover tooltip)
   useClearNodeTitle(filteredTreeData, cls);
 
-  // 样式对象（CSS 变量）
+  // Style object (CSS variables)
   const style = useMemo<CSSProperties>(
     () =>
       ({
@@ -167,7 +167,7 @@ const Tree: React.FC<TreeProps> = (props) => {
     [indent, switchWidth, switchGap],
   );
 
-  // 使用 ref 保存最新的 onSelectPath 回调和初始化标志，避免闭包陷阱
+  // Store the latest onSelectPath callback and initialization flag in refs to avoid stale closures
   const onSelectPathRef = useRef(onSelectPath);
   const isInitializedRef = useRef(false);
 
@@ -175,7 +175,7 @@ const Tree: React.FC<TreeProps> = (props) => {
     onSelectPathRef.current = onSelectPath;
   }, [onSelectPath]);
 
-  // 处理展开事件
+  // Handle expand events
   const handleExpand = useCallback(
     (
       expandedKeys: Key[],
@@ -187,7 +187,7 @@ const Tree: React.FC<TreeProps> = (props) => {
     [setExpandedKeys, treeConfig],
   );
 
-  // 处理选中事件
+  // Handle select events
   const handleSelect = useCallback(
     (
       selectedKeys: Key[],
@@ -195,13 +195,14 @@ const Tree: React.FC<TreeProps> = (props) => {
     ) => {
       let finalSelectedKeys = selectedKeys;
 
-      // 如果不允许取消选中，且点击的是已选中的节点（info.selected 为 false 表示要取消选中）
-      // 则阻止取消，保持该节点选中
+      // If deselection is not allowed and an already selected node was clicked
+      // (info.selected being false means it is about to be deselected),
+      // block the deselection and keep the node selected
       if (!allowDeselect && !info.selected && info.node.key) {
         finalSelectedKeys = [info.node.key];
       }
 
-      // 非受控模式下，更新内部状态
+      // In uncontrolled mode, update internal state
       if (selectedKeysProps === undefined) {
         setInternalSelectedKeys(finalSelectedKeys);
       }
@@ -210,7 +211,7 @@ const Tree: React.FC<TreeProps> = (props) => {
 
       if (!onSelectPathRef.current) return;
 
-      // 获取节点路径并调用回调
+      // Get the node path and invoke the callback
       const path =
         finalSelectedKeys.length > 0
           ? getNodePath(finalSelectedKeys[0], treeData)
@@ -220,11 +221,11 @@ const Tree: React.FC<TreeProps> = (props) => {
     [onSelect, treeData, allowDeselect, selectedKeysProps],
   );
 
-  // 处理初始传入的 selectedKeys 和 defaultSelectedKeys
+  // Handle initially provided selectedKeys and defaultSelectedKeys
   useEffect(() => {
     if (!onSelectPathRef.current || !treeData.length) return;
 
-    // 受控模式：使用 selectedKeysProps
+    // Controlled mode: use selectedKeysProps
     if (selectedKeysProps !== undefined) {
       if (selectedKeysProps.length > 0) {
         const path = getNodePath(selectedKeysProps[0], treeData);
@@ -236,7 +237,7 @@ const Tree: React.FC<TreeProps> = (props) => {
       return;
     }
 
-    // 非受控模式：只在初始化时使用 defaultSelectedKeys
+    // Uncontrolled mode: only use defaultSelectedKeys on initialization
     if (
       !isInitializedRef.current &&
       defaultSelectedKeys &&

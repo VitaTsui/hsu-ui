@@ -22,10 +22,10 @@ import {
   edgeStyle,
 } from "../_utils";
 
-// 重新导出 getTextSize 以保持向后兼容
+// Re-export getTextSize for backward compatibility
 export { getTextSize };
 
-// ==================== 链图服务 ====================
+// ==================== Chain graph service ====================
 export interface NodeStyle {
   textStyle?: ShapeStyle;
   textSelectedStyle?: ShapeStyle;
@@ -154,7 +154,7 @@ export default class ChainGraphServices {
     const _root = { ...root };
     const _node = { maxWidth: 260, ...node };
 
-    /** 注册根节点 */
+    /** Register root node */
     G6.registerNode(
       "root-node",
       RootNode({
@@ -167,7 +167,7 @@ export default class ChainGraphServices {
       }),
       "rect"
     );
-    /** 注册树节点 */
+    /** Register tree node */
     G6.registerNode(
       "tree-node",
       TreeNode({
@@ -181,7 +181,7 @@ export default class ChainGraphServices {
       }),
       "rect"
     );
-    /** 注册箭头边 */
+    /** Register arrow edge */
     G6.registerEdge("arrow-edge", ArrowEdge({ styles: edge?.style }));
 
     const _layout = {
@@ -353,7 +353,7 @@ export default class ChainGraphServices {
     rendered?.(this);
   }
 
-  // ==================== 调整大小 ====================
+  // ==================== Resize ====================
   private _resize = (containerId: string) => {
     const graph = this._graph;
     const container = document.getElementById(containerId) as HTMLDivElement;
@@ -398,7 +398,7 @@ export default class ChainGraphServices {
     }
   };
 
-  // ==================== 设置MiniMap ====================
+  // ==================== Set MiniMap ====================
   public setMiniMap = (showMiniMap: boolean) => {
     if (!this._minimap) return;
 
@@ -411,7 +411,7 @@ export default class ChainGraphServices {
     }
   };
 
-  // ==================== 设置数据 ====================
+  // ==================== Set data ====================
   public setData = ({
     data,
     level = 1,
@@ -509,7 +509,7 @@ export default class ChainGraphServices {
     this._data = data;
   };
 
-  // ==================== 搜索 ====================
+  // ==================== Search ====================
   public onSearch = (searchVal: string) => {
     if (
       !this._graph ||
@@ -543,7 +543,7 @@ export default class ChainGraphServices {
     }
   };
 
-  // ==================== 展开所有节点 ====================
+  // ==================== Expand all nodes ====================
   public expandAll = ({
     allExpand,
     level = 1,
@@ -586,7 +586,7 @@ export default class ChainGraphServices {
     }
   };
 
-  // ==================== 修改布局 ====================
+  // ==================== Change layout ====================
   public changeLayout = (
     octopus: boolean,
     rootLevel: number = 1,

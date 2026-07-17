@@ -2,11 +2,12 @@ import { useCallback, useMemo, useState } from "react";
 import { FormItemProps } from "../../FormItem";
 
 /**
- * 管理搜索项状态
+ * Manages search item state
  *
- * 通过 useMemo 直接从入参派生，仅把用户在 FilterDropdown 里手动切换的
- * visible 覆盖保存为 state；避免 useEffect 镜像 prop 时因为父组件传入
- * 新数组引用而反复 setState，从而触发 Maximum update depth 循环。
+ * Derives directly from the input via useMemo, storing only the visible
+ * overrides the user manually toggles in FilterDropdown as state; this avoids
+ * repeated setState when a useEffect mirrors the prop and the parent passes a
+ * new array reference, which would trigger a Maximum update depth loop.
  */
 export function useSearchItems(searchItems: FormItemProps[]) {
   const [visibilityOverrides, setVisibilityOverrides] = useState<

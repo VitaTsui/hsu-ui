@@ -14,10 +14,10 @@ export interface SearchAdvancedProps extends SearchPropsWithFilter {
 }
 
 /**
- * 高级筛选模式的 Search 组件
- * - 不显示标签（label）
- * - 使用抽屉形式展示更多筛选项
- * - 更适合复杂的筛选场景
+ * Search component in advanced filters mode
+ * - Does not display labels
+ * - Uses a drawer to present additional filter items
+ * - Better suited for complex filtering scenarios
  */
 const SearchAdvanced: React.FC<SearchAdvancedProps> = (props) => {
   const {

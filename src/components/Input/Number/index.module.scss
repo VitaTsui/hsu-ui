@@ -65,11 +65,11 @@
     }
   }
 
-  // 当存在 addonAfter 时，调整清除图标位置
-  // Ant Design 的 addonAfter 会生成 :global(.ant-input-number-group-addon)
-  // 清除图标需要向左偏移，避免与 addon 重叠
-  // 使用 CSS 变量来动态设置 addon 宽度，默认值 60px 是合理的估算
-  // 通过 JS 动态计算实际宽度并设置 CSS 变量来覆盖
+  // Adjust the clear icon position when addonAfter is present
+  // Ant Design's addonAfter generates :global(.ant-input-number-group-addon)
+  // The clear icon needs to shift left to avoid overlapping the addon
+  // Use a CSS variable to set the addon width dynamically; the default 60px is a reasonable estimate
+  // JS computes the actual width and sets the CSS variable to override it
   &.hasAddonAfter {
     .clearIcon {
       right: calc(11px + var(--addon-after-width, 60px));

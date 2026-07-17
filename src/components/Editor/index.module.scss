@@ -11,7 +11,7 @@
   border-radius: 6px;
 
   .toolbar {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--cf-border);
 
     .w-e-bar-item {
       color: var(--cf-text-3);
@@ -33,7 +33,7 @@
       cursor: not-allowed;
 
       .w-e-text-container {
-        background-color: rgba(0, 0, 0, 0.04);
+        background-color: var(--cf-subtle);
 
         color: var(--cf-text-3);
       }

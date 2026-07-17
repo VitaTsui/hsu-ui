@@ -46,7 +46,7 @@ export interface ItemContainerProps extends FormItemProps {
   labelBreak?: boolean;
   hideAdditiona?: boolean;
   hideLabel?: boolean;
-  /** 显隐开关，由 FormItem 消费；在此解构剥离，避免透传到 DOM */
+  /** Visibility switch, consumed by FormItem; destructured and stripped here to avoid passing it through to the DOM */
   visible?: boolean;
 }
 
@@ -114,8 +114,8 @@ const ItemContainer: React.FC<ItemContainerProps> = (props) => {
         <Tooltip
           arrow={false}
           placement="top"
-          color="#f2f4f5"
-          styles={{ body: { color: "#131212", padding: "6px 12px" } }}
+          color="var(--cf-subtle)"
+          styles={{ body: { color: "var(--cf-text)", padding: "6px 12px" } }}
           {...tipsConfig}
         >
           {typeof icon === "string" ? (
@@ -126,7 +126,7 @@ const ItemContainer: React.FC<ItemContainerProps> = (props) => {
                 e.stopPropagation();
               }}
               fontSize={16}
-              color="#999999"
+              color="var(--cf-text-3)"
             />
           ) : (
             <div

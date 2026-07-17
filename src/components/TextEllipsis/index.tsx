@@ -2,34 +2,34 @@ import { Tooltip, TooltipProps } from "antd";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import cssStyles from "./index.module.scss";
 
-// 默认 Tooltip 宽度
+// Default Tooltip width
 const DEFAULT_TOOLTIP_WIDTH = 200;
 
 export interface TextEllipsisProps {
-  /** 要显示的文本内容 */
+  /** Text content to display */
   children: ReactNode;
-  /** 容器宽度，用于计算 Tooltip 宽度 */
+  /** Container width, used to compute the Tooltip width */
   width?: number | string;
-  /** Tooltip 配置 */
+  /** Tooltip config */
   tooltipConfig?: Omit<TooltipProps, "title" | "children"> & {
-    /** 默认 Tooltip 宽度（当没有设置 width 时使用） */
+    /** Default Tooltip width (used when width is not set) */
     defaultWidth?: number;
   };
-  /** 自定义样式 */
+  /** Custom style */
   style?: React.CSSProperties;
-  /** 自定义类名 */
+  /** Custom class name */
   className?: string;
-  /** 是否禁用 Tooltip（即使文本溢出也不显示） */
+  /** Whether to disable the Tooltip (not shown even when the text overflows) */
   disabled?: boolean;
-  /** 省略号位置，'start' 表示省略前面(...xxx)，'end' 表示省略后面(xxx...) */
+  /** Ellipsis position: 'start' truncates the beginning (...xxx), 'end' truncates the end (xxx...) */
   ellipsisPosition?: "start" | "end";
-  /** container 样式 */
+  /** Container style */
   containerStyle?: React.CSSProperties;
 }
 
 /**
- * 文本溢出组件
- * 当文本溢出时自动显示 Tooltip，并省略超出文本
+ * Text overflow component
+ * Automatically shows a Tooltip when the text overflows, and truncates the overflowing text
  */
 const TextEllipsis: React.FC<TextEllipsisProps> = ({
   children,
@@ -45,7 +45,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
   const measureRef = useRef<HTMLSpanElement>(null);
   const [isOverflow, setIsOverflow] = useState(false);
   const [truncatedText, setTruncatedText] = useState<ReactNode>(children);
-  // 容器实际渲染宽度：未声明 width 时（如表格列宽动态分配）作为 Tooltip 宽度
+  // Actual rendered container width: used as the Tooltip width when width is not declared (e.g. dynamically allocated table column widths)
   const [measuredWidth, setMeasuredWidth] = useState(0);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
     const measureElement = measureRef.current;
     if (!element || !measureElement) return;
 
-    // 将 children 转换为字符串
+    // Convert children to a string
     const getTextContent = (node: ReactNode): string => {
       if (typeof node === "string" || typeof node === "number") {
         return String(node);
@@ -64,7 +64,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
       return "";
     };
 
-    // 同步测量元素的样式
+    // Sync the measure element's styles
     const computedStyle = window.getComputedStyle(element);
     measureElement.style.fontSize = computedStyle.fontSize;
     measureElement.style.fontFamily = computedStyle.fontFamily;
@@ -75,17 +75,17 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
     measureElement.style.border = computedStyle.border;
     measureElement.style.boxSizing = computedStyle.boxSizing;
 
-    // 计算截断后的文本（省略前面）
+    // Compute the truncated text (truncating the beginning)
     const calculateTruncatedText = (text: string, maxWidth: number): string => {
       const ellipsis = "...";
 
-      // 如果整个文本都不溢出，直接返回
+      // If the entire text does not overflow, return it directly
       measureElement.textContent = text;
       if (measureElement.offsetWidth <= maxWidth) {
         return text;
       }
 
-      // 二分查找找到合适的截断点
+      // Binary search for the appropriate truncation point
       let left = 0;
       let right = text.length;
       let result = text;
@@ -116,7 +116,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
       setIsOverflow(isTextOverflow);
       setMeasuredWidth(element.clientWidth);
 
-      // 如果是省略前面且文本溢出，需要计算截断后的文本
+      // If truncating the beginning and the text overflows, the truncated text must be computed
       if (ellipsisPosition === "start" && isTextOverflow && textContent) {
         const maxWidth = element.clientWidth;
         const truncated = calculateTruncatedText(textContent, maxWidth);
@@ -128,14 +128,14 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
 
     update();
 
-    // 容器宽度动态变化（如表格列宽重分配、窗口 resize）时重测溢出与宽度
+    // Re-measure overflow and width when the container width changes dynamically (e.g. table column width redistribution, window resize)
     const resizeObserver = new ResizeObserver(update);
     resizeObserver.observe(element);
     return () => resizeObserver.disconnect();
   }, [children, ellipsisPosition, style]);
 
-  // 计算 Tooltip 的宽度：显式 width 优先；未声明（或百分比）时用容器实际渲染宽度，
-  // 实测不到再回退 defaultWidth
+  // Compute the Tooltip width: an explicit width takes priority; when not declared (or a percentage),
+  // use the container's actual rendered width, falling back to defaultWidth if measurement fails
   const getTooltipWidth = () => {
     const defaultWidth = tooltipConfig?.defaultWidth ?? DEFAULT_TOOLTIP_WIDTH;
     const dynamicWidth = measuredWidth > 0 ? measuredWidth : defaultWidth;
@@ -147,11 +147,11 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
 
   const tooltipWidth = getTooltipWidth();
 
-  // 从 tooltipConfig 中提取配置，移除 defaultWidth
+  // Extract config from tooltipConfig, removing defaultWidth
   const { defaultWidth, styles, ...restTooltipConfig } = tooltipConfig || {};
   void defaultWidth;
 
-  // 尝试将 children 格式化为 JSON
+  // Try to format children as JSON
   const formatTooltipTitle = (content: ReactNode): ReactNode => {
     if (typeof content !== "string") return content;
 
@@ -159,7 +159,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
       const parsed = JSON.parse(content);
       return JSON.stringify(parsed, null, 2);
     } catch {
-      // 如果不是有效的 JSON，返回原内容
+      // If not valid JSON, return the original content
       return content;
     }
   };
@@ -168,7 +168,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
 
   const content = (
     <span className={cssStyles.container} style={containerStyle}>
-      {/* 隐藏的测量元素 */}
+      {/* Hidden measure element */}
       <span
         ref={measureRef}
         className={cssStyles.measureElement}
@@ -182,14 +182,14 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
             : cssStyles.ellipsisStart
         } ${className || ""}`}
         style={style}
-        title="" // 禁用浏览器默认 tooltip
+        title="" // Disable the browser's default tooltip
       >
         {ellipsisPosition === "start" ? truncatedText : children}
       </span>
     </span>
   );
 
-  // 只在溢出且未禁用时显示 Tooltip
+  // Show the Tooltip only when overflowing and not disabled
   if (isOverflow && !disabled) {
     return (
       <Tooltip

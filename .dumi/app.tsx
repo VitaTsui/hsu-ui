@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
+import { ConfigProvider, theme as antdTheme } from "antd";
 
 import { configureRequest } from "../src/request";
 
@@ -25,10 +26,56 @@ configureRequest({
   put: async () => ({ code: 0, data: undefined }),
 });
 
+// dumi 的主题开关只翻转 html[data-prefers-color]，antd 组件的暗色需要 darkAlgorithm 配合；
+// 监听该属性（auto 时回退系统偏好），让所有 Demo 里的 antd 内部控件与 token 层一起切换。
+const readDark = () => {
+  if (typeof document === "undefined") return false;
+  const prefers = document.documentElement.getAttribute("data-prefers-color");
+  if (prefers === "dark") return true;
+  if (prefers === "light") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
+
+const AntdThemeBridge: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [isDark, setIsDark] = useState(readDark);
+
+  useEffect(() => {
+    const update = () => setIsDark(readDark());
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-prefers-color"],
+    });
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    media.addEventListener("change", update);
+    return () => {
+      observer.disconnect();
+      media.removeEventListener("change", update);
+    };
+  }, []);
+
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: isDark
+          ? antdTheme.darkAlgorithm
+          : antdTheme.defaultAlgorithm,
+      }}
+    >
+      {children}
+    </ConfigProvider>
+  );
+};
+
 export function rootContainer(container: React.ReactNode) {
   return (
     <CacheProvider value={cache}>
-      <ChakraProvider value={system}>{container}</ChakraProvider>
+      <ChakraProvider value={system}>
+        <AntdThemeBridge>{container}</AntdThemeBridge>
+      </ChakraProvider>
     </CacheProvider>
   );
 }

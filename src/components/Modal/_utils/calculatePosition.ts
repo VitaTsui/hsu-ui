@@ -1,11 +1,11 @@
 /**
- * 计算模态框位置，考虑边界检测
- * @param left 目标左边距
- * @param top 目标上边距
- * @param modalWidth 模态框宽度
- * @param modalHeight 模态框高度
- * @param edgeDetection 是否启用边界检测
- * @returns 计算后的位置
+ * Calculate the modal position, taking edge detection into account
+ * @param left Target left offset
+ * @param top Target top offset
+ * @param modalWidth Modal width
+ * @param modalHeight Modal height
+ * @param edgeDetection Whether edge detection is enabled
+ * @returns The calculated position
  */
 export function calculatePosition(
   left: number,

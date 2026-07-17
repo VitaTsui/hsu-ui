@@ -2,15 +2,15 @@ import { FormItemProps } from "../../FormItem";
 import { shouldDisplayExtraItem } from "./shouldDisplayExtraItem";
 
 /**
- * 计算当前应该显示的搜索项
- * @param searchItems 所有搜索项
- * @param expand 是否展开
- * @param columnNum 列数
- * @param visibleItemCount 可见项数量（自适应宽度时使用）
- * @param autoAdaptWidth 是否启用自适应宽度
- * @param buttonGroupWidth 按钮组宽度（可选）
- * @param columnWidth 列宽（可选）
- * @returns 当前应该显示的搜索项
+ * Computes the search items that should currently be displayed
+ * @param searchItems All search items
+ * @param expand Whether expanded
+ * @param columnNum Column count
+ * @param visibleItemCount Visible item count (used with adaptive width)
+ * @param autoAdaptWidth Whether adaptive width is enabled
+ * @param buttonGroupWidth Button group width (optional)
+ * @param columnWidth Column width (optional)
+ * @returns The search items that should currently be displayed
  */
 export function calculateVisibleItems(
   searchItems: FormItemProps[],
@@ -25,14 +25,14 @@ export function calculateVisibleItems(
   const hasCustomWidth = searchItems.some((item) => item.width !== undefined);
 
   if (!expand) {
-    // 当有自定义宽度时，使用自适应计算
+    // When there are custom widths, use adaptive calculation
     if (hasCustomWidth && autoAdaptWidth) {
       if (visibleItems.length > visibleItemCount) {
         return visibleItems.slice(0, visibleItemCount);
       }
     } else if (!hasCustomWidth) {
-      // 没有自定义宽度时，使用 columnNum（实际搜索项数量）
-      // 判断按钮组宽度是否大于列宽，如果是，则显示 实际搜索项数量+1
+      // Without custom widths, use columnNum (actual search item count)
+      // If the button group is wider than a column, display actual search item count + 1
       const displayCount = shouldDisplayExtraItem(
         buttonGroupWidth,
         columnWidth,

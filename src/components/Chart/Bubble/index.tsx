@@ -19,7 +19,7 @@ export interface BubbleDataItem {
   [key: string]: unknown;
 }
 
-// 扩展的数据项类型，包含图表需要的所有属性
+// Extended data item type containing all properties the chart needs
 interface ExtendedBubbleDataItem extends BubbleDataItem {
   id: number;
   x?: number;
@@ -43,17 +43,17 @@ interface ExtendedBubbleDataItem extends BubbleDataItem {
 }
 
 export interface ChartBubbleProps extends ChartCommonProps {
-  /** 气泡图数据 */
+  /** Bubble chart data */
   data: BubbleDataItem[];
-  /** 自定义颜色列表 */
+  /** Custom color list */
   colorList?: echarts.Color[];
-  /** 图表标题 */
+  /** Chart title */
   chartTitle?: string;
-  /** 气泡标签字体大小 */
+  /** Bubble label font size */
   fontSize?: number;
-  /** 图表实例回调 */
+  /** Chart instance callback */
   onChart?: (chart: echarts.EChartsType) => void;
-  /** 点击事件 */
+  /** Click event */
   onClick?: (event: echarts.ECElementEvent) => void;
 }
 
@@ -84,16 +84,16 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     height: 0,
   });
 
-  // 缓存位置计算结果
+  // Cache the position calculation results
   const positionCacheRef = useRef<{
     cacheKey: string;
     positions: Array<{ x: number; y: number; radius: number }>;
   } | null>(null);
 
-  // 生成缓存key，基于数据内容和容器尺寸
+  // Generate a cache key based on data content and container size
   const generateCacheKey = useCallback(
     (data: BubbleDataItem[], width: number, height: number): string => {
-      // 基于数据的name和value生成key，确保数据变化时能检测到
+      // Build the key from each item's name and value so data changes are detected
       const dataKey = data
         ?.map((item) => `${item.name}:${item.value}`)
         .join("|");
@@ -102,7 +102,7 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     [layoutVersion]
   );
 
-  // 仅用于布局的半径补偿：当大小差异过大时，给小球增加额外布局半径，避免被大球挤压
+  // Radius compensation used only for layout: when size differences are too large, give small bubbles extra layout radius to avoid being squeezed by big ones
   const getLayoutRadiusList = useCallback((rawRadiusList: number[]): number[] => {
     if (!rawRadiusList.length) return rawRadiusList;
 
@@ -132,9 +132,9 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     });
   }, []);
 
-  // 处理数据并生成图表配置
+  // Process the data and generate the chart option
   const chartOption = useMemo(() => {
-    // 容器尺寸未获取或数据为空时，返回空配置
+    // Return an empty option when the container size is not yet available or the data is empty
     if (
       !data ||
       data.length === 0 ||
@@ -150,34 +150,34 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
       id: index,
     }));
 
-    // 计算最大值
+    // Compute the maximum value
     let max = 0;
     countList?.forEach((e) => {
       if (e.value >= max) max = e.value;
     });
 
-    // 获取容器尺寸
+    // Get the container size
     const graphCanvas = containerSize;
 
-    // 基础气泡大小，根据容器尺寸和数据数量动态调整
+    // Base bubble size, dynamically adjusted by container size and data count
     const containerMin = Math.min(graphCanvas.width, graphCanvas.height);
     const containerArea = graphCanvas.width * graphCanvas.height;
     const dataCount = countList.length;
 
-    // 根据数据数量和容器面积动态调整基础尺寸
-    // 目标：尽量把气泡做大，让一层层外扩时紧贴容器边界；同时为环间隙留出必要空间。
+    // Dynamically adjust the base size by data count and container area
+    // Goal: make bubbles as large as possible so the outward-expanding rings hug the container edge, while leaving necessary space for ring gaps.
     const areaPerBubble = containerArea / dataCount;
-    const estimatedMaxRadius = Math.sqrt(areaPerBubble / Math.PI) * 0.82; // 提高密度系数，气泡更大
+    const estimatedMaxRadius = Math.sqrt(areaPerBubble / Math.PI) * 0.82; // Higher density factor, larger bubbles
 
-    // 数量越多，基础尺寸越小，避免重叠
+    // The more items there are, the smaller the base size, to avoid overlap
     const sizeFactor = Math.max(0.55, 1.35 - dataCount * 0.07);
     const baseSize = Math.min(
       170 * sizeFactor,
       containerMin / (1.9 + dataCount * 0.08),
-      estimatedMaxRadius * 2 // 确保不超过估算的最大半径
+      estimatedMaxRadius * 2 // Ensure it does not exceed the estimated max radius
     );
 
-    // 自适应非线性映射：压缩大值、抬升小值，数据差距仍可读但视觉更饱满
+    // Adaptive non-linear mapping: compress large values and lift small ones, keeping the data gap readable while looking visually fuller
     const minPositiveValue = countList
       .map((item) => item.value)
       .filter((value) => value > 0)
@@ -186,7 +186,7 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     const valueRatio = max > 0 ? max / safeMinValue : 1;
     const compressPower =
       valueRatio > 20 ? 0.38 : valueRatio > 10 ? 0.46 : valueRatio > 4 ? 0.56 : 0.7;
-    // 最小气泡的底线提高，避免最小那颗过小难以识别；仍保留与最大值的可见差距
+    // Raise the floor for the smallest bubble so it is not too small to recognize, while keeping a visible gap from the largest value
     const minScale =
       valueRatio > 20 ? 0.74 : valueRatio > 10 ? 0.68 : valueRatio > 4 ? 0.62 : 0.56;
     const maxScale = 1.1;
@@ -201,42 +201,42 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     const rawRadiusList = symbolSizeList.map((symbolSize) => symbolSize / 2);
     const layoutRadiusList = getLayoutRadiusList(rawRadiusList);
 
-    // 生成缓存key
+    // Generate the cache key
     const cacheKey = generateCacheKey(
       data,
       graphCanvas.width,
       graphCanvas.height
     );
 
-    // 检查缓存，如果数据或容器尺寸没有变化，使用缓存的位置
+    // Check the cache; if neither data nor container size changed, use the cached positions
     let randomCircleArr: Array<{ x: number; y: number; radius: number }>;
     if (
       positionCacheRef.current &&
       positionCacheRef.current.cacheKey === cacheKey &&
       positionCacheRef.current.positions.length === layoutRadiusList.length
     ) {
-      // 使用缓存的位置
+      // Use the cached positions
       randomCircleArr = positionCacheRef.current.positions;
     } else {
-      // 重新计算位置
+      // Recalculate positions
       randomCircleArr = drawCircles(
         layoutRadiusList,
         graphCanvas.width,
         graphCanvas.height
       );
-      // 更新缓存
+      // Update the cache
       positionCacheRef.current = {
         cacheKey,
         positions: randomCircleArr,
       };
     }
 
-    // 处理每个数据项
+    // Process each data item
     countList?.forEach((e, i) => {
       const symbolSize = symbolSizeList[i] ?? baseSize * 0.5;
       const fontSize = propFontSize ?? Math.max(12, Math.min(20, symbolSize * 0.28));
 
-      // 先计算 symbolSize，因为 label 的 width 需要用到它
+      // Compute symbolSize first, since the label's width depends on it
       let finalSymbolSize = symbolSize;
       if (randomCircleArr[i]) {
         e.x = randomCircleArr[i].x;
@@ -244,7 +244,7 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
         e.symbolSize = symbolSize;
         finalSymbolSize = symbolSize;
       } else {
-        // 兜底：放在容器中心
+        // Fallback: place it at the container center
         e.symbolSize = symbolSize;
         e.x = graphCanvas.width / 2;
         e.y = graphCanvas.height / 2;
@@ -256,9 +256,9 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
           show: true,
           color: "#fff",
           fontSize,
-          width: finalSymbolSize, // 设置宽度为气泡直径
-          overflow: "truncate", // 超出部分截断
-          ellipsis: "...", // 省略号
+          width: finalSymbolSize, // Set the width to the bubble diameter
+          overflow: "truncate", // Truncate overflowing text
+          ellipsis: "...", // Ellipsis
         },
       };
 
@@ -270,7 +270,7 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
 
       e.itemStyle = {
         normal: {
-          color: colorList[i % colorListLen], // 使用索引确保颜色一致性
+          color: colorList[i % colorListLen], // Use the index to keep colors consistent
         },
       };
     });
@@ -332,7 +332,7 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     getLayoutRadiusList,
   ]);
 
-  // 设置 ResizeObserver 监听容器尺寸变化（包括首次获取尺寸）
+  // Set up a ResizeObserver to watch container size changes (including the initial size read)
   useEffect(() => {
     if (!chartRef.current) return;
 
@@ -361,43 +361,43 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     };
   }, []);
 
-  // 处理图表 resize 的回调
+  // Callback for handling chart resize
   const handleResize = useCallback(() => {
     chartInstanceRef.current?.resize();
-    // 重新设置配置以更新气泡位置
+    // Re-apply the option to update bubble positions
     if (chartInstanceRef.current && data && data.length > 0) {
       chartInstanceRef.current.setOption(chartOption as ChartOptionType, true);
     }
   }, [chartOption, data]);
 
-  // 初始化图表
+  // Initialize the chart
   useEffect(() => {
     if (!chartRef.current) return;
-    // 等待容器尺寸有效后再初始化图表
+    // Wait until the container size is valid before initializing the chart
     if (containerSize.width === 0 || containerSize.height === 0) return;
 
-    // 初始化或获取已存在的实例
+    // Initialize or reuse the existing instance
     let chart = chartInstanceRef.current;
     if (!chart) {
       chart = echarts.init(chartRef.current);
       chartInstanceRef.current = chart;
-      // 首次初始化时调用 onChart 回调
+      // Call the onChart callback on first initialization
       onChart?.(chart);
     }
 
-    // 先 resize 确保 echarts 获取到正确的容器尺寸，再设置配置
+    // Resize first so echarts picks up the correct container size, then apply the option
     chart.resize();
     chart.setOption(chartOption as ChartOptionType, true);
 
-    // 添加 window resize 监听
+    // Add window resize listener
     window.addEventListener("resize", handleResize);
 
-    // 添加点击事件
+    // Add click event
     if (onClick) {
       chartInstanceRef.current?.on("click", onClick);
     }
 
-    // 清理函数
+    // Cleanup function
     return () => {
       window.removeEventListener("resize", handleResize);
 
@@ -414,7 +414,7 @@ const Bubble: React.FC<ChartBubbleProps> = (props) => {
     onClick,
   ]);
 
-  // 组件卸载时清理图表实例
+  // Dispose the chart instance when the component unmounts
   useEffect(() => {
     return () => {
       if (chartInstanceRef.current) {

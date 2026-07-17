@@ -107,7 +107,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     setFile: setPreviewFile,
   } = useUploadPreview();
 
-  // 分片上传
+  // Chunked upload
   const chunkCustomRequest: AntdUploadProps["customRequest"] = useCallback(
     async (options: UploadRequestOption) => {
       const { file: _file, onSuccess, onError, onProgress } = options;
@@ -157,7 +157,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     ]
   );
 
-  // 普通上传
+  // Normal upload
   const customRequest: AntdUploadProps["customRequest"] = useCallback(
     async (options: UploadRequestOption) => {
       const { file: _file, onSuccess, onError, onProgress } = options;

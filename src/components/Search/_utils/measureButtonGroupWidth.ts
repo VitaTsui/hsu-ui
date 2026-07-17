@@ -1,7 +1,7 @@
 /**
- * 计算按钮组的实际宽度（所有子元素宽度总和 + 子元素间距）
- * @param buttonGroupEl 按钮组元素
- * @returns 按钮组宽度；无子元素时返回 undefined
+ * Computes the actual width of the button group (sum of all child element widths + gaps between children)
+ * @param buttonGroupEl Button group element
+ * @returns Button group width; undefined when there are no children
  */
 export function measureButtonGroupWidth(
   buttonGroupEl: HTMLElement | null
@@ -15,7 +15,7 @@ export function measureButtonGroupWidth(
   buttonChildren.forEach((child) => {
     totalWidth += (child as HTMLElement).offsetWidth;
   });
-  // 加上子元素之间的间距
+  // Add the gaps between child elements
   const childGap = 5;
   totalWidth += (buttonChildren.length - 1) * childGap;
 

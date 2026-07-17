@@ -23,7 +23,7 @@ import { ExpandButtons } from "./_components/ExpandButtons";
 import { SearchSelect } from "./_components/SearchSelect";
 
 export interface TreeGraphData extends G6TreeGraphData {
-  origin?: Record<string, unknown>; // 原始数据
+  origin?: Record<string, unknown>; // Original data
 }
 
 export interface ChainGraphProps {
@@ -89,7 +89,7 @@ const ChainGraph: React.FC<ChainGraphProps> = observer((props) => {
   const miniMapContainerId = useMemo(() => generateRandomStr(10), []);
   const [searchVal, setSearchVal] = useState("");
 
-  // ==================== 初始化 ====================
+  // ==================== Initialization ====================
   const graph = useChainGraphInit({
     containerId,
     miniMapContainerId,
@@ -107,7 +107,7 @@ const ChainGraph: React.FC<ChainGraphProps> = observer((props) => {
     addShape,
   });
 
-  // ==================== 设置数据 ====================
+  // ==================== Set data ====================
   const { isLayouting } = useChainGraphData({
     graph,
     data,
@@ -117,20 +117,20 @@ const ChainGraph: React.FC<ChainGraphProps> = observer((props) => {
     labelRender,
   });
 
-  // ==================== 搜索 ====================
+  // ==================== Search ====================
   useChainGraphSearch({
     graph,
     searchVal,
   });
 
-  // ==================== 展开所有节点 ====================
+  // ==================== Expand all nodes ====================
   const { setAllExpand } = useChainGraphExpand({
     graph,
     level,
     rootLevel,
   });
 
-  // ==================== 修改布局 ====================
+  // ==================== Change layout ====================
   useChainGraphLayout({
     graph,
     octopus,
@@ -138,13 +138,13 @@ const ChainGraph: React.FC<ChainGraphProps> = observer((props) => {
     getImage,
   });
 
-  // ==================== 设置MiniMap ====================
+  // ==================== Set MiniMap ====================
   useChainGraphMiniMap({
     graph,
     showMiniMap,
   });
 
-  // ==================== 调整大小 ====================
+  // ==================== Resize ====================
   useChainGraphResize({
     graph,
     containerId,

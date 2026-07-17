@@ -19,21 +19,21 @@ export interface ChartPieProps extends ChartCommonProps {
   onChart?: (chart: echarts.EChartsType) => void;
   extendSeries?: Series[];
   onClick?: (event: echarts.ECElementEvent) => void;
-  /** 是否启用图例自动滚动，默认 false */
+  /** Whether to enable legend auto-scroll, default false */
   enableLegendAutoScroll?: boolean;
-  /** 图例每页可见数量，默认 8 */
+  /** Number of legend items visible per page, default 8 */
   legendVisibleCount?: number;
-  /** 图例滚动间隔时间(ms)，默认 1500 */
+  /** Legend scroll interval (ms), default 1500 */
   legendScrollInterval?: number;
-  /** 是否半圆，默认 false */
+  /** Whether it is a semicircle, default false */
   isSemiCircle?: boolean;
-  /** 半圆贴边位置，默认 'bottom' */
+  /** Edge the semicircle is attached to, default 'bottom' */
   position?: "top" | "bottom" | "left" | "right";
-  /** 显示角度，默认 180 */
+  /** Display angle, default 180 */
   spanAngle?: number;
-  /** 中心位置 */
+  /** Center position */
   center?: [string, string];
-  /** 半径配置 */
+  /** Radius config */
   radius?: [string, string];
 }
 
@@ -71,60 +71,60 @@ const ChartPie: ChartPieFC = (props) => {
     null
   );
 
-  // 根据 position 计算默认 radius（如果未指定）
+  // Compute the default radius based on position (when not specified)
   const calculatedRadius = useMemo(() => {
     if (radius) {
       return radius;
     }
 
-    // 对于半圆，需要更大的 radius 值才能占满容器
-    // 因为半圆只占 180 度，所以外半径需要更大才能覆盖整个容器的高度或宽度
+    // A semicircle needs a larger radius to fill the container,
+    // because it spans only 180 degrees, so the outer radius must be larger to cover the container's full height or width
     if (isSemiCircle) {
       return ["0%", "200%"];
     }
-    // 全圆
+    // Full circle
     return ["45%", "70%"];
   }, [radius, isSemiCircle]);
 
-  // 计算角度和中心位置
+  // Compute angles and center position
   const { calculatedCenter, startAngle, endAngle, actualSpanAngle } =
     useMemo(() => {
-      // 根据 position 计算默认 center（如果未指定）
+      // Compute the default center based on position (when not specified)
       let calculatedCenter: [string, string] = center || ["30%", "50%"];
       let startAngle = 90;
-      let endAngle = 450; // 360 + 90，从顶部开始
+      let endAngle = 450; // 360 + 90, starting from the top
       const actualSpanAngle = isSemiCircle ? spanAngle : 360;
 
       if (isSemiCircle) {
-        // 根据 position 计算角度和中心位置
+        // Compute angles and center position based on position
         switch (position) {
           case "top":
-            // 上半圆
+            // Top semicircle
             startAngle = 180;
             endAngle = 0;
             calculatedCenter = center || ["center", "0%"];
             break;
           case "bottom":
-            // 下半圆
+            // Bottom semicircle
             startAngle = 0;
             endAngle = 180;
             calculatedCenter = center || ["center", "100%"];
             break;
           case "left":
-            // 左半圆
+            // Left semicircle
             startAngle = 90;
             endAngle = 270;
             calculatedCenter = center || ["0%", "center"];
             break;
           case "right":
-            // 右半圆
+            // Right semicircle
             startAngle = 270;
             endAngle = 90;
             calculatedCenter = center || ["100%", "center"];
             break;
         }
       } else {
-        // 全圆
+        // Full circle
         calculatedCenter = center || ["30%", "50%"];
       }
 
@@ -136,7 +136,7 @@ const ChartPie: ChartPieFC = (props) => {
       };
     }, [isSemiCircle, position, center, spanAngle]);
 
-  // 处理数据：如果是半圆，需要填充空白数据
+  // Process the data: a semicircle needs blank data padding
   const processedSeriesData = useMemo(() => {
     if (!seriesData || !isSemiCircle) {
       return seriesData;
@@ -146,7 +146,7 @@ const ChartPie: ChartPieFC = (props) => {
     const repeatedMultiple = 360 / actualSpanAngle;
     const addDataLen = parseInt(String((repeatedMultiple - 1) * originDataLen));
 
-    // 填充空白数据以形成半圆
+    // Pad with blank data to form the semicircle
     const emptyData = Array.from({ length: addDataLen }, () => ({
       value: 0,
       itemStyle: {
@@ -160,9 +160,9 @@ const ChartPie: ChartPieFC = (props) => {
     return [...seriesData, ...emptyData] as SeriesDataType;
   }, [seriesData, isSemiCircle, actualSpanAngle]);
 
-  // 使用 useMemo 缓存 chart 配置
+  // Cache the chart option with useMemo
   const chartOption = useMemo(() => {
-    // 当启用自动滚动时，隐藏分页按钮并设置为滚动类型
+    // When auto-scroll is enabled, hide the paging buttons and use the scroll type
     const baseLegendConfig: echarts.LegendComponentOption = {
       orient: "vertical",
       top: "middle",
@@ -178,9 +178,9 @@ const ChartPie: ChartPieFC = (props) => {
     const legendConfig: echarts.LegendComponentOption = enableLegendAutoScroll
       ? {
           ...baseLegendConfig,
-          // 设置为滚动类型
+          // Use the scroll type
           type: "scroll",
-          // 隐藏分页按钮的配置
+          // Config to hide the paging buttons
           pageIconSize: 0,
           pageIconColor: "transparent",
           pageIconInactiveColor: "transparent",
@@ -239,44 +239,44 @@ const ChartPie: ChartPieFC = (props) => {
     endAngle,
   ]);
 
-  // 处理图表 resize 的回调
+  // Callback for handling chart resize
   const handleResize = useCallback(() => {
     chartInstanceRef.current?.resize();
   }, []);
 
-  // 初始化图表
+  // Initialize the chart
   useEffect(() => {
     if (!chartRef.current) return;
 
-    // 初始化或获取已存在的实例
+    // Initialize or reuse the existing instance
     let chart = chartInstanceRef.current;
     if (!chart) {
       chart = echarts.init(chartRef.current);
       chartInstanceRef.current = chart;
-      // 首次初始化时调用 onChart 回调
+      // Call the onChart callback on first initialization
       onChart?.(chart);
     }
 
-    // 设置配置
+    // Apply the option
     chart.setOption(chartOption as ChartOptionType, true);
 
-    // 添加 resize 监听
+    // Add resize listener
     window.addEventListener("resize", handleResize);
 
-    // 添加 ResizeObserver
+    // Add ResizeObserver
     if (chartRef.current && !resizeObserverRef.current) {
       resizeObserverRef.current = new ResizeObserver(handleResize);
       resizeObserverRef.current.observe(chartRef.current);
     }
 
-    // 添加点击事件
+    // Add click event
     if (onClick) {
       chartInstanceRef.current?.on("click", onClick);
     }
 
-    // 图例自动滚动
+    // Legend auto-scroll
     if (enableLegendAutoScroll && seriesData && seriesData.length > 0) {
-      // 清理之前的滚动实例
+      // Dispose the previous scroll instance
       if (legendScrollRef.current) {
         legendScrollRef.current.dispose();
       }
@@ -290,7 +290,7 @@ const ChartPie: ChartPieFC = (props) => {
       });
     }
 
-    // 清理函数
+    // Cleanup function
     return () => {
       window.removeEventListener("resize", handleResize);
 
@@ -298,7 +298,7 @@ const ChartPie: ChartPieFC = (props) => {
         chartInstanceRef.current?.off("click", onClick);
       }
 
-      // 清理图例滚动
+      // Clean up legend scrolling
       if (legendScrollRef.current) {
         legendScrollRef.current.dispose();
         legendScrollRef.current = null;
@@ -315,15 +315,15 @@ const ChartPie: ChartPieFC = (props) => {
     legendScrollInterval,
   ]);
 
-  // 组件卸载时清理资源
+  // Clean up resources when the component unmounts
   useEffect(() => {
     return () => {
-      // 清理 ResizeObserver
+      // Clean up ResizeObserver
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
         resizeObserverRef.current = null;
       }
-      // 销毁图表实例
+      // Dispose the chart instance
       if (chartInstanceRef.current) {
         chartInstanceRef.current.dispose();
         chartInstanceRef.current = null;

@@ -1,13 +1,13 @@
 import { FormItemType } from "./index";
 
 /**
- * 数据库类型到表单类型的映射
- * 支持 MySQL、PostgreSQL、Oracle、SQL Server、SQLite 等常见数据库
+ * Mapping from database types to form item types
+ * Supports common databases such as MySQL, PostgreSQL, Oracle, SQL Server, SQLite, etc.
  */
 
-// 数据库类型枚举（不区分大小写）
+// Database type enum (case-insensitive)
 export type DatabaseType =
-  // 字符串类型
+  // String types
   | "VARCHAR"
   | "CHAR"
   | "TEXT"
@@ -19,7 +19,7 @@ export type DatabaseType =
   | "NTEXT"
   | "CLOB"
   | "STRING"
-  // 数值类型
+  // Numeric types
   | "INT"
   | "INTEGER"
   | "BIGINT"
@@ -34,7 +34,7 @@ export type DatabaseType =
   | "NUMBER"
   | "MONEY"
   | "SMALLMONEY"
-  // 日期时间类型
+  // Date/time types
   | "DATE"
   | "TIME"
   | "DATETIME"
@@ -43,11 +43,11 @@ export type DatabaseType =
   | "DATETIME2"
   | "SMALLDATETIME"
   | "DATETIMEOFFSET"
-  // 布尔类型
+  // Boolean types
   | "BOOLEAN"
   | "BOOL"
   | "BIT"
-  // 二进制类型
+  // Binary types
   | "BLOB"
   | "TINYBLOB"
   | "MEDIUMBLOB"
@@ -56,19 +56,19 @@ export type DatabaseType =
   | "VARBINARY"
   | "IMAGE"
   | "BYTEA"
-  // JSON 类型
+  // JSON types
   | "JSON"
   | "JSONB"
-  // 其他类型
+  // Other types
   | "UUID"
   | "ENUM"
   | "SET";
 
 /**
- * 数据库类型到表单类型的映射表
+ * Mapping table from database types to form item types
  */
 export const DATABASE_TYPE_TO_FORM_ITEM_MAP: Record<string, FormItemType> = {
-  // ========== 字符串类型 ==========
+  // ========== String types ==========
   VARCHAR: "INPUT",
   CHAR: "INPUT",
   TEXT: "TEXTAREA",
@@ -81,7 +81,7 @@ export const DATABASE_TYPE_TO_FORM_ITEM_MAP: Record<string, FormItemType> = {
   CLOB: "TEXTAREA",
   STRING: "INPUT",
 
-  // ========== 数值类型 ==========
+  // ========== Numeric types ==========
   INT: "INPUTNUMBER",
   INTEGER: "INPUTNUMBER",
   BIGINT: "INPUTNUMBER",
@@ -97,7 +97,7 @@ export const DATABASE_TYPE_TO_FORM_ITEM_MAP: Record<string, FormItemType> = {
   MONEY: "INPUTNUMBER",
   SMALLMONEY: "INPUTNUMBER",
 
-  // ========== 日期时间类型 ==========
+  // ========== Date/time types ==========
   DATE: "DATEPICKER",
   TIME: "DATEPICKER",
   DATETIME: "DATEPICKER",
@@ -107,12 +107,12 @@ export const DATABASE_TYPE_TO_FORM_ITEM_MAP: Record<string, FormItemType> = {
   SMALLDATETIME: "DATEPICKER",
   DATETIMEOFFSET: "DATEPICKER",
 
-  // ========== 布尔类型 ==========
+  // ========== Boolean types ==========
   BOOLEAN: "SWITCH",
   BOOL: "SWITCH",
   BIT: "SWITCH",
 
-  // ========== 二进制类型 ==========
+  // ========== Binary types ==========
   BLOB: "FILE",
   TINYBLOB: "FILE",
   MEDIUMBLOB: "FILE",
@@ -122,21 +122,21 @@ export const DATABASE_TYPE_TO_FORM_ITEM_MAP: Record<string, FormItemType> = {
   IMAGE: "IMAGEFILE",
   BYTEA: "FILE",
 
-  // ========== JSON 类型 ==========
+  // ========== JSON types ==========
   JSON: "CODEMIRROR",
   JSONB: "CODEMIRROR",
 
-  // ========== 其他类型 ==========
+  // ========== Other types ==========
   UUID: "INPUT",
   ENUM: "SELECT",
   SET: "CHECKBOXGROUP",
 };
 
 /**
- * 根据数据库类型获取对应的表单类型
- * @param databaseType 数据库类型（不区分大小写）
- * @param defaultType 默认表单类型，如果找不到映射则返回此类型
- * @returns 表单类型
+ * Get the corresponding form item type by database type
+ * @param databaseType Database type (case-insensitive)
+ * @param defaultType Default form item type, returned when no mapping is found
+ * @returns Form item type
  */
 export function getFormItemTypeByDatabaseType(
   databaseType: string,
@@ -144,19 +144,19 @@ export function getFormItemTypeByDatabaseType(
 ): FormItemType {
   const upperType = databaseType.toUpperCase().trim();
 
-  // 处理带括号的类型，如 VARCHAR(255), INT(11) 等
+  // Handle types with parentheses, e.g. VARCHAR(255), INT(11), etc.
   const baseType = upperType.split("(")[0].trim();
 
   return DATABASE_TYPE_TO_FORM_ITEM_MAP[baseType] || defaultType;
 }
 
 /**
- * 根据数据库类型和长度判断是否应该使用 TEXTAREA
- * 如果字符串类型长度超过阈值，建议使用 TEXTAREA
- * @param databaseType 数据库类型
- * @param length 字段长度
- * @param threshold 阈值，默认 255
- * @returns 是否应该使用 TEXTAREA
+ * Determine whether TEXTAREA should be used based on database type and length
+ * If a string type's length exceeds the threshold, TEXTAREA is recommended
+ * @param databaseType Database type
+ * @param length Field length
+ * @param threshold Threshold, defaults to 255
+ * @returns Whether TEXTAREA should be used
  */
 export function shouldUseTextarea(
   databaseType: string,
@@ -166,7 +166,7 @@ export function shouldUseTextarea(
   const upperType = databaseType.toUpperCase().trim();
   const baseType = upperType.split("(")[0].trim();
 
-  // 如果已经是 TEXT 类型，直接返回 true
+  // If it is already a TEXT type, return true directly
   if (
     ["TEXT", "TINYTEXT", "MEDIUMTEXT", "LONGTEXT", "NTEXT", "CLOB"].includes(
       baseType
@@ -175,7 +175,7 @@ export function shouldUseTextarea(
     return true;
   }
 
-  // 如果是 VARCHAR 或 CHAR 类型，且长度超过阈值，建议使用 TEXTAREA
+  // If it is a VARCHAR or CHAR type and the length exceeds the threshold, TEXTAREA is recommended
   if (["VARCHAR", "CHAR", "NVARCHAR", "NCHAR"].includes(baseType)) {
     return length ? length > threshold : false;
   }
@@ -184,27 +184,27 @@ export function shouldUseTextarea(
 }
 
 /**
- * 根据数据库类型获取智能推荐的表单类型
- * 结合类型和长度等信息进行智能判断
- * @param databaseType 数据库类型
- * @param length 字段长度
- * @returns 推荐的表单类型
+ * Get the intelligently recommended form item type by database type
+ * Makes a smart decision combining type, length, and other information
+ * @param databaseType Database type
+ * @param length Field length
+ * @returns Recommended form item type
  */
 export function getRecommendedFormItemType(
   databaseType: string,
   length?: number
 ): FormItemType {
-  // 如果字符串类型长度较大，使用 TEXTAREA
+  // If the string type has a large length, use TEXTAREA
   if (shouldUseTextarea(databaseType, length)) {
     return "TEXTAREA";
   }
 
-  // 使用基础映射
+  // Use the base mapping
   return getFormItemTypeByDatabaseType(databaseType);
 }
 
 /**
- * 数据库类型分类
+ * Database type categories
  */
 export const DATABASE_TYPE_CATEGORIES = {
   STRING: [
@@ -262,9 +262,9 @@ export const DATABASE_TYPE_CATEGORIES = {
 } as const;
 
 /**
- * 获取数据库类型的分类
- * @param databaseType 数据库类型
- * @returns 类型分类
+ * Get the category of a database type
+ * @param databaseType Database type
+ * @returns Type category
  */
 export function getDatabaseTypeCategory(
   databaseType: string
@@ -282,7 +282,7 @@ export function getDatabaseTypeCategory(
 }
 
 /**
- * 反向映射：表单类型到推荐的数据库类型
+ * Reverse mapping: form item types to recommended database types
  */
 export const FORM_ITEM_TO_DATABASE_TYPE_MAP: Partial<
   Record<FormItemType, DatabaseType[]>

@@ -28,7 +28,7 @@ const useTablePagination = <T extends AnyObject>(
     onStaticPaginationChange,
   } = params;
 
-  // 直接传入原始值，不使用默认值，让 usePaginationSync 自行处理
+  // Pass the raw values directly without defaults; let usePaginationSync handle them itself
   const { _pageNum, _pageSize, setPageNum, setPageSize } = usePaginationSync({
     current: params.current,
     pageSize: params.pageSize,
@@ -45,7 +45,7 @@ const useTablePagination = <T extends AnyObject>(
     }
   }, [_dataSource, dataSource, staticDataSource, setPageNum]);
 
-  // 计算分页数据源
+  // Compute the paginated data source
   const paginatedDataSource = useMemo(() => {
     if (!pagination) return dataSource;
     if (staticDataSource) {
@@ -62,20 +62,20 @@ const useTablePagination = <T extends AnyObject>(
     dataSource,
   ]);
 
-  // 计算用于合并行的数据源
+  // Compute the data source used for merged rows
   const mergeRowDataSource = useMemo(() => {
     if (!pagination) return dataSource;
     const start = _pageSize * (_pageNum - 1);
     return _dataSource?.slice(start, start + _pageSize);
   }, [pagination, _dataSource, _pageSize, _pageNum, dataSource]);
 
-  // 处理分页变化
+  // Handle pagination changes
   const handlePageChange = useCallback(
     (num: number, size: number) => {
       setPageNum(num);
       setPageSize(size);
       onChangePage?.(num, size);
-      // 当使用 staticDataSource 时，通过 onStaticPaginationChange 传递变化
+      // When staticDataSource is used, propagate the change via onStaticPaginationChange
       if (staticDataSource) {
         onStaticPaginationChange?.(num, size);
       }
@@ -89,13 +89,13 @@ const useTablePagination = <T extends AnyObject>(
     ]
   );
 
-  // 处理分页大小变化
+  // Handle page size changes
   const handlePageSizeChange = useCallback(
     (page: number, size: number) => {
       setPageNum(page);
       setPageSize(size);
       onShowSizeChange?.(page, size);
-      // 当使用 staticDataSource 时，通过 onStaticPaginationChange 传递变化
+      // When staticDataSource is used, propagate the change via onStaticPaginationChange
       if (staticDataSource) {
         onStaticPaginationChange?.(page, size);
       }

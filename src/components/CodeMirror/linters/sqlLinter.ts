@@ -2,15 +2,15 @@ import { EditorView } from "@codemirror/view";
 import { Diagnostic } from "@codemirror/lint";
 import { translateError } from "./errorTranslator";
 
-// 全局 SQL 解析器实例
+// Global SQL parser instance
 let sqlParser: { astify: (sql: string) => unknown } | null = null;
 
-// MongoDB 解析器函数类型
+// MongoDB parser function type
 type MongoParser = (query: string) => unknown;
 
 let mongoParser: MongoParser | null = null;
 
-// 预加载 SQL 解析器
+// Preload the SQL parser
 const loadSqlParser = async () => {
   if (!sqlParser) {
     try {
@@ -23,7 +23,7 @@ const loadSqlParser = async () => {
   return sqlParser;
 };
 
-// 预加载 MongoDB 解析器
+// Preload the MongoDB parser
 const loadMongoParser = async () => {
   if (!mongoParser) {
     try {
@@ -36,16 +36,16 @@ const loadMongoParser = async () => {
   return mongoParser;
 };
 
-// 检测是否为 MongoDB use 语句
+// Detect whether the text is a MongoDB use statement
 function isMongoUseStatement(text: string): boolean {
   const trimmed = text.trim();
-  // MongoDB use 语句格式：use database_name
-  // 数据库名可以包含字母、数字、下划线、连字符等
+  // MongoDB use statement format: use database_name
+  // The database name may contain letters, digits, underscores, hyphens, etc.
   const usePattern = /^use\s+[a-zA-Z0-9_-]+(\s*;?\s*)$/i;
   return usePattern.test(trimmed);
 }
 
-// 校验 MongoDB use 语句
+// Validate a MongoDB use statement
 function validateMongoUseStatement(text: string): {
   valid: boolean;
   error?: string;
@@ -56,7 +56,7 @@ function validateMongoUseStatement(text: string): {
     return { valid: false, error: "use 语句不能为空" };
   }
 
-  // 检查格式：use database_name
+  // Check the format: use database_name
   const usePattern = /^use\s+([a-zA-Z0-9_-]+)(\s*;?\s*)$/i;
   const match = trimmed.match(usePattern);
 
@@ -69,7 +69,7 @@ function validateMongoUseStatement(text: string): {
     return { valid: false, error: "数据库名称不能为空" };
   }
 
-  // 数据库名不能以数字开头
+  // The database name cannot start with a digit
   if (/^\d/.test(dbName)) {
     return { valid: false, error: "数据库名称不能以数字开头" };
   }
@@ -77,11 +77,11 @@ function validateMongoUseStatement(text: string): {
   return { valid: true };
 }
 
-// 检测查询类型：SQL 或 MongoDB
+// Detect the query type: SQL or MongoDB
 function detectQueryType(text: string): "sql" | "mongodb" {
   const trimmed = text.trim();
 
-  // 优先判断是否可能为 MongoDB 查询（MongoDB shell 命令格式）
+  // First check whether it might be a MongoDB query (MongoDB shell command format)
   const isMongo =
     trimmed.startsWith("db.") ||
     trimmed.includes(".find(") ||
@@ -96,11 +96,11 @@ function detectQueryType(text: string): "sql" | "mongodb" {
     return "mongodb";
   }
 
-  // 默认尝试 SQL
+  // Fall back to SQL by default
   return "sql";
 }
 
-// SQL 和 MongoDB 语法检查器（自动识别）
+// SQL and MongoDB syntax linter (auto-detected)
 export function sqlLinter(translate: boolean = false) {
   return (view: EditorView) => {
     const diagnostics: Diagnostic[] = [];
@@ -110,25 +110,25 @@ export function sqlLinter(translate: boolean = false) {
       return diagnostics;
     }
 
-    // 按行分割文本
+    // Split the text by lines
     const lines = text.split("\n");
     let currentOffset = 0;
     const nonUseLines: Array<{ line: string; start: number; end: number }> = [];
 
-    // 第一遍遍历：单独判断 use 行，收集非 use 行
+    // First pass: check use lines individually, collect non-use lines
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       const lineStart = currentOffset;
       const lineEnd = currentOffset + line.length;
       const trimmedLine = line.trim();
 
-      // 跳过空行
+      // Skip empty lines
       if (!trimmedLine) {
-        currentOffset = lineEnd + 1; // +1 是换行符
+        currentOffset = lineEnd + 1; // +1 for the newline character
         continue;
       }
 
-      // 单独判断 use 行
+      // Check use lines individually
       if (isMongoUseStatement(trimmedLine)) {
         const validation = validateMongoUseStatement(trimmedLine);
         if (!validation.valid) {
@@ -142,7 +142,7 @@ export function sqlLinter(translate: boolean = false) {
           });
         }
       } else {
-        // 收集非 use 行
+        // Collect non-use lines
         nonUseLines.push({
           line: line,
           start: lineStart,
@@ -150,21 +150,21 @@ export function sqlLinter(translate: boolean = false) {
         });
       }
 
-      currentOffset = lineEnd + 1; // +1 是换行符
+      currentOffset = lineEnd + 1; // +1 for the newline character
     }
 
-    // 第二遍：统一判断所有非 use 行
+    // Second pass: validate all non-use lines together
     if (nonUseLines.length > 0) {
-      // 合并所有非 use 行
+      // Merge all non-use lines
       const nonUseText = nonUseLines?.map((item) => item.line).join("\n");
       const nonUseStart = nonUseLines[0].start;
       const nonUseEnd = nonUseLines[nonUseLines.length - 1].end;
 
-      // 判断查询类型
+      // Determine the query type
       const queryType = detectQueryType(nonUseText);
 
       if (queryType === "mongodb") {
-        // MongoDB 语句使用 mongoParser 校验
+        // Validate MongoDB statements with mongoParser
         if (mongoParser) {
           try {
             mongoParser(nonUseText);
@@ -178,7 +178,7 @@ export function sqlLinter(translate: boolean = false) {
             });
           }
         } else {
-          // 如果解析器还未加载，尝试加载
+          // If the parser is not loaded yet, try to load it
           loadMongoParser().then((parser) => {
             if (parser) {
               try {
@@ -190,7 +190,7 @@ export function sqlLinter(translate: boolean = false) {
           });
         }
       } else {
-        // SQL 语句使用 SQL 解析器
+        // Validate SQL statements with the SQL parser
         if (sqlParser) {
           try {
             sqlParser.astify(nonUseText);
@@ -204,7 +204,7 @@ export function sqlLinter(translate: boolean = false) {
             });
           }
         } else {
-          // 如果解析器还未加载，尝试加载
+          // If the parser is not loaded yet, try to load it
           loadSqlParser().then((parser) => {
             if (parser) {
               try {
@@ -222,5 +222,5 @@ export function sqlLinter(translate: boolean = false) {
   };
 }
 
-// 导出预加载函数，供外部使用
+// Export the preload functions for external use
 export { loadSqlParser, loadMongoParser };

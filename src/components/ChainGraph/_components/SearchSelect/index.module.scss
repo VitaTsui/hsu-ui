@@ -1,5 +1,5 @@
-// 定位容器给定 32px 固定高度，Select 通过 height:100% 填满它，
-// 避免 Select 根的 height:100% 直接相对图谱（绝对定位祖先）解析成整图高度而被拉伸。
+// The positioning container is given a fixed 32px height, and the Select fills it via height:100%,
+// preventing the Select root's height:100% from resolving against the graph (its absolutely positioned ancestor) and being stretched to the full graph height.
 .wrapper {
   position: absolute;
   top: 20px;

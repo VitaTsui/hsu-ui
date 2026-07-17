@@ -21,18 +21,18 @@
     border: 0;
     border-radius: 6px;
 
-    background-color: #00000040;
+    background-color: var(--cf-border);
   }
 
-  /* value 处于 [min, low]时 */
+  /* When value is in [min, low] */
   &::-webkit-meter-even-less-good-value {
     background: #ed6f6f;
   }
-  /* value 处于 [low, optimum]时 */
+  /* When value is in [low, optimum] */
   &::-webkit-meter-suboptimum-value {
     background: #efbd47;
   }
-  /* value 处于 [optimum, max]时 */
+  /* When value is in [optimum, max] */
   &::-webkit-meter-optimum-value {
     background: #55d187;
   }
@@ -53,7 +53,7 @@
 
     background-color: transparent;
 
-    border-color: #fff;
+    border-color: var(--cf-surface);
     border-style: solid;
     border-width: 0 5px;
   }

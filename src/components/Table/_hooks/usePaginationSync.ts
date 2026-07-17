@@ -6,9 +6,9 @@ interface UsePaginationSyncParams {
 }
 
 /**
- * 分页状态同步 hook
- * 用于同步外部传入的 current 和 pageSize 到内部状态
- * 注意：只有明确传入 current/pageSize 时才会进行同步，undefined 时不受默认值影响
+ * Pagination state sync hook
+ * Syncs externally provided current and pageSize into internal state
+ * Note: sync only happens when current/pageSize is explicitly provided; undefined is not affected by defaults
  */
 const usePaginationSync = (params: UsePaginationSyncParams) => {
   const { current, pageSize } = params;
@@ -17,14 +17,14 @@ const usePaginationSync = (params: UsePaginationSyncParams) => {
   const [_pageSize, setPageSize] = useState<number>(pageSize ?? 10);
 
   useEffect(() => {
-    // 只有明确传入 current 时才同步
+    // Sync only when current is explicitly provided
     if (current !== undefined && current !== _pageNum) {
       setPageNum(current);
     }
   }, [_pageNum, current]);
 
   useEffect(() => {
-    // 只有明确传入 pageSize 时才同步
+    // Sync only when pageSize is explicitly provided
     if (pageSize !== undefined && pageSize !== _pageSize) {
       setPageSize(pageSize);
     }

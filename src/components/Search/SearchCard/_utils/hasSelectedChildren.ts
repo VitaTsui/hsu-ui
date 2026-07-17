@@ -1,7 +1,7 @@
 import { isArrayValue, isValidValue } from "./typeGuards";
 
 /**
- * 检查是否有任何子项被选中
+ * Checks whether any child item is selected
  */
 export function hasSelectedChildren(
   value: Record<string, unknown>,
@@ -11,10 +11,10 @@ export function hasSelectedChildren(
   const childrenValue = value[childrenName];
 
   if (isMultiple) {
-    // 多选模式：检查是否为数组且长度大于0
+    // Multi-select mode: check that it is an array with length greater than 0
     return isArrayValue(childrenValue) && childrenValue.length > 0;
   } else {
-    // 单选模式：检查值是否存在且不为空字符串
+    // Single-select mode: check that the value exists and is not an empty string
     return isValidValue(childrenValue) && childrenValue !== "";
   }
 }

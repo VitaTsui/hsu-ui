@@ -1,3 +1,6 @@
+// Design tokens (colors/fonts/radii/shadows, incl. dark theme) — importing this file brings in the full set of variables
+@use "./tokens";
+
 .ant-layout-sider-children {
   display: flex;
   flex-direction: column;
@@ -21,18 +24,18 @@
   justify-content: center;
 }
 
-// 主色按钮交由 antd colorPrimary 令牌驱动（随亮/暗外观自动取色 + 正确的 hover/active 派生）
+// Primary buttons are driven by the antd colorPrimary token (auto-picks color for light/dark appearance + correct hover/active derivation)
 
 .ant-menu-item,
 .ant-menu-submenu-title {
   column-gap: 5px;
 }
 
-// ===== Cloudflare 风格：侧边菜单（亮/暗通用）=====
+// ===== Cloudflare style: side menu (shared by light/dark) =====
 .ant-layout-sider .ant-menu {
   border-inline-end: none;
 
-  // 选中行左侧水色高亮条 + 中等字重，呼应 CF dashboard 的左缘指示器
+  // Aqua highlight bar on the left of the selected row + medium font weight, echoing the CF dashboard's left-edge indicator
   .ant-menu-item-selected {
     position: relative;
 
@@ -53,7 +56,7 @@
     }
   }
 
-  // CF 分区标题：小号、加粗、字间距、弱色（英文大写）
+  // CF section titles: small size, bold, letter-spaced, muted color (uppercase English)
   .ant-menu-item-group-title {
     padding: 18px 20px 6px;
 
@@ -66,29 +69,29 @@
     color: var(--cf-text-3);
   }
 
-  // 分组内的项左对齐缩进更克制（贴近 CF）
+  // Items within a group use more restrained left-aligned indentation (closer to CF)
   .ant-menu-item-group-list .ant-menu-item {
     padding-left: 20px !important;
   }
 }
 
-// ===== Cloudflare 风格：表格 =====
+// ===== Cloudflare style: tables =====
 .ant-table-wrapper {
   .ant-table {
-    // 表头更细的字重与字间距
+    // Lighter font weight and letter spacing for table headers
     .ant-table-thead > tr > th {
       font-weight: 600;
       font-size: 13px;
     }
 
-    // 去掉单元格右侧默认竖分割线（CF 表格只保留横线）
+    // Remove the default vertical divider on the right of cells (CF tables keep horizontal lines only)
     .ant-table-thead > tr > th::before {
       display: none !important;
     }
   }
 }
 
-// ===== Cloudflare 风格：Tag 走描边轻底 =====
+// ===== Cloudflare style: Tags use outlined style with a light background =====
 .ant-tag {
   border-radius: 6px;
 }

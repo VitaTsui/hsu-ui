@@ -30,7 +30,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
       permitted = true,
     } = props;
 
-    // 判断是否有搜索项（children 存在且不为空）
+    // Determine whether there are search items (children exists and is not empty)
     const hasSearchItems = permitted && children;
 
     return (

@@ -1,10 +1,10 @@
 import { DataNode, SafeKey } from "rc-tree-select/lib/interface";
 
 /**
- * 根据默认展开层级计算应该展开的节点 keys（用于 TreeSelect）
- * @param treeData 树数据（DataNode 类型）
- * @param level 展开层级（从 1 开始，1 表示第一层，2 表示第二层，以此类推）
- * @returns 应该展开的节点 keys 数组
+ * Compute the node keys that should be expanded based on the default expand level (for TreeSelect)
+ * @param treeData Tree data (DataNode type)
+ * @param level Expand level (starting from 1; 1 means the first level, 2 the second, and so on)
+ * @returns Array of node keys that should be expanded
  */
 export const getExpandedKeysByLevel = (
   treeData: DataNode[],
@@ -18,7 +18,7 @@ export const getExpandedKeysByLevel = (
 
   const traverse = (nodes: DataNode[], currentLevel: number) => {
     for (const node of nodes) {
-      // 如果当前层级小于目标层级，则展开该节点
+      // Expand this node if the current level is below the target level
       if (currentLevel < level && node.children?.length && node.key !== undefined) {
         expandedKeys.push(node.key as SafeKey);
         traverse(node.children, currentLevel + 1);

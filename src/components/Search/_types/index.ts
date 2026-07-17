@@ -4,7 +4,7 @@ import { FormItemProps } from "../../FormItem";
 import { ChakraButtonProps } from "../../Button";
 
 /**
- * Search 组件的基础属性接口
+ * Base props interface for the Search component
  */
 export interface BaseSearchProps {
   searchItems?: FormItemProps[];
@@ -14,19 +14,19 @@ export interface BaseSearchProps {
   className?: string;
   externalForm?: FormInstance;
   hasPermi?: string[];
-  /** 搜索项列数（不包括按钮组，总列数为 columnNum + 1） */
+  /** Search item column count (excluding the button group; total column count is columnNum + 1) */
   columnNum?: number;
   beforeButtonGroup?: ChakraButtonProps[];
   affterButtonGroup?: ChakraButtonProps[];
   searchData?: Record<string, unknown>;
   minLabelWidth?: boolean | number;
-  /** 默认是否展开 */
+  /** Whether expanded by default */
   defaultExpanded?: boolean;
-  /** 展开状态变化时的回调 */
+  /** Callback when the expand state changes */
   onExpandChange?: (expand: boolean) => void;
-  /** 是否启用基于宽度的自适应布局（默认显示一行包括按钮） */
+  /** Whether to enable width-based adaptive layout (by default shows one row including buttons) */
   autoAdaptWidth?: boolean;
-  /** 自适应布局的基准宽度（默认1200px） */
+  /** Base width for adaptive layout (default 1200px) */
   baseWidth?: number;
   onValuesChange?: (
     value: Record<string, unknown>,
@@ -34,20 +34,20 @@ export interface BaseSearchProps {
   ) => void;
   searchDisabled?: boolean;
   showAllSearchItems?: boolean;
-  /** 查询按钮文本 */
+  /** Search button text */
   searchText?: ReactNode;
-  /** 重置按钮文本 */
+  /** Reset button text */
   resetText?: ReactNode;
-  /** 列偏移宽度，用于调整列宽计算（默认 0） */
+  /** Column offset width, used to adjust column width calculation (default 0) */
   columnOffsetWidth?: number;
 }
 
 /**
- * 带筛选器的 Search 组件属性接口
+ * Props interface for the Search component with filter
  */
 export interface SearchPropsWithFilter extends BaseSearchProps {
-  /** 是否显示筛选器 */
+  /** Whether to show the filter */
   setFilter?: boolean;
-  /** FilterDropdown 勾选项变化时的回调 */
+  /** Callback when checked items change in FilterDropdown */
   onFilterChange?: (items: FormItemProps[]) => void;
 }

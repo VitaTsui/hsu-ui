@@ -1,5 +1,5 @@
 /**
- * 格式化聊天名称（截取省略号前的部分）
+ * Format the chat name (take the part before the ellipsis)
  */
 export const formatChatName = (name: string): string => {
   return name.split("…")[0];

@@ -18,7 +18,7 @@ const Sankey: React.FC<ChartSankeyProps> = (props) => {
   const chartInstanceRef = useRef<echarts.ECharts | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
-  // 使用 useMemo 缓存 chart 配置
+  // Cache the chart option with useMemo
   const chartOption = useMemo(() => {
     const option: ChartsOption = {
       series: {
@@ -98,22 +98,22 @@ const Sankey: React.FC<ChartSankeyProps> = (props) => {
     return option;
   }, [seriesData, seriesLinks, series]);
 
-  // 处理图表 resize 的回调
+  // Callback handling chart resize
   const handleResize = useCallback(() => {
     chartInstanceRef.current?.resize();
   }, []);
 
-  // 初始化图表
+  // Initialize the chart
   useEffect(() => {
     if (!chartRef.current) return;
 
-    // 初始化或获取已存在的实例
+    // Initialize a new instance or reuse the existing one
     let chart = chartInstanceRef.current;
     if (!chart) {
       chart = echarts.init(chartRef.current);
       chartInstanceRef.current = chart;
 
-      // 首次初始化时添加 finished 事件监听
+      // Attach the finished event listener on first initialization
       chart.on("finished", () => {
         getImage?.(
           chart!.getDataURL({
@@ -125,33 +125,33 @@ const Sankey: React.FC<ChartSankeyProps> = (props) => {
       });
     }
 
-    // 设置配置
+    // Apply the option
     chart.setOption(chartOption as ChartOptionType, true);
 
-    // 添加 resize 监听
+    // Add resize listener
     window.addEventListener("resize", handleResize);
 
-    // 添加 ResizeObserver
+    // Add ResizeObserver
     if (chartRef.current && !resizeObserverRef.current) {
       resizeObserverRef.current = new ResizeObserver(handleResize);
       resizeObserverRef.current.observe(chartRef.current);
     }
 
-    // 清理函数
+    // Cleanup function
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [chartOption, handleResize, getImage]);
 
-  // 组件卸载时清理资源
+  // Clean up resources on unmount
   useEffect(() => {
     return () => {
-      // 清理 ResizeObserver
+      // Clean up the ResizeObserver
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
         resizeObserverRef.current = null;
       }
-      // 销毁图表实例
+      // Dispose the chart instance
       if (chartInstanceRef.current) {
         chartInstanceRef.current.off("finished");
         chartInstanceRef.current.dispose();

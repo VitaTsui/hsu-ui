@@ -11,7 +11,7 @@ import { ExpandButton } from "../ExpandButton";
 import { FilterDropdown } from "../FilterDropdown";
 import { SearchPropsWithFilter } from "../../_types";
 
-/** 暴露给变体扩展渲染（如高级筛选抽屉）的上下文 */
+/** Context exposed to variant extension rendering (e.g. the advanced filters drawer) */
 export interface SearchBaseContext {
   form: FormInstance;
   expand: boolean;
@@ -23,20 +23,20 @@ export interface SearchBaseContext {
 }
 
 export interface SearchBaseProps extends SearchPropsWithFilter {
-  /** 高级筛选模式：搜索项不显示 label，展开按钮显示为"高级筛选" */
+  /** Advanced filters mode: search items hide their label, and the expand button shows as "advanced filters" */
   advancedFilters?: boolean;
-  /** 是否渲染 FilterDropdown（筛选器设置下拉） */
+  /** Whether to render FilterDropdown (the filter settings dropdown) */
   showFilter?: boolean;
-  /** 表单区域之后、容器之内的附加内容（如折叠开关），仅在有权限时渲染 */
+  /** Extra content after the form area but inside the container (e.g. the collapse toggle); rendered only when permitted */
   afterForm?: ReactNode;
-  /** 容器之外的附加内容（如高级筛选抽屉），仅在有权限时渲染 */
+  /** Extra content outside the container (e.g. the advanced filters drawer); rendered only when permitted */
   renderOutside?: (ctx: SearchBaseContext) => ReactNode;
 }
 
 /**
- * Search 各变体共享的基础实现：
- * 表单渲染、列布局、展开/收起、按钮组、权限控制。
- * 变体只负责自身差异（筛选器、折叠开关、高级筛选抽屉等）。
+ * Base implementation shared by all Search variants:
+ * form rendering, column layout, expand/collapse, button group, permission control.
+ * Variants are only responsible for their own differences (filter, collapse toggle, advanced filters drawer, etc.).
  */
 const SearchBase: React.FC<SearchBaseProps> = (props) => {
   const {
@@ -108,7 +108,7 @@ const SearchBase: React.FC<SearchBaseProps> = (props) => {
     columnOffsetWidth,
   });
 
-  // 按列分组预计算（用于对齐同列 label 宽度），避免在 map 中逐项重复 filter
+  // Precompute grouping by column (used to align label widths within the same column), avoiding repeated per-item filtering inside map
   const columnGroups = useMemo(() => {
     const groups: FormItemProps[][] = Array.from(
       { length: totalColumnNum },

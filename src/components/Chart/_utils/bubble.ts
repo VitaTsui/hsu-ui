@@ -79,10 +79,10 @@ export function drawCircles(
   const MIN_GAP = Math.max(1.5, avgRadius * 0.08);
   const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 
-  // 按容器长宽比例将同心圆扩展为同心椭圆（面积守恒：aspectX * aspectY = 1）：
-  // - 容器正方形时 aspectX = aspectY = 1（标准圆形环）
-  // - 容器越扁平，长边方向被适度拉伸、短边方向被对应压缩，
-  //   使层层外扩既贴合区域比例，又不会让边缘气泡飞离中心，保持"同心紧凑"观感。
+  // Stretch concentric circles into concentric ellipses based on the container aspect ratio (area-preserving: aspectX * aspectY = 1):
+  // - For a square container, aspectX = aspectY = 1 (standard circular rings)
+  // - The flatter the container, the more the long axis is moderately stretched and the short axis correspondingly compressed,
+  //   so the outward ring expansion follows the region's proportions without letting edge bubbles drift away from the center, keeping a "concentric and compact" look.
   const aspectRatio = maxY > 0 ? maxX / maxY : 1;
   const aspectX = Math.sqrt(aspectRatio);
   const aspectY = 1 / aspectX;
@@ -107,7 +107,7 @@ export function drawCircles(
       continue;
     }
 
-    // 同心椭圆的"单位环半径"上限：需同时保证在 x、y 两个方向上不越界
+    // Upper bound of the concentric ellipse "unit ring radius": must stay within bounds in both the x and y directions
     const maxRingUnitX =
       aspectX > 0 ? Math.min(maxInnerX - centerX, centerX - minX) / aspectX : 0;
     const maxRingUnitY =
@@ -128,9 +128,9 @@ export function drawCircles(
     }
 
     // 1) Deterministic concentric rings.
-    // 环间距要同时满足：
-    // - 与最大气泡（位于中心）不重叠：centerRadius + radius + gap
-    // - 标准六边形紧致堆叠：2 * avgRadius + gap
+    // Ring spacing must satisfy both:
+    // - No overlap with the largest bubble (at the center): centerRadius + radius + gap
+    // - Standard hexagonal close packing: 2 * avgRadius + gap
     const centerRadius = radiusList[sortedIndices[0]] ?? avgRadius;
     const ringSpacing = Math.max(
       centerRadius + radius + MIN_GAP,

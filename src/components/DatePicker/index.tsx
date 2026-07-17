@@ -68,7 +68,7 @@ const DatePicker: DatePickerFC = (props) => {
   const defaultValueRef = useRef(defaultValue);
   const showTimeRef = useRef(showTime);
 
-  // 保持 ref 最新
+  // Keep refs up to date
   useEffect(() => {
     onChangeRef.current = onChange;
     valueRef.current = value;
@@ -76,7 +76,7 @@ const DatePicker: DatePickerFC = (props) => {
     showTimeRef.current = showTime;
   }, [onChange, value, defaultValue, showTime]);
 
-  // 格式化日期值的辅助函数
+  // Helper function for formatting date values
   const formatDateByPicker = useCallback(
     (dateValue: dayjs.Dayjs, pickerType: Picker): string => {
       if (pickerType === "date") {
@@ -100,20 +100,20 @@ const DatePicker: DatePickerFC = (props) => {
     [],
   );
 
-  // 处理 picker 变更时的 onChange
+  // Handle onChange when the picker changes
   const handlePickerChange = useCallback(
     (newPicker: Picker) => {
-      // 当 picker 变更时，触发一次 onChange
+      // When the picker changes, trigger onChange once
       if (onChangeRef.current) {
-        // 优先使用 value，如果没有则使用 defaultValue
+        // Prefer value; fall back to defaultValue if absent
         const currentValue = valueRef.current ?? defaultValueRef.current;
         if (currentValue) {
-          // 如果有当前值或默认值，使用新的 picker 格式重新格式化
+          // If there is a current or default value, reformat it with the new picker format
           const dateValue = dayjs(currentValue.toString());
           const formattedDate = formatDateByPicker(dateValue, newPicker);
           onChangeRef.current(formattedDate, newPicker);
         } else {
-          // 如果既没有值也没有默认值，触发 onChange 传入空字符串
+          // If there is neither a value nor a default value, trigger onChange with an empty string
           onChangeRef.current("", newPicker);
         }
       }
@@ -125,11 +125,11 @@ const DatePicker: DatePickerFC = (props) => {
     if (pickerProps !== undefined) {
       const prevPicker = prevPickerRef.current;
 
-      // 标记为已初始化
+      // Mark as initialized
       if (!isInitializedRef.current) {
         isInitializedRef.current = true;
       } else {
-        // 当 picker 变更时，触发一次 onChange（排除初始化）
+        // When the picker changes, trigger onChange once (excluding initialization)
         if (prevPicker !== undefined && prevPicker !== pickerProps) {
           handlePickerChange(pickerProps);
         }

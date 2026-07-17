@@ -29,10 +29,10 @@ export interface OperateProps
 }
 
 /**
- * 渲染图标
- * @param icon - 图标配置
- * @param defaultIcon - 默认图标
- * @returns 渲染的图标元素
+ * Render an icon
+ * @param icon - Icon configuration
+ * @param defaultIcon - Default icon
+ * @returns The rendered icon element
  */
 const renderIcon = (
   icon: ReactNode | false | undefined,
@@ -46,7 +46,7 @@ const renderIcon = (
 };
 
 /**
- * 阻止事件冒泡的处理器
+ * Handler that stops event propagation
  */
 const stopPropagation = (e?: React.MouseEvent) => {
   e?.stopPropagation();
@@ -71,21 +71,21 @@ const Operate: React.FC<OperateProps> = (props) => {
   } = props;
   const { checkPermission } = usePermissions();
 
-  // 过滤菜单项（根据权限和隐藏状态）
+  // Filter menu items (by permission and hidden state)
   const filteredMenu = useMemo(() => {
     return menu.filter(
       (item) => !item.hidden && checkPermission(item.hasPermi)
     ) as OperateProps[];
   }, [menu, checkPermission]);
 
-  // 计算是否超出
+  // Determine whether it overflows
   const isOverflow = useOperateEllipsis(
     filteredMenu,
     maxVisible,
     enableEllipsis
   );
 
-  // 计算可见的菜单项和隐藏的菜单项
+  // Compute the visible and hidden menu items
   const { visibleItems, hiddenItems } = useMemo(() => {
     if (!isOverflow || maxVisible === undefined) {
       return { visibleItems: filteredMenu, hiddenItems: [] };
@@ -96,7 +96,7 @@ const Operate: React.FC<OperateProps> = (props) => {
     };
   }, [filteredMenu, isOverflow, maxVisible]);
 
-  // 处理确认事件
+  // Handle the confirm event
   const handleConfirm = useCallback(
     (e?: React.MouseEvent) => {
       stopPropagation(e);
@@ -105,7 +105,7 @@ const Operate: React.FC<OperateProps> = (props) => {
     [onConfirm, onClick]
   );
 
-  // 处理菜单项确认事件
+  // Handle the confirm event for a menu item
   const handleMenuItemConfirm = useCallback(
     (item: OperateProps) => (e?: React.MouseEvent) => {
       stopPropagation(e);
@@ -116,18 +116,18 @@ const Operate: React.FC<OperateProps> = (props) => {
 
   if (hidden) return null;
 
-  // 渲染按钮的通用配置
+  // Common configuration for rendering the button
   const buttonClassName = `${styles.Operate} ${className ?? ""}`.trim();
 
-  // 准备传递给 Button 的 props（排除 hasPermi，因为 Button 不支持 false 类型）
+  // Prepare props to pass to Button (exclude hasPermi, since Button does not support the false type)
   const buttonProps = {
     ...config,
     ...(hasPermi?.length ? { hasPermi } : {}),
   };
 
-  // 如果有菜单，渲染多个操作按钮
+  // If there is a menu, render multiple operate buttons
   if (menu.length > 0) {
-    // 生成下拉菜单项（用于"更多"按钮）
+    // Generate dropdown menu items (for the "more" button)
     const menuItems: ItemType[] = hiddenItems?.map((item) => {
       const hasConfirm = !!item.onConfirm;
       const defaultIcon = item.delete ? <DeleteOutlined /> : <FormOutlined />;
@@ -200,7 +200,7 @@ const Operate: React.FC<OperateProps> = (props) => {
             className: itemClassName,
             hasPermi: itemHasPermi,
           } = item;
-          // 透传剩余 Button 属性时排除事件/配置键，避免 onConfirm 等泄漏到 DOM（React 警告）
+          // When passing through the remaining Button props, exclude event/config keys to prevent onConfirm etc. from leaking to the DOM (React warning)
           const itemButtonProps = Object.fromEntries(
             Object.entries(item).filter(
               ([key]) =>
@@ -290,7 +290,7 @@ const Operate: React.FC<OperateProps> = (props) => {
     );
   }
 
-  // 单个操作按钮
+  // Single operate button
   const hasConfirm = !!onConfirm;
   const defaultIcon = isDelete ? <DeleteOutlined /> : <FormOutlined />;
   const buttonContent = (

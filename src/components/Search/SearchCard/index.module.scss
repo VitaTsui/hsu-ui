@@ -61,7 +61,7 @@
     transition: all 0.3s, border-top 0s;
   }
 
-  // 当有搜索框时，调整选项框的样式
+  // When there is a search box, adjust the options box styles
   &:has(.searchBox) .optionsBox {
     border-radius: 0 0 8px 8px;
     padding-top: 12px;
@@ -177,9 +177,9 @@
 
           &.active,
           &:hover {
-            color: #0e59ef;
+            color: var(--primary-color);
 
-            background: rgba(14, 89, 239, 0.12);
+            background: color-mix(in srgb, var(--primary-color) 12%, transparent);
           }
         }
 
@@ -195,7 +195,7 @@
         .help {
           margin-left: 2px;
 
-          color: #7f7f7f;
+          color: var(--cf-text-2);
           font-size: 16px;
         }
       }
@@ -207,7 +207,7 @@
         height: max-content;
         padding: 3px 0px;
 
-        color: #7f7f7f;
+        color: var(--cf-text-2);
         font-weight: 400;
         font-size: 16px;
         font-family: PingFangSC-Regular, PingFang SC;
@@ -220,7 +220,7 @@
         transition: color 0.3s;
 
         &:hover {
-          color: #0e59ef;
+          color: var(--primary-color);
         }
       }
     }
@@ -252,8 +252,8 @@
 
         &.active,
         &:hover {
-          color: #0e59ef;
-          background: rgba(14, 89, 239, 0.12);
+          color: var(--primary-color);
+          background: color-mix(in srgb, var(--primary-color) 12%, transparent);
         }
       }
     }

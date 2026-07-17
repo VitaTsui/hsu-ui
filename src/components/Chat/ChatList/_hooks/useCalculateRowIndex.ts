@@ -116,7 +116,7 @@ export default function useCalculateRowIndex(
 
     calculateRowIndex();
 
-    // 添加窗口大小调整监听器
+    // Add a window resize listener
     window.addEventListener("resize", calculateRowIndex);
 
     return () => {

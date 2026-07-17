@@ -9,10 +9,10 @@ export interface SearchWithFilterProps extends SearchPropsWithFilter {
 }
 
 /**
- * 带筛选器设置的 Search 组件
- * - 提供下拉菜单，允许用户动态选择显示哪些搜索项
- * - 用户可以自定义显示的搜索字段
- * - 提供更灵活的搜索体验
+ * Search component with filter settings
+ * - Provides a dropdown menu allowing users to dynamically choose which search items are displayed
+ * - Users can customize the displayed search fields
+ * - Offers a more flexible search experience
  */
 const SearchWithFilter: React.FC<SearchWithFilterProps> = (props) => {
   return <SearchBase {...props} showFilter />;

@@ -35,7 +35,6 @@ const Copy: React.FC<CopyProps> = (props) => {
     const textContent = parser.parseFromString(html, "text/html")?.body
       ?.textContent;
     if (textContent) {
-      // const mdText = textContent ? textContent.replace(/\n{2,}/g, '\n') : '';
       const result = clipboard(textContent);
       if (result) {
         message.success("复制成功");
@@ -53,7 +52,6 @@ const Copy: React.FC<CopyProps> = (props) => {
     <>
       <div className={classNames(styles.Copy)} onClick={onCopy}>
         <Icon icon="ci:copy" className={classNames(styles.icon)} />
-        {/* <span>{text ?? "复制"}</span> */}
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FilePreviewType } from "../../FilePreview";
 
 /**
- * 管理文件预览状态
+ * Manage the file preview state
  */
 export function useUploadPreview() {
   const [file, setFile] = useState<{

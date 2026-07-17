@@ -21,8 +21,8 @@ interface ButtonFC
   Chakra: React.FC<ChakraButtonProps>;
 }
 
-// forwardRef：被 Tooltip / Popconfirm 等浮层组件包裹时可直接拿到按钮 DOM，
-// 避免 rc 库退回 findDOMNode 触发 React 弃用警告
+// forwardRef: when wrapped by overlay components like Tooltip / Popconfirm, the button DOM can be accessed directly,
+// preventing rc libraries from falling back to findDOMNode and triggering React deprecation warnings
 const InternalButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
     const {

@@ -36,7 +36,7 @@ const InputNumber: React.FC<InputNumberProps> = (props) => {
   const ref = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // 初始化时优先使用 value，其次使用 defaultValue
+  // On initialization, prefer value, then fall back to defaultValue
   const initialValue =
     value !== undefined
       ? typeof value === "number"
@@ -67,7 +67,7 @@ const InputNumber: React.FC<InputNumberProps> = (props) => {
   );
 
   useEffect(() => {
-    // 只在外部 value prop 真正变化时才更新内部状态
+    // Update internal state only when the external value prop actually changes
     if (prevValueRef.current !== value) {
       prevValueRef.current = value;
 
@@ -77,7 +77,7 @@ const InputNumber: React.FC<InputNumberProps> = (props) => {
         setValue(newValue);
         setLastValue(newValue);
       } else {
-        // 只在初始化或外部主动设置为 undefined 时清空
+        // Clear only on initialization or when explicitly set to undefined externally
         setValue("");
         setLastValue("");
       }
@@ -88,7 +88,7 @@ const InputNumber: React.FC<InputNumberProps> = (props) => {
     getRef?.(ref.current);
   }, [getRef]);
 
-  // 动态计算 addonAfter 的宽度，并设置 CSS 变量
+  // Dynamically compute the width of addonAfter and set the CSS variable
   useEffect(() => {
     if (addonAfter && wrapperRef.current) {
       const updateAddonWidth = () => {
@@ -103,12 +103,12 @@ const InputNumber: React.FC<InputNumberProps> = (props) => {
         }
       };
 
-      // 使用 requestAnimationFrame 确保 DOM 渲染完成后再计算
+      // Use requestAnimationFrame to ensure the DOM has rendered before computing
       const rafId = requestAnimationFrame(() => {
         updateAddonWidth();
       });
 
-      // 监听窗口大小变化和元素大小变化，重新计算
+      // Observe window and element size changes to recompute
       const resizeObserver = new ResizeObserver(() => {
         updateAddonWidth();
       });

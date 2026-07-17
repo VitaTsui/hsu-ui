@@ -94,9 +94,9 @@ export const UploadedItem: React.FC<UploadedItemProps> = ({
     <div className={classNames(styles.fileItem, listProps?.item)}>
       <Tooltip
         title={name}
-        color="#f2f4f5"
+        color="var(--cf-subtle)"
         styles={{
-          body: { color: "#131212", padding: "6px 16px" },
+          body: { color: "var(--cf-text)", padding: "6px 16px" },
         }}
       >
         <div className={classNames(styles.fileName, listProps?.itemName)}>

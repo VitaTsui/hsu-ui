@@ -10,7 +10,7 @@ export interface EllipsisTagProps {
 }
 
 /**
- * 省略标签组件，显示被省略的标签数量，悬浮时通过 Tooltip 展示所有被省略的标签
+ * Ellipsis tag component: shows the number of omitted tags, and displays all omitted tags in a Tooltip on hover
  */
 const EllipsisTag: React.FC<EllipsisTagProps> = (props) => {
   const { ellipsisTags, startIndex, colors } = props;

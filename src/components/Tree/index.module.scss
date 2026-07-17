@@ -62,7 +62,7 @@
       }
 
       &:has(> :global(.ant-tree-node-selected)) {
-        background-color: #e6f4ff;
+        background-color: color-mix(in srgb, var(--primary-color) 12%, transparent);
 
         :global(.ant-tree-node-selected) {
           background-color: transparent;
@@ -131,7 +131,7 @@
   &.legacyHasSelectedNodeBackground {
     .treeContainer {
       :global(.ant-tree-treenode):global(.ant-tree-treenode-selected) {
-        background-color: #e6f4ff;
+        background-color: color-mix(in srgb, var(--primary-color) 12%, transparent);
 
         :global(.ant-tree-node-selected) {
           background-color: transparent;

@@ -7,7 +7,7 @@ interface UseXlsxDataProps {
 }
 
 /**
- * 加载并解析 xlsx 文件
+ * Load and parse an xlsx file
  */
 export function useXlsxData({ fileType, fileUrl }: UseXlsxDataProps) {
   const [xlsxData, setXlsxData] = useState<WorkBook | undefined>(undefined);

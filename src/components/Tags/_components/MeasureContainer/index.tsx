@@ -9,7 +9,7 @@ export interface MeasureContainerProps {
 }
 
 /**
- * 用于测量标签宽度的隐藏容器
+ * Hidden container used to measure tag widths
  */
 const MeasureContainer = React.forwardRef<
   HTMLDivElement,

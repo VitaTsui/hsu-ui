@@ -7,8 +7,8 @@ interface useScrollEndProps {
   ref?: React.RefObject<HTMLDivElement>;
   dataSource?: TableProps["dataSource"];
   onScrollEnd?: () => void;
-  threshold?: number; // 距离底部的阈值，默认 50px
-  autoScrolling?: boolean; // 当 autoScrolling 开启时，此 hook 不启用
+  threshold?: number; // Distance-to-bottom threshold, default 50px
+  autoScrolling?: boolean; // When autoScrolling is enabled, this hook is disabled
 }
 
 const useScrollEnd = (props: useScrollEndProps) => {
@@ -28,16 +28,16 @@ const useScrollEnd = (props: useScrollEndProps) => {
   useDebounceEffect(() => {
     let body: HTMLDivElement | null = null;
 
-    // 清理函数
+    // Cleanup function
     const cleanup = () => {
-      // 移除事件监听器
+      // Remove event listeners
       if (body && eventHandlersRef.current.scroll) {
         body.removeEventListener("scroll", eventHandlersRef.current.scroll);
       }
       eventHandlersRef.current = {};
     };
 
-    // 当 autoScrolling 开启时，不启用此 hook
+    // Do not enable this hook when autoScrolling is on
     if (
       ref &&
       ref.current &&
@@ -51,22 +51,22 @@ const useScrollEnd = (props: useScrollEndProps) => {
       ) as HTMLDivElement;
 
       if (body && body.scrollHeight > body.clientHeight) {
-        // 清理之前的监听器
+        // Clean up previous listeners
         cleanup();
 
-        // 添加滚动事件监听器
+        // Add scroll event listener
         const handleScroll = () => {
           if (!body) {
             return;
           }
 
-          // 计算距离底部的距离
+          // Compute the distance to the bottom
           const scrollTop = body.scrollTop;
           const scrollHeight = body.scrollHeight;
           const clientHeight = body.clientHeight;
           const distanceToBottom = scrollHeight - scrollTop - clientHeight;
 
-          // 当滚动到接近底部时触发
+          // Trigger when scrolled close to the bottom
           if (distanceToBottom <= threshold) {
             onScrollEnd();
           }

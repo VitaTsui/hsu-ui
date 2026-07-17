@@ -22,7 +22,7 @@ interface NormalUploadOptions {
 }
 
 /**
- * 普通文件上传
+ * Normal file upload
  */
 export async function normalUpload({
   file,
@@ -39,7 +39,7 @@ export async function normalUpload({
   onError,
   onUploadSuccess,
 }: NormalUploadOptions) {
-  // 验证文件
+  // Validate the file
   const validation = validateFile({ file, accept, size, en });
   if (!validation.valid) {
     onError?.(validation.error!);

@@ -36,14 +36,14 @@ const ChatHistory: React.FC<ChatHistoryProps> = (props) => {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // 滚动到底部处理
+  // Handle scrolling to the bottom
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer || !onScrollEnd) return;
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-      // 当滚动到底部时（允许 5px 的误差）
+      // When scrolled to the bottom (with a 5px tolerance)
       if (scrollHeight - scrollTop - clientHeight < 5) {
         onScrollEnd();
       }

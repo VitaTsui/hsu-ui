@@ -133,11 +133,11 @@
 
     padding: 5px 10px;
 
-    background-color: #fff;
+    background-color: var(--cf-surface);
 
     border-radius: 4px;
 
-    box-shadow: 0 4px 15px 0 rgba(0, 73, 164, 0.11);
+    box-shadow: var(--cf-shadow-3);
 
     .toolItem {
       display: flex;
@@ -161,7 +161,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.1);
+          background-color: var(--cf-row-hover);
         }
 
         &.disabled {

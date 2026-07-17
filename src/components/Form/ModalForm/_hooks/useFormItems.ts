@@ -4,11 +4,11 @@ import useLabelWidth from "../../../../hooks/useLabelWidth";
 import { useColumnFormItems } from "./useColumnFormItems";
 
 /**
- * 处理表单项的布局和标签宽度计算
- * @param formItems 表单项配置
- * @param layout 布局方式
- * @param columnNum 列数
- * @returns 处理后的表单项
+ * Handle form item layout and label width calculation
+ * @param formItems Form item configuration
+ * @param layout Layout mode
+ * @param columnNum Column count
+ * @returns Processed form items
  */
 export const useFormItems = (
   formItems: FormItemProps[] | Record<string, FormItemProps[]>,

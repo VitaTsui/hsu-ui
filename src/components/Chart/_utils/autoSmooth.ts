@@ -8,7 +8,7 @@ export interface AutoScrollByItemProps {
   startIndex?: number;
   autoPlay?: boolean;
   enableWheelScroll?: boolean;
-  /** 窗口变化回调（创建同步、自动滚动、滚轮、resize 均触发），参数为当前窗口 start/end 百分比 */
+  /** Window change callback (fired on creation sync, auto-scroll, wheel, and resize), receives the current window start/end percentages */
   onWindowChange?: (startPercent: number, endPercent: number) => void;
 }
 
@@ -42,8 +42,8 @@ export function autoScrollByItem(props: AutoScrollByItemProps) {
   let start = initialStartPercent;
   let end = Math.min(initialStartPercent + windowSizePercent, 100);
 
-  // 图表已有 dataZoom 窗口时（组件重渲染重建滚动器）从当前位置继续，
-  // 避免图例点选、坐标轴重算等触发的重渲染把已滚动位置重置回初始窗口
+  // If the chart already has a dataZoom window (scroller rebuilt on component re-render), continue from the current position
+  // to prevent re-renders triggered by legend toggling, axis recalculation, etc. from resetting the scrolled position back to the initial window
   const currentZoom = (
     chart.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> }
   )?.dataZoom?.[0];

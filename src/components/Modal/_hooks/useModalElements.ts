@@ -6,7 +6,7 @@ interface UseModalElementsProps {
 }
 
 /**
- * 查找并管理 Modal DOM 元素
+ * Locate and manage Modal DOM elements
  */
 export function useModalElements({ open }: UseModalElementsProps) {
   const cls = useMemo(() => generateRandomStr(10), []);

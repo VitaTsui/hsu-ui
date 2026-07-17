@@ -29,7 +29,7 @@ export { Drag as TableDrag };
 export interface EllipsisTooltipConfig
   extends Omit<TooltipProps, "title" | "children"> {
   ellipsisPosition?: "start" | "end";
-  defaultWidth?: number; // 默认 Tooltip 宽度（当列没有设置宽度时使用）
+  defaultWidth?: number; // Default Tooltip width (used when the column has no width set)
 }
 
 export interface ColumnType<RecordType> extends AntColumnType<RecordType> {
@@ -47,13 +47,16 @@ export interface ColumnType<RecordType> extends AntColumnType<RecordType> {
   fixedWidth?: boolean;
   ellipsisPosition?: "start" | "end";
   /**
-   * 定宽对齐列：列标题随 align 居中，单元格内容放进按本列最宽内容
-   * 测量出的定宽块内右对齐，使各行右边缘对齐、整体在列内居中（适合数字/金额列）。
+   * Fixed-width aligned column: the column title is centered per align, and cell content
+   * is placed right-aligned inside a fixed-width block measured from the column's widest
+   * content, so all rows' right edges align and the block is centered within the column
+   * (suitable for number/amount columns).
    */
   measureAlign?: boolean;
   /**
-   * measureAlign 列测量宽度所用的文本。默认取 dataIndex 原始值；当单元格由 render
-   * 产出复合/JSX 内容（无法从 dataIndex 直接得到展示文本）时，用它提供与展示一致的文本。
+   * Text used to measure the width of a measureAlign column. Defaults to the raw dataIndex
+   * value; when the cell renders composite/JSX content via render (so the display text cannot
+   * be derived from dataIndex directly), use this to provide text matching what is displayed.
    */
   measureText?: (record: RecordType) => string;
 }
@@ -101,14 +104,14 @@ export interface TableProps<RecordType = AnyObject>
   antdTableClassName?: string;
   autoScrolling?: boolean;
   autoScrollingInterval?: number;
-  /** smooth 模式自动滚动速度，单位 px/s，默认 25 */
+  /** Auto-scroll speed in smooth mode, in px/s, default 25 */
   autoScrollingSpeed?: number;
   autoScrollMode?: "smooth" | "row";
-  /** 自动滚动到末尾后是否循环回到顶部，默认 true */
+  /** Whether to loop back to the top after auto-scrolling to the end, default true */
   autoScrollLoop?: boolean;
-  /** 循环模式："reset" 回到顶部重新滚动（默认），"seamless" 无缝衔接继续滚动 */
+  /** Loop mode: "reset" returns to the top and scrolls again (default), "seamless" continues scrolling without a visible jump */
   autoScrollLoopMode?: "reset" | "seamless";
-  /** 自动滚动偏移量阈值（px），可滚动溢出超过该值后才启动自动滚动，默认 0 */
+  /** Auto-scroll offset threshold (px); auto-scrolling starts only when the scrollable overflow exceeds this value, default 0 */
   autoScrollingOffset?: number;
   hideEmpty?: boolean;
   ellipsisTooltipConfig?: EllipsisTooltipConfig;

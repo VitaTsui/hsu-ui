@@ -2,9 +2,9 @@ import { Key } from "react";
 import { TreeData } from "..";
 
 /**
- * 获取节点的所有子节点 key
- * @param children 子节点数组
- * @returns 所有子节点的 key 数组
+ * Get the keys of all descendant nodes of a node
+ * @param children Array of child nodes
+ * @returns Array of keys of all descendant nodes
  */
 export const getAllChildrenKeys = (children: TreeData[]): Key[] => {
   const keys: Key[] = [];
@@ -21,11 +21,11 @@ export const getAllChildrenKeys = (children: TreeData[]): Key[] => {
 };
 
 /**
- * 在树中查找节点的所有父级节点 key
- * @param targetKey 目标节点的 key
- * @param treeData 树数据
- * @param parentKeys 父级节点 key 数组（递归使用）
- * @returns 所有父级节点的 key 数组，如果未找到则返回空数组
+ * Find the keys of all ancestor nodes of a node in the tree
+ * @param targetKey Key of the target node
+ * @param treeData Tree data
+ * @param parentKeys Array of ancestor node keys (used for recursion)
+ * @returns Array of keys of all ancestor nodes; returns an empty array if not found
  */
 export const getAllParentKeys = (
   targetKey: Key,
@@ -39,7 +39,7 @@ export const getAllParentKeys = (
     if (node.children?.length) {
       const newParentKeys = [...parentKeys, node.key];
       const found = getAllParentKeys(targetKey, node.children, newParentKeys);
-      // 如果找到了（返回的数组长度大于0或等于newParentKeys），说明在子树中找到了
+      // If found (the returned array length is greater than 0 or equals newParentKeys), the target was found in the subtree
       if (found.length > 0) {
         return found;
       }
@@ -49,10 +49,10 @@ export const getAllParentKeys = (
 };
 
 /**
- * 根据 key 查找节点
- * @param targetKey 目标节点的 key
- * @param data 树数据
- * @returns 找到的节点或 null
+ * Find a node by key
+ * @param targetKey Key of the target node
+ * @param data Tree data
+ * @returns The found node, or null
  */
 export const findNodeByKey = (
   targetKey: Key,
@@ -71,10 +71,10 @@ export const findNodeByKey = (
 };
 
 /**
- * 搜索过滤树数据
- * @param searchKey 搜索关键词
- * @param data 树数据
- * @returns 过滤后的树数据
+ * Filter tree data by search keyword
+ * @param searchKey Search keyword
+ * @param data Tree data
+ * @returns Filtered tree data
  */
 export const filterTreeData = (
   searchKey: string,
@@ -103,10 +103,10 @@ export const filterTreeData = (
 };
 
 /**
- * 根据默认展开层级计算应该展开的节点 keys
- * @param treeData 树数据
- * @param level 展开层级（从 1 开始，1 表示第一层，2 表示第二层，以此类推）
- * @returns 应该展开的节点 keys 数组
+ * Compute the node keys that should be expanded based on the default expand level
+ * @param treeData Tree data
+ * @param level Expand level (starting from 1: 1 means the first level, 2 the second, and so on)
+ * @returns Array of node keys that should be expanded
  */
 export const getExpandedKeysByLevel = (
   treeData: TreeData[],
@@ -120,7 +120,7 @@ export const getExpandedKeysByLevel = (
 
   const traverse = (nodes: TreeData[], currentLevel: number) => {
     for (const node of nodes) {
-      // 如果当前层级小于等于目标层级，则展开该节点
+      // Expand the node if the current level is less than or equal to the target level
       if (currentLevel <= level && node.children?.length) {
         expandedKeys.push(node.key);
         traverse(node.children, currentLevel + 1);
@@ -134,10 +134,10 @@ export const getExpandedKeysByLevel = (
 };
 
 /**
- * 获取节点的完整路径（从根节点到当前节点）
- * @param targetKey 目标节点的 key
- * @param treeData 树数据
- * @returns 节点路径数组，包含从根节点到目标节点的所有节点信息；如果未找到则返回 null
+ * Get the full path of a node (from the root node to the current node)
+ * @param targetKey Key of the target node
+ * @param treeData Tree data
+ * @returns Array of nodes on the path, containing all node info from the root to the target node; returns null if not found
  */
 export const getNodePath = (
   targetKey: Key,
@@ -150,12 +150,12 @@ export const getNodePath = (
     for (const node of nodes) {
       const currentPath = [...path, node];
       
-      // 找到目标节点
+      // Target node found
       if (node.key === targetKey) {
         return currentPath;
       }
       
-      // 在子节点中继续查找
+      // Continue searching in child nodes
       if (node.children?.length) {
         const found = findPath(node.children, currentPath);
         if (found) {

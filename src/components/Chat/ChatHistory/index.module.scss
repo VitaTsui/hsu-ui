@@ -9,9 +9,9 @@
   height: 100%;
   padding: 10px 0px;
 
-  background-color: #f9f9f9;
+  background-color: var(--cf-subtle);
 
-  border-right: 1px solid #0d0d0d0d;
+  border-right: 1px solid var(--cf-border-weak);
 
   .tools {
     display: flex;
@@ -39,7 +39,7 @@
     &::-webkit-scrollbar-thumb {
       width: 10px;
 
-      background-color: #0000001a;
+      background-color: var(--cf-border);
 
       border-radius: 10px;
     }

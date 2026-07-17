@@ -2,12 +2,12 @@ import { RefObject } from "react";
 import { measureButtonGroupWidth } from "./measureButtonGroupWidth";
 
 /**
- * 计算按钮组宽度和列宽
- * @param containerRef 容器引用
- * @param buttonGroupRef 按钮组引用
- * @param adaptiveColumnNum 自适应列数
- * @param columnOffsetWidth 列偏移宽度（默认 0）
- * @returns 按钮组宽度和列宽
+ * Computes the button group width and column width
+ * @param containerRef Container ref
+ * @param buttonGroupRef Button group ref
+ * @param adaptiveColumnNum Adaptive column count
+ * @param columnOffsetWidth Column offset width (default 0)
+ * @returns Button group width and column width
  */
 export function calculateButtonGroupAndColumnWidth(
   containerRef: RefObject<HTMLDivElement>,
@@ -23,13 +23,13 @@ export function calculateButtonGroupAndColumnWidth(
 
   if (containerRef.current && buttonGroupRef.current) {
     const containerWidth = containerRef.current.offsetWidth;
-    const availableWidth = containerWidth - 30; // 减去padding
-    const gap = 10; // 项之间的间距
+    const availableWidth = containerWidth - 30; // Subtract padding
+    const gap = 10; // Gap between items
 
-    // 计算按钮组宽度
+    // Compute the button group width
     buttonGroupWidth = measureButtonGroupWidth(buttonGroupRef.current);
 
-    // 计算列宽（单个搜索项的默认宽度）
+    // Compute the column width (default width of a single search item)
     if (adaptiveColumnNum > 0) {
       columnWidth =
         availableWidth -
