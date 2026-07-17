@@ -1,3 +1,6 @@
+// 设计 token（色彩/字体/圆角/阴影，含暗色主题）——引入本文件即获得整套变量
+@use "./tokens";
+
 .ant-layout-sider-children {
   display: flex;
   flex-direction: column;

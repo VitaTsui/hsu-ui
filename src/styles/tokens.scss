@@ -1,0 +1,61 @@
+// =============================================================
+// Hsu UI 设计 token（单一事实源）
+// 亮/暗两套值；暗色由 html[data-theme="dark"]（消费项目 Theme 切换）
+// 或 html[data-prefers-color-scheme="dark"]（dumi 文档站）激活。
+// TS 侧常量见 ./tokens.ts（供 antd themeConfig 等 JS 消费），两份需同步修改。
+// =============================================================
+
+:root {
+  // ---- 色彩 · 中性 ----
+  --cf-canvas: #f6f7f9; // 页面画布
+  --cf-surface: #ffffff; // 卡片/面板底
+  --cf-subtle: #fafbfc; // 表头/次级底
+  --cf-border: #e6e8eb; // 描边
+  --cf-border-weak: #eceef1; // 更轻描边
+  --cf-text: rgba(0, 0, 0, 0.88);
+  --cf-text-2: rgba(0, 0, 0, 0.45);
+  --cf-text-3: rgba(0, 0, 0, 0.35);
+  --cf-row-hover: #f6f7f9;
+
+  // ---- 色彩 · 品牌与功能 ----
+  --primary-color: #1677ff; // 默认主色（消费项目可运行时覆盖）
+  --cf-success: #52c41a;
+  --cf-warning: #faad14;
+  --cf-error: #ff4d4f;
+
+  // ---- 字体 ----
+  --cf-font-family:
+    PingFangSC-Regular, "PingFang SC", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+  --cf-font-size-sm: 12px;
+  --cf-font-size: 14px;
+  --cf-font-size-lg: 16px;
+
+  // ---- 圆角 ----
+  --cf-radius-sm: 6px;
+  --cf-radius: 8px;
+  --cf-radius-lg: 12px;
+
+  // ---- 阴影（CF 观感以描边为主，阴影只用于浮层）----
+  --cf-shadow-1: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --cf-shadow-2: 0 4px 12px rgba(16, 24, 40, 0.08);
+  --cf-shadow-3: 0 8px 24px rgba(16, 24, 40, 0.12);
+}
+
+html[data-theme="dark"],
+html[data-prefers-color-scheme="dark"] {
+  --cf-canvas: #131314;
+  --cf-surface: #1c1c1e;
+  --cf-subtle: #232325;
+  --cf-border: rgba(255, 255, 255, 0.12);
+  --cf-border-weak: rgba(255, 255, 255, 0.08);
+  --cf-text: rgba(255, 255, 255, 0.85);
+  --cf-text-2: rgba(255, 255, 255, 0.45);
+  --cf-text-3: rgba(255, 255, 255, 0.35);
+  --cf-row-hover: rgba(255, 255, 255, 0.04);
+
+  // 暗色阴影加深（浮层与暗底区分）
+  --cf-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --cf-shadow-2: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --cf-shadow-3: 0 8px 24px rgba(0, 0, 0, 0.55);
+}

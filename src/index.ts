@@ -16,6 +16,10 @@ export type { RequestImpl, RequestConfig, ResType, ListRes, FileRes } from "./re
 export { usePermissions, PermissionsContent, useLabelWidth } from "./hooks";
 export { getUUID, supportsHasSelector, isLegacyHasSelectorBrowser } from "./utils";
 
+// 设计 token（TS 常量，供 antd themeConfig 等 JS 侧消费；CSS 变量版在 es/styles/tokens.scss）
+export { lightTokens, darkTokens, defaultPrimaryColor } from "./styles/tokens";
+export type { HsuThemeTokens } from "./styles/tokens";
+
 // 组件
 export { default as Button } from "./components/Button";
 export * from "./components/Button";
