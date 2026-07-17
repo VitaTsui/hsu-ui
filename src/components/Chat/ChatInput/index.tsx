@@ -248,9 +248,10 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
             ))}
           </ul>
           {buttonGroup?.map((button: ButtonProps, idx: number) => (
-            <Tooltip title={button.title}>
+            // key must be set on the outermost element returned by map (Tooltip);
+            // setting it on the inner Button is not seen by React and triggers a "missing key" warning
+            <Tooltip key={idx} title={button.title}>
               <Button
-                key={idx}
                 {...button}
                 title=""
                 className={classNames(styles.button, button.className)}
