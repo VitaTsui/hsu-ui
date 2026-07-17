@@ -47,7 +47,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   const ref = useRef<TextAreaRef>(null);
   const [focused, setFocused] = useState<boolean>(false);
 
-  // 初始化时优先使用 value，其次使用 defaultValue
+  // On initialization, prefer value, then fall back to defaultValue
   const initialValue =
     value !== undefined
       ? value?.toString() ?? ""
@@ -70,7 +70,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   }, [isComposing, onChange, _value, lastValue]);
 
   useEffect(() => {
-    // 只在外部 value prop 真正变化时才更新内部状态
+    // Update internal state only when the external value prop actually changes
     if (prevValueRef.current !== value) {
       prevValueRef.current = value;
 
@@ -78,7 +78,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
         setValue(value?.toString());
         setLastValue(value?.toString());
       } else {
-        // 只在初始化或外部主动设置为 undefined 时清空
+        // Clear only on initialization or when explicitly set to undefined externally
         setValue("");
         setLastValue("");
       }
@@ -90,7 +90,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   }, [getRef]);
 
   useEffect(() => {
-    // 使用 MutationObserver 监听错误状态变化
+    // Use a MutationObserver to watch for error state changes
     const checkError = () => {
       if (ref.current?.resizableTextArea?.textArea) {
         const textAreaElement = ref.current.resizableTextArea.textArea;
@@ -101,10 +101,10 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
       }
     };
 
-    // 初始检查
+    // Initial check
     checkError();
 
-    // 监听 DOM 变化
+    // Observe DOM changes
     if (ref.current?.resizableTextArea?.textArea) {
       const textAreaElement = ref.current.resizableTextArea.textArea;
       const observer = new MutationObserver(checkError);

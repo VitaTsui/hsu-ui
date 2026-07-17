@@ -1,18 +1,18 @@
 import { useCallback, useState } from "react";
 
 export interface LegendSelectionResult {
-  /** 传给图表 legend.selected，保证重渲染(setOption notMerge)后隐藏状态不丢 */
+  /** Pass to the chart's legend.selected to keep hidden state from being lost after re-render (setOption notMerge) */
   legendSelected: Record<string, boolean>;
-  /** 传给图表 onLegendSelectChanged */
+  /** Pass to the chart's onLegendSelectChanged */
   onLegendSelectChanged: (selected: Record<string, boolean>) => void;
-  /** 判断某系列当前是否可见（未点过的系列默认可见） */
+  /** Checks whether a series is currently visible (series never toggled are visible by default) */
   isSeriesVisible: (name?: string | null) => boolean;
 }
 
 /**
- * 图例选中状态管理：配合 Chart.Bar / Chart.Line 的 onLegendSelectChanged，
- * 在调用方按"当前可见系列"重算 Y 轴 min/max/interval（calculateAxisConfig），
- * 实现图例隐藏某一项后坐标轴自动重算。
+ * Legend selection state management: works with Chart.Bar / Chart.Line's onLegendSelectChanged
+ * so the caller can recalculate the Y-axis min/max/interval (calculateAxisConfig) based on the "currently visible series",
+ * making the axis automatically recalculate after an item is hidden via the legend.
  */
 export function useLegendSelection(): LegendSelectionResult {
   const [legendSelected, setLegendSelected] = useState<Record<string, boolean>>(

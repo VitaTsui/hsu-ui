@@ -19,16 +19,16 @@ import {
 import usePermissions from "../../../hooks/usePermissions";
 import { PaginationProps } from "../_components/Pagination";
 
-// measureAlign 列：与表体、autoWidth 标题测量一致，统一按 14px 测量
+// measureAlign columns: measured at 14px, consistent with the table body and autoWidth title measurement
 const MEASURE_ALIGN_FONT_SIZE = 14;
-// Canvas measureText 仅返回 advance width，较 DOM 实际渲染偏窄约 1px，补 2px 缓冲避免最宽行被挤压
+// Canvas measureText only returns the advance width, about 1px narrower than the actual DOM rendering; add a 2px buffer to avoid squeezing the widest row
 const MEASURE_ALIGN_BUFFER_PX = 2;
-// 单元格左右内边距合计的默认值（默认 --td-padding: 4px 8px），用于把列宽抬到能放下定宽内容块
+// Default total horizontal cell padding (default --td-padding: 4px 8px), used to raise the column width enough to fit the fixed-width content block
 const MEASURE_ALIGN_CELL_PADDING_PX = 16;
 
 /**
- * 解析 tdPadding（CSS padding 简写）的左右内边距合计；
- * 未传或解析不出时回退默认值（与默认 --td-padding: 4px 8px 一致）。
+ * Parses the total horizontal padding from tdPadding (CSS padding shorthand);
+ * falls back to the default when absent or unparsable (matching the default --td-padding: 4px 8px).
  */
 const getCellHorizontalPadding = (tdPadding?: string): number => {
   if (!tdPadding) return MEASURE_ALIGN_CELL_PADDING_PX;
@@ -41,13 +41,13 @@ const getCellHorizontalPadding = (tdPadding?: string): number => {
     return MEASURE_ALIGN_CELL_PADDING_PX;
   }
 
-  // CSS 简写：1 值=四边；2/3 值=第 2 个为左右；4 值=右+左
+  // CSS shorthand: 1 value = all four sides; 2/3 values = the 2nd is left/right; 4 values = right + left
   if (parts.length === 1) return parts[0] * 2;
   if (parts.length === 4) return parts[1] + parts[3];
   return parts[1] * 2;
 };
 
-// 计算 measureAlign 列的定宽（取本列所有行展示文本的最大像素宽）
+// Computes the fixed width for a measureAlign column (the max pixel width of the display text across all rows in the column)
 const getMeasureAlignWidth = <T extends AnyObject>(
   column: ColumnType<T>,
   dataSource?: readonly T[]
@@ -121,7 +121,7 @@ const useTableColumns = <T extends AnyObject>(
   const { checkPermission } = usePermissions();
   const [tableWidth, setTableWidth] = useState<number | null>(null);
 
-  // 监听表格宽度变化
+  // Observe table width changes
   useEffect(() => {
     if (ref?.current && cls) {
       const tableElement = document.querySelector(
@@ -142,7 +142,7 @@ const useTableColumns = <T extends AnyObject>(
     }
   }, [ref, cls]);
 
-  // 处理列的基础设置（权限、宽度、排序等）
+  // Handle basic column setup (permissions, width, sorting, etc.)
   const _columns = useMemo(() => {
     const cloned = cloneDeep(columns);
 
@@ -184,8 +184,9 @@ const useTableColumns = <T extends AnyObject>(
           item.width = Math.max(titleWidth, dataIndexWidth) + 32;
         }
 
-        // measureAlign 列：列宽须容得下最宽行的定宽内容块 + 单元格左右内边距，
-        // 否则出现超长值（如 +3357.52%）时内容会被列宽截断；声明的 width 只作下限。
+        // measureAlign columns: the column width must fit the widest row's fixed-width content block
+        // plus horizontal cell padding, otherwise very long values (e.g. +3357.52%) get truncated
+        // by the column width; the declared width only serves as a lower bound.
         if (item.measureAlign && typeof item.width === "number") {
           const measured = getMeasureAlignWidth(
             item as ColumnType<T>,
@@ -215,7 +216,7 @@ const useTableColumns = <T extends AnyObject>(
     return newColumns;
   }, [autoWidth, columns, dataSource, checkPermission, scroll, tdPadding]);
 
-  // 渲染列标题
+  // Render column titles
   const renderColumnTitle = useCallback(
     (column: ColumnType<T> | ColumnsGroupType<T>) => {
       const titleContent = column?.titleSort
@@ -247,7 +248,7 @@ const useTableColumns = <T extends AnyObject>(
 
   const renderColumns = useCallback(
     (columns?: ColumnsType<T>): AntColumnsType<T> | undefined => {
-      // 先增强列配置，为 ellipsis 列添加自动 Tooltip
+      // First enhance the column config, adding an automatic Tooltip for ellipsis columns
       let enhancedColumns = enhanceColumns(columns);
 
       if (serialNumberColumn && !_columns.find((v) => !!v.children)) {
@@ -265,35 +266,35 @@ const useTableColumns = <T extends AnyObject>(
         });
       }
 
-      // 处理 fixedWidth 列的宽度分配（在 enhancedColumns 基础上）
+      // Handle width allocation for fixedWidth columns (based on enhancedColumns)
       if (enhancedColumns && tableWidth && tableWidth > 0) {
-        // 检查是否有 fixedWidth 为 true 的列
+        // Check whether any column has fixedWidth set to true
         const hasFixedWidth = enhancedColumns.some(
           (col) => col.fixedWidth === true
         );
 
         if (hasFixedWidth) {
-          // 过滤出可见列（排除 hidden 列，即宽度为 0.01 的列）
+          // Filter out visible columns (excluding hidden columns, i.e. those with width 0.01)
           const visibleColumns = enhancedColumns.filter(
             (col) => typeof col.width === "number" && col.width > 0.01
           );
 
-          // 检查所有可见列是否都有宽度（非"100%"）
+          // Check whether all visible columns have a width (not "100%")
           const allHaveWidth = visibleColumns.every(
             (col) =>
               col.width && col.width !== "100%" && typeof col.width === "number"
           );
 
           if (allHaveWidth && visibleColumns.length > 0) {
-            // 计算所有可见列的宽度总和
+            // Compute the total width of all visible columns
             const totalWidth = visibleColumns.reduce((sum, col) => {
               const width = typeof col.width === "number" ? col.width : 0;
               return sum + width;
             }, 0);
 
-            // 如果总和小于表格宽度，按比例分配给非 fixedWidth 的可见列
-            // 当 bordered 为 true 时，tableWidth 需要减去 2（边框宽度）
-            // 当有 rowSelection 时，tableWidth 需要减去 48（选择列宽度）
+            // If the total is less than the table width, distribute proportionally to visible non-fixedWidth columns
+            // When bordered is true, subtract 2 from tableWidth (border width)
+            // When rowSelection is present, subtract 48 from tableWidth (selection column width)
             let adjustedTableWidth = bordered ? tableWidth - 2 : tableWidth;
             if (rowSelection) {
               adjustedTableWidth -= 48;
@@ -315,9 +316,9 @@ const useTableColumns = <T extends AnyObject>(
               );
 
               if (nonFixedWidthTotal > 0) {
-                // 按比例分配多余宽度
+                // Distribute the extra width proportionally
                 enhancedColumns = enhancedColumns?.map((col) => {
-                  // hidden 列（宽度为 0.01）或 fixedWidth 列保持原宽度
+                  // hidden columns (width 0.01) and fixedWidth columns keep their original width
                   const currentWidth =
                     typeof col.width === "number" ? col.width : 0;
                   if (col.fixedWidth === true || currentWidth <= 0.01) {
@@ -340,8 +341,9 @@ const useTableColumns = <T extends AnyObject>(
         const orderKey = column.orderKey || column.dataIndex;
         const isOrderColumn = orderKey && orderKey !== "serialNumber";
 
-        // measureAlign 列：把展示内容包进定宽右对齐块（块随列 align 居中），各行右边缘对齐。
-        // 不适用于 render 返回 { children, rowSpan } 这类 RenderedCell 的合并单元格场景。
+        // measureAlign columns: wrap the display content in a fixed-width right-aligned block
+        // (the block is centered per the column align), so all rows' right edges align.
+        // Not applicable to merged-cell scenarios where render returns a RenderedCell like { children, rowSpan }.
         let render = column.render;
         if (column.measureAlign) {
           const cellWidth = getMeasureAlignWidth(
@@ -425,13 +427,13 @@ const useTableColumns = <T extends AnyObject>(
     ]
   );
 
-  // 缓存渲染后的列配置
+  // Cache the rendered column config
   const renderedColumns = useMemo(
     () => renderColumns(cloneDeep(_columns)),
     [renderColumns, _columns]
   );
 
-  // 处理排序变化
+  // Handle sort changes
   const handleTableChange = useCallback(
     (
       pagination: TablePaginationConfig,

@@ -1,6 +1,6 @@
 /**
- * 大屏 Y 轴：按「万 / 亿」或 MB/GB/TB 换算时，要求刻度步长换算后 ≥ 1，
- * 避免出现 0.2 万、0.5GB 等小于 1 的刻度文案。
+ * Dashboard (large-screen) Y-axis: when converting to "万 (10^4) / 亿 (10^8)" or MB/GB/TB units,
+ * the converted tick step must be >= 1, avoiding tick labels smaller than 1 such as "0.2万" or "0.5GB".
  */
 
 export const MB_PER_GB = 1024;
@@ -12,7 +12,7 @@ export function trimAxisNumber(n: number): string {
   return s === "" || s === "-" ? "0" : s;
 }
 
-/** 中文量级：仅当最大值与刻度间隔都达到该量级时才用「万」「亿」缩放 */
+/** Chinese magnitude: scale by "万" (10^4) / "亿" (10^8) only when both the max value and the tick interval reach that magnitude */
 export function chineseMagnitudeDivisor(
   max: number,
   interval: number,
@@ -36,7 +36,7 @@ export function formatChineseMagnitudeTick(
   return trimAxisNumber(v / div);
 }
 
-/** MB 进位：仅当最大值与刻度间隔在该单位下均 ≥ 1 时才升到 GB/TB */
+/** MB tiering: promote to GB/TB only when both the max value and the tick interval are >= 1 in that unit */
 export function mbDisplayTier(
   maxMb: number,
   intervalMb: number,

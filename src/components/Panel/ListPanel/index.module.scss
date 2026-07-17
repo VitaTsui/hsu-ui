@@ -91,7 +91,7 @@
 
     background: var(--cf-surface);
 
-    // CF 风格：描边白卡片 + 小圆角，去投影
+    // CF style: outlined white card + small border radius, no shadow
     border-radius: 8px;
     border: 1px solid var(--cf-border);
     box-shadow: none;
@@ -104,8 +104,8 @@
     column-gap: 10px;
   }
 
-  // 页面级页签：无底色容器，页签拆成独立圆角块、块间留空；
-  // margin/radius 需 !important 压过 TabBar 内部的连体分段样式（负 margin + 首尾切角）
+  // Page-level tabs: container without background; tabs split into standalone rounded blocks with gaps between them;
+  // margin/radius need !important to override TabBar's internal joined-segment styles (negative margin + first/last corner cuts)
   .headerTabBar {
     column-gap: 4px;
 

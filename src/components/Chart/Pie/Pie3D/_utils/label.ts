@@ -13,7 +13,7 @@ interface LabelPoint {
   text: string;
   name: string;
   color: string;
-  originalY?: number; // 原始y坐标，用于调整
+  originalY?: number; // Original y coordinate, used when adjusting
 }
 
 interface LabelRect {
@@ -24,19 +24,19 @@ interface LabelRect {
   index: number;
 }
 
-// 估算标签的宽度和高度（基于文本长度和字体大小）
+// Estimate a label's width and height (based on text length and font size)
 const estimateLabelSize = (
   text: string,
   fontSize: number = 14,
   padding: number = 5
 ): { width: number; height: number } => {
-  // 简单估算：每个字符约占用 fontSize * 0.6 的宽度
+  // Rough estimate: each character takes about fontSize * 0.6 in width
   const estimatedWidth = text.length * fontSize * 0.6 + padding * 2;
   const estimatedHeight = fontSize + padding * 2;
   return { width: estimatedWidth, height: estimatedHeight };
 };
 
-// 检测两个矩形是否重叠
+// Check whether two rectangles overlap
 const isOverlapping = (rect1: LabelRect, rect2: LabelRect): boolean => {
   return (
     rect1.x < rect2.x + rect2.width &&
@@ -46,7 +46,7 @@ const isOverlapping = (rect1: LabelRect, rect2: LabelRect): boolean => {
   );
 };
 
-// 调整标签位置以避免重叠
+// Adjust label positions to avoid overlap
 const adjustLabelPositions = (
   labelPoints: LabelPoint[],
   labelTextStyle: { fontSize?: number; padding?: number }
@@ -56,15 +56,15 @@ const adjustLabelPositions = (
     ? labelTextStyle.padding[0] || 5
     : labelTextStyle.padding || 5;
 
-  // 将标签尺寸转换为3D坐标系的单位
-  // 假设字体大小和padding的单位需要转换为3D坐标系的相对单位
-  // 3D坐标系的范围大约是-1到1，所以需要适当的缩放
-  const scaleFactor = 0.01; // 将像素单位转换为3D坐标单位
+  // Convert label sizes into 3D coordinate units
+  // Font size and padding are in pixels and must be converted into relative 3D coordinate units
+  // The 3D coordinate range is roughly -1 to 1, so scaling is required
+  const scaleFactor = 0.01; // Converts pixel units into 3D coordinate units
 
-  // 创建标签矩形数组（在2D投影平面上，使用x和y坐标）
+  // Build the label rectangles (on the 2D projection plane, using x and y coordinates)
   const labelRects: LabelRect[] = labelPoints?.map((point) => {
     const size = estimateLabelSize(point.text, fontSize, padding);
-    // 将像素尺寸转换为3D坐标单位
+    // Convert pixel sizes into 3D coordinate units
     const width3D = size.width * scaleFactor;
     const height3D = size.height * scaleFactor;
     return {
@@ -72,25 +72,25 @@ const adjustLabelPositions = (
       y: point.y - height3D / 2,
       width: width3D,
       height: height3D,
-      index: 0, // 将在循环中设置
+      index: 0, // Assigned in the loop below
     };
   });
 
-  // 设置索引
+  // Assign indices
   labelRects?.forEach((rect, index) => {
     rect.index = index;
   });
 
-  // 保存原始坐标
+  // Save the original coordinates
   labelPoints?.forEach((point) => {
     point.originalY = point.y;
   });
 
-  // 检测并调整重叠的标签
-  const minSpacing = fontSize * scaleFactor * 0.3; // 最小间距（3D坐标单位）
+  // Detect and adjust overlapping labels
+  const minSpacing = fontSize * scaleFactor * 0.3; // Minimum spacing (in 3D coordinate units)
   let hasOverlap = true;
   let iterations = 0;
-  const maxIterations = 100; // 最大迭代次数
+  const maxIterations = 100; // Maximum number of iterations
 
   while (hasOverlap && iterations < maxIterations) {
     hasOverlap = false;
@@ -101,29 +101,29 @@ const adjustLabelPositions = (
         if (isOverlapping(labelRects[i], labelRects[j])) {
           hasOverlap = true;
 
-          // 计算两个标签的中心点
+          // Compute the center points of the two labels
           const center1X = labelRects[i].x + labelRects[i].width / 2;
           const center1Y = labelRects[i].y + labelRects[i].height / 2;
           const center2X = labelRects[j].x + labelRects[j].width / 2;
           const center2Y = labelRects[j].y + labelRects[j].height / 2;
 
-          // 计算x和y方向的距离
+          // Compute the distances along x and y
           const distanceX = Math.abs(center1X - center2X);
           const distanceY = Math.abs(center1Y - center2Y);
 
-          // 计算需要的距离
+          // Compute the required distances
           const requiredDistanceX =
             (labelRects[i].width + labelRects[j].width) / 2 + minSpacing;
           const requiredDistanceY =
             (labelRects[i].height + labelRects[j].height) / 2 + minSpacing;
 
-          // 根据重叠情况调整位置
+          // Adjust positions based on the overlap
           const originalY1 = labelPoints[i].originalY || labelPoints[i].y;
           const originalY2 = labelPoints[j].originalY || labelPoints[j].y;
           const originalX1 = labelPoints[i].x;
           const originalX2 = labelPoints[j].x;
 
-          // 优先调整y方向（垂直方向），因为这是最常见的重叠情况
+          // Prefer adjusting along y (vertically), since that is the most common overlap
           if (distanceY < requiredDistanceY) {
             const adjustmentY =
               (requiredDistanceY - distanceY) / 2 + minSpacing * 0.5;
@@ -137,7 +137,7 @@ const adjustLabelPositions = (
             }
           }
 
-          // 如果x方向也很接近，稍微调整x方向
+          // If the labels are also close along x, nudge them along x as well
           if (distanceX < requiredDistanceX * 0.9) {
             const adjustmentX = ((requiredDistanceX - distanceX) / 2) * 0.5;
 
@@ -150,7 +150,7 @@ const adjustLabelPositions = (
             }
           }
 
-          // 更新矩形位置
+          // Update the rectangle position
           const size1 = estimateLabelSize(
             labelPoints[i].text,
             fontSize,
@@ -288,9 +288,9 @@ const calculateLabelPoints = (
     });
   }
 
-  // 调整标签位置以避免重叠
+  // Adjust label positions to avoid overlap
   const labelTextStyle = label.textStyle || {};
-  // 处理 padding 可能是数组的情况
+  // Handle padding possibly being an array
   const adjustedTextStyle = {
     fontSize: labelTextStyle.fontSize,
     padding: Array.isArray(labelTextStyle.padding)
@@ -299,20 +299,20 @@ const calculateLabelPoints = (
   };
   const adjustedPoints = adjustLabelPositions(labelPoints, adjustedTextStyle);
 
-  // 更新标签线的终点和中间点位置以匹配调整后的标签位置
+  // Update each leader line's end and mid points to match the adjusted label position
   adjustedPoints?.forEach((point, index) => {
     if (labelLines[index]) {
       const originalEndPoint = labelLines[index].coords[2];
       const originalMidPoint = labelLines[index].coords[1];
 
-      // 更新终点
+      // Update the end point
       labelLines[index].coords[2] = [point.x, point.y, point.z];
 
-      // 如果y坐标发生了变化，调整中间点的y坐标以保持线条平滑
+      // If the y coordinate changed, adjust the mid point's y to keep the line smooth
       const yDiff = point.y - originalEndPoint[1];
       if (Math.abs(yDiff) > 0.001) {
-        // 调整中间点的y坐标，使其在起点和终点之间平滑过渡
-        const midY = originalMidPoint[1] + yDiff * 0.5; // 中间点跟随终点移动，但幅度较小
+        // Adjust the mid point's y so it transitions smoothly between start and end
+        const midY = originalMidPoint[1] + yDiff * 0.5; // The mid point follows the end point, but moves less
         labelLines[index].coords[1] = [
           originalMidPoint[0],
           midY,

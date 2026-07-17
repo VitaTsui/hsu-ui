@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
 
-// 定义类型接口
+// Type interface definitions
 interface CellData {
   text: string;
   merge?: [number, number];
@@ -37,7 +37,7 @@ export function stox(wb: XLSX.WorkBook): SheetData[] {
     const o: SheetData = { name: name, rows: {}, merges: [] };
     const ws = wb.Sheets[name];
 
-    // 检查 ws["!ref"] 是否存在
+    // Check whether ws["!ref"] exists
     if (!ws["!ref"]) {
       out.push(o);
       return;

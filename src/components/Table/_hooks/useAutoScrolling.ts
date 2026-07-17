@@ -19,7 +19,7 @@ interface UseAutoScrollingProps {
   onAutoScrollEndAdd?: () => Promise<boolean>;
   autoScrollMode?: "smooth" | "row";
   autoScrollLoop?: boolean;
-  /** 循环模式："reset" 回到顶部重新滚动（默认），"seamless" 无缝衔接继续滚动 */
+  /** Loop mode: "reset" returns to the top and scrolls again (default), "seamless" continues scrolling without a visible jump */
   autoScrollLoopMode?: "reset" | "seamless";
   autoScrollingOffset?: number;
 }
@@ -62,7 +62,7 @@ const useAutoScrolling = (props: UseAutoScrollingProps) => {
     mouseleave?: () => void;
   }>({});
 
-  // seamless 模式相关
+  // Seamless mode related
   const isSeamless = autoScrollLoopMode === "seamless" && autoScrollLoop;
   const originalRowsHeightRef = useRef(0);
   const clonedNodesRef = useRef<Node[]>([]);
@@ -99,7 +99,7 @@ const useAutoScrolling = (props: UseAutoScrollingProps) => {
         height += (row as HTMLElement).offsetHeight;
       });
 
-      // 内容不足一屏时不需要无缝滚动
+      // No seamless scrolling needed when content is less than one screen
       if (height <= body.clientHeight) return;
 
       originalRowsHeightRef.current = height;
@@ -388,7 +388,7 @@ const useAutoScrolling = (props: UseAutoScrollingProps) => {
         return;
       }
       if (isSeamless && seamlessReadyRef.current) {
-        // 无缝模式下不会真正到底，直接继续滚动
+        // In seamless mode the scroll never actually reaches the bottom; just keep scrolling
         phaseRef.current = "idle";
       } else if (isAtBottom(body)) {
         if (onAutoScrollEndAdd) {
@@ -414,7 +414,7 @@ const useAutoScrolling = (props: UseAutoScrollingProps) => {
       return;
     }
 
-    // 内容不足一屏时，也按“滚动到底”处理，触发 load-more 逻辑
+    // When content is less than one screen, treat it as "scrolled to bottom" too, triggering the load-more logic
     if (!bodyScrollable) {
       phaseRef.current = "wait";
       waitUntilRef.current = performance.now() + interval;
@@ -498,15 +498,16 @@ const useAutoScrolling = (props: UseAutoScrollingProps) => {
     const body = getBody();
     if (!changed || !body) return;
 
-    // 无缝模式：实时刷新场景下保留滚动进度，clone 节点交由 loop 在下一帧按需重建，
-    // 避免每次轮询都把 scrollTop 重置为 0 导致用户视觉上"不滚动"。
+    // Seamless mode: in real-time refresh scenarios keep the scroll progress; clone nodes are
+    // rebuilt on demand by loop on the next frame, avoiding resetting scrollTop to 0 on every
+    // poll, which would make it look like the table "isn't scrolling".
     if (isSeamless) {
       cleanupClones();
       return;
     }
 
     if (onAutoScrollEndAdd) {
-      // 当 load-more 模式且此前已停止时，有新数据后恢复自动滚动
+      // In load-more mode, if scrolling had stopped, resume auto-scrolling when new data arrives
       if (phaseRef.current === "stopped") {
         phaseRef.current = autoScrollMode === "row" ? "wait" : "idle";
         waitUntilRef.current =

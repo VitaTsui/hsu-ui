@@ -1,5 +1,5 @@
 /**
- * 类型守卫函数
+ * Type guard functions
  */
 export const isValidValue = (value: unknown): boolean => {
   return value !== null && value !== undefined;

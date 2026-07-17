@@ -24,30 +24,30 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
   deleteHistory,
   onClick,
 }) => {
-  // 重命名相关状态
+  // Rename-related state
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameTitle, setRenameTitle] = useState("");
   const [currentTitle, setCurrentTitle] = useState(formatChatName(item.name));
-  // 用于跟踪是否刚刚完成重命名，避免立即被外部更新覆盖
+  // Tracks whether a rename has just completed, to avoid being immediately overwritten by external updates
   const justRenamedRef = useRef(false);
 
-  // 删除确认弹窗状态
+  // Delete confirmation modal state
   const [deleteModal, setDeleteModal] = useState(false);
 
-  // 初始化重命名标题
+  // Initialize the rename title
   useEffect(() => {
     if (isRenaming) {
       setRenameTitle(currentTitle);
     }
   }, [isRenaming, currentTitle]);
 
-  // 同步 item.name 的变化到 currentTitle（仅在非重命名状态下）
+  // Sync changes of item.name to currentTitle (only when not renaming)
   useEffect(() => {
     if (!isRenaming && !justRenamedRef.current) {
       const formattedName = formatChatName(item.name);
       setCurrentTitle(formattedName);
     }
-    // 重置重命名标记
+    // Reset the rename flag
     if (justRenamedRef.current) {
       justRenamedRef.current = false;
     }
@@ -61,9 +61,9 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
     const newTitle = renameTitle.trim();
     if (newTitle && updateTitle) {
       updateTitle(item.conversationId, newTitle);
-      // 先更新显示的标题，确保立即显示用户输入的名称
+      // Update the displayed title first to immediately show the user-entered name
       setCurrentTitle(newTitle);
-      // 标记刚刚完成重命名，避免立即被外部更新覆盖
+      // Mark that a rename has just completed, to avoid being immediately overwritten by external updates
       justRenamedRef.current = true;
     }
     setIsRenaming(false);

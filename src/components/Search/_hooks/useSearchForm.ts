@@ -8,7 +8,7 @@ interface UseSearchFormProps {
 }
 
 /**
- * 管理搜索表单数据
+ * Manages search form data
  */
 export function useSearchForm({ form, searchData }: UseSearchFormProps) {
   useEffect(() => {

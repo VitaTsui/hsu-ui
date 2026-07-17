@@ -2,35 +2,35 @@ import { isStringValue } from "./typeGuards";
 import { hasSelectedChildren } from "./hasSelectedChildren";
 
 /**
- * 更新真实返回值
+ * Updates the real return value
  */
 export function updateRealValue(
   value: Record<string, unknown>,
   optionName: string,
   newValues: Record<string, unknown>
 ): void {
-  // 参数验证
+  // Parameter validation
   if (!value || !isStringValue(optionName) || !newValues) {
     return;
   }
 
-  // 合并当前值和新值以获取最新状态
+  // Merge the current values and new values to get the latest state
   const mergedValues = { ...value, ...newValues };
 
-  // 检查是否存在子项数据
+  // Check whether child item data exists
   let hasAnyChildrenSelected = false;
   let childrenValue: unknown = null;
 
-  // 遍历所有可能的子项名称
+  // Iterate over all possible child item names
   Object.keys(mergedValues)?.forEach((key) => {
     if (key.endsWith("Children")) {
-      // 找到对应的父项名称
+      // Find the corresponding parent item name
       const parentName = key.replace("Children", "");
 
-      // 只处理当前选项的子项
+      // Only handle the child items of the current option
       if (parentName === optionName) {
         try {
-          // 检查子项是否有选中值
+          // Check whether the child items have a selected value
           const currentChildrenValue = mergedValues[key];
           const hasSelected = hasSelectedChildren(
             mergedValues,
@@ -49,13 +49,13 @@ export function updateRealValue(
     }
   });
 
-  // 设置真实返回值
+  // Set the real return value
   const realValueKey = `${optionName}Real`;
   if (hasAnyChildrenSelected) {
-    // 如果有子项被选中，使用子项值
+    // If any child item is selected, use the child value
     newValues[realValueKey] = childrenValue;
   } else {
-    // 如果没有子项被选中，使用父项值
+    // If no child item is selected, use the parent value
     const parentValue = newValues[optionName] ?? value[optionName];
     newValues[realValueKey] = parentValue;
   }

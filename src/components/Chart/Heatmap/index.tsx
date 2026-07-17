@@ -8,32 +8,32 @@ import {
 } from "../_utils/heatmap";
 
 export interface HeatmapDataItem {
-  /** X 轴索引或名称 */
+  /** X-axis index or name */
   x: number | string;
-  /** Y 轴索引或名称 */
+  /** Y-axis index or name */
   y: number | string;
-  /** 热力值（业务实际数值，如 tooltip 应展示此字段） */
+  /** Heat value (the actual business value; e.g. the tooltip should display this field) */
   value: number;
-  /** 可选：仅用于着色与 visualMap，不传则与 value 相同 */
+  /** Optional: used only for coloring and visualMap; defaults to value when omitted */
   visualWeight?: number;
 }
 
 export interface ChartHeatmapProps extends ChartCommonProps {
-  /** 热力图数据，格式为 [[x, y, value]] 或 HeatmapDataItem[] */
+  /** Heatmap data, in [[x, y, value]] or HeatmapDataItem[] format */
   data: Array<[number, number, number]> | HeatmapDataItem[];
-  /** X 轴数据（类别名称） */
+  /** X-axis data (category names) */
   xAxisData?: string[];
-  /** Y 轴数据（类别名称） */
+  /** Y-axis data (category names) */
   yAxisData?: string[];
-  /** 图表标题 */
+  /** Chart title */
   chartTitle?: string;
-  /** visualMap 配置 */
+  /** visualMap config */
   visualMap?: echarts.VisualMapComponentOption;
-  /** 图表实例回调 */
+  /** Chart instance callback */
   onChart?: (chart: echarts.EChartsType) => void;
-  /** 点击事件 */
+  /** Click event */
   onClick?: (event: echarts.ECElementEvent) => void;
-  /** 0值颜色 */
+  /** Color for zero values */
   zeroColor?: string | false;
   /** inRangeColor */
   inRangeColor?: string[];
@@ -74,20 +74,20 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
   const chartInstanceRef = useRef<echarts.ECharts | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
-  // 处理数据并生成图表配置
+  // Process the data and generate the chart option
   const chartOption = useMemo(() => {
     if (!data || data.length === 0) {
       return {} as ChartsOption;
     }
 
-    // 转换数据格式为 ECharts 需要的格式 [[x, y, value]]
+    // Convert the data to the [[x, y, value]] format ECharts expects
     let processedData: Array<[number, number, number]>;
     if (Array.isArray(data) && data.length > 0) {
       if (Array.isArray(data[0])) {
-        // 已经是 [[x, y, value]] 格式
+        // Already in [[x, y, value]] format
         processedData = data as Array<[number, number, number]>;
       } else {
-        // 是 HeatmapDataItem[] 格式，需要转换
+        // HeatmapDataItem[] format, needs conversion
         processedData = (data as HeatmapDataItem[])?.map((item) => {
           const xIndex =
             typeof item.x === "number"
@@ -106,12 +106,12 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
       processedData = [];
     }
 
-    // 计算值的范围用于 visualMap
+    // Compute the value range for visualMap
     const values = processedData?.map((item) => item[2]);
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
 
-    // 默认 visualMap 配置
+    // Default visualMap config
     const defaultVisualMap: echarts.VisualMapComponentOption = {
       min: minValue,
       max: maxValue,
@@ -127,7 +127,7 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
       },
     };
 
-    // 处理 xAxis 配置
+    // Process xAxis config
     const def_xAxis = createDefaultHeatmapXAxis(xAxisData);
     const processedXAxis = Array.isArray(xAxis)
       ? xAxis?.map((item) => ({
@@ -141,7 +141,7 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
           ...xAxis,
         };
 
-    // 处理 yAxis 配置
+    // Process yAxis config
     const def_yAxis = createDefaultHeatmapYAxis(yAxisData);
     const processedYAxis = Array.isArray(yAxis)
       ? yAxis?.map((item) => ({
@@ -155,13 +155,13 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
           ...yAxis,
         };
 
-    // 处理 visualMap 配置
+    // Process visualMap config
     const finalVisualMap = {
       ...defaultVisualMap,
       ...propVisualMap,
     };
 
-    // 计算 grid 配置
+    // Compute grid config
     const gridConfig: echarts.GridComponentOption = {
       height: "95%",
       top: "5%",
@@ -169,7 +169,7 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
       containLabel: true,
     };
 
-    // 根据 visualMap 的显示状态和方向设置 grid 的 right 或 bottom
+    // Set the grid's right or bottom based on visualMap's visibility and orientation
     if (finalVisualMap.show !== false) {
       const orient = finalVisualMap.orient || defaultVisualMap.orient;
       if (orient === "vertical") {
@@ -179,7 +179,7 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
       }
     }
 
-    // 合并用户传入的 grid 配置
+    // Merge the user-provided grid config
     Object.assign(gridConfig, grid);
 
     const option: ChartsOption = {
@@ -246,42 +246,42 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
     zeroColor,
   ]);
 
-  // 处理图表 resize 的回调
+  // Callback for handling chart resize
   const handleResize = useCallback(() => {
     chartInstanceRef.current?.resize();
   }, []);
 
-  // 初始化图表
+  // Initialize the chart
   useEffect(() => {
     if (!chartRef.current) return;
 
-    // 初始化或获取已存在的实例
+    // Initialize or reuse the existing instance
     let chart = chartInstanceRef.current;
     if (!chart) {
       chart = echarts.init(chartRef.current);
       chartInstanceRef.current = chart;
-      // 首次初始化时调用 onChart 回调
+      // Call the onChart callback on first initialization
       onChart?.(chart);
     }
 
-    // 设置配置
+    // Apply the option
     chart.setOption(chartOption as ChartOptionType, true);
 
-    // 添加 resize 监听
+    // Add resize listener
     window.addEventListener("resize", handleResize);
 
-    // 添加 ResizeObserver
+    // Add ResizeObserver
     if (chartRef.current && !resizeObserverRef.current) {
       resizeObserverRef.current = new ResizeObserver(handleResize);
       resizeObserverRef.current.observe(chartRef.current);
     }
 
-    // 添加点击事件
+    // Add click event
     if (onClick) {
       chartInstanceRef.current?.on("click", onClick);
     }
 
-    // 清理函数
+    // Cleanup function
     return () => {
       window.removeEventListener("resize", handleResize);
 
@@ -291,15 +291,15 @@ const Heatmap: React.FC<ChartHeatmapProps> = (props) => {
     };
   }, [chartOption, handleResize, onChart, onClick]);
 
-  // 组件卸载时清理资源
+  // Clean up resources when the component unmounts
   useEffect(() => {
     return () => {
-      // 清理 ResizeObserver
+      // Clean up ResizeObserver
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
         resizeObserverRef.current = null;
       }
-      // 销毁图表实例
+      // Dispose the chart instance
       if (chartInstanceRef.current) {
         chartInstanceRef.current.dispose();
         chartInstanceRef.current = null;

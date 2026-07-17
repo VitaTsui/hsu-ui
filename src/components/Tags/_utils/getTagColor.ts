@@ -1,8 +1,8 @@
 /**
- * 根据索引获取标签颜色
- * @param index 标签索引
- * @param colors 颜色数组
- * @returns 颜色值或 undefined
+ * Gets the tag color by index
+ * @param index Tag index
+ * @param colors Color array
+ * @returns Color value or undefined
  */
 export function getTagColor(
   index: number,

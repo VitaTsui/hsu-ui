@@ -2,10 +2,10 @@ import { EditorView } from "@codemirror/view";
 import { Diagnostic } from "@codemirror/lint";
 import { translateError } from "./errorTranslator";
 
-// 全局 JSON 解析器实例
+// Global JSON parser instance
 let jsonParser: { parse: (text: string) => unknown } | null = null;
 
-// 预加载 JSON 解析器
+// Preload the JSON parser
 const loadJsonParser = async () => {
   if (!jsonParser) {
     try {
@@ -19,10 +19,10 @@ const loadJsonParser = async () => {
 };
 
 export interface JsonLinterOptions {
-  /** 是否翻译错误信息为中文 */
+  /** Whether to translate error messages into Chinese */
   translate?: boolean;
   /**
-   * 是否允许根节点为 JSON 数组 `[...]`（仅影响顶层字符校验，默认 false 仅允许 `{...}`）
+   * Whether to allow the root node to be a JSON array `[...]` (only affects top-level character validation; default false, only `{...}` is allowed)
    */
   allowArrayRoot?: boolean;
 }
@@ -39,7 +39,7 @@ function resolveJsonLinterOptions(
   };
 }
 
-// JSON 语法检查器（可传 `boolean` 表示仅开启 translate，兼容旧用法）
+// JSON syntax linter (a `boolean` can be passed to only enable translate, for backward compatibility)
 export function jsonLinter(options: JsonLinterOptions | boolean = false) {
   const { translate, allowArrayRoot } = resolveJsonLinterOptions(options);
 
@@ -51,7 +51,7 @@ export function jsonLinter(options: JsonLinterOptions | boolean = false) {
       return diagnostics;
     }
 
-    // 默认必须以 `{` 开头；开启 allowArrayRoot 时亦允许 `[`
+    // By default the text must start with `{`; when allowArrayRoot is enabled, `[` is also allowed
     const trimmedStart = text.trimStart();
     const rootOk =
       trimmedStart.startsWith("{") ||
@@ -79,11 +79,11 @@ export function jsonLinter(options: JsonLinterOptions | boolean = false) {
         const error = e as Error;
         const message = error.message;
 
-        // 尝试从错误消息中提取位置信息
+        // Try to extract position info from the error message
         let from = 0;
         let to = text.length;
 
-        // 解析位置信息，例如 "Unexpected token } in JSON at position 10"
+        // Parse position info, e.g. "Unexpected token } in JSON at position 10"
         const positionMatch = message.match(/at position (\d+)/);
         if (positionMatch) {
           const position = parseInt(positionMatch[1], 10);
@@ -91,7 +91,7 @@ export function jsonLinter(options: JsonLinterOptions | boolean = false) {
           to = Math.min(text.length, position + 1);
         }
 
-        // 根据 translate 参数决定是否翻译错误信息
+        // Decide whether to translate the error message based on the translate parameter
         const finalMessage = translate ? translateError(message) : message;
 
         diagnostics.push({
@@ -102,7 +102,7 @@ export function jsonLinter(options: JsonLinterOptions | boolean = false) {
         });
       }
     } else {
-      // 如果解析器还未加载，尝试加载
+      // If the parser is not loaded yet, try to load it
       loadJsonParser().then((parser) => {
         if (parser) {
           try {
@@ -118,5 +118,5 @@ export function jsonLinter(options: JsonLinterOptions | boolean = false) {
   };
 }
 
-// 导出预加载函数，供外部使用
+// Export the preload function for external use
 export { loadJsonParser };

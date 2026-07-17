@@ -5,7 +5,7 @@ interface UseSelectCompositionProps {
 }
 
 /**
- * 管理输入法组合状态
+ * Manage IME composition state
  */
 export function useSelectComposition({
   onSearch,

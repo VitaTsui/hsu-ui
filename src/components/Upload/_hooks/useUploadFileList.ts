@@ -10,7 +10,7 @@ interface UseUploadFileListProps {
 }
 
 /**
- * 管理上传文件列表状态
+ * Manage the upload file list state
  */
 export function useUploadFileList({
   fileList,

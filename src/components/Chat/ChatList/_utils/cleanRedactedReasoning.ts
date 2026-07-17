@@ -1,7 +1,7 @@
 /**
- * 清理 redacted_reasoning 标签
- * @param text 需要清理的文本
- * @returns 清理后的文本
+ * Clean up redacted_reasoning tags
+ * @param text The text to clean
+ * @returns The cleaned text
  */
 export function cleanRedactedReasoning(text: string): string {
   if (!text) return "";

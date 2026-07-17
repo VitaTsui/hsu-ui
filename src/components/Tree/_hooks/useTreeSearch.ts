@@ -3,7 +3,7 @@ import { TreeData } from "..";
 import { filterTreeData } from "../_utils";
 
 /**
- * 处理树搜索的 hook
+ * Hook for handling tree search
  */
 export const useTreeSearch = (
   treeData: TreeData[],
@@ -12,8 +12,8 @@ export const useTreeSearch = (
   const [searchKey, setSearchKey] = useState<string>("");
   const prevSearchKeyRef = useRef<string>("");
 
-  // 处理树数据（搜索过滤）
-  // filterTreeData 内部已经处理了数据拷贝，无需额外 cloneDeep
+  // Process tree data (search filtering)
+  // filterTreeData already handles data copying internally, no extra cloneDeep needed
   const filteredTreeData = useMemo(() => {
     if (!searchKey.trim()) {
       return treeData;
@@ -21,25 +21,25 @@ export const useTreeSearch = (
     return filterTreeData(searchKey, treeData);
   }, [searchKey, treeData]);
 
-  // 处理搜索时的展开逻辑
+  // Handle expand logic while searching
   useEffect(() => {
     const trimmedSearchKey = searchKey.trim();
     const prevTrimmedKey = prevSearchKeyRef.current.trim();
 
-    // 如果搜索关键词没有变化，跳过处理
+    // Skip processing if the search keyword has not changed
     if (trimmedSearchKey === prevTrimmedKey) {
       return;
     }
 
     prevSearchKeyRef.current = searchKey;
 
-    // 清空搜索时，重置展开状态
+    // When the search is cleared, reset the expanded state
     if (!trimmedSearchKey) {
       setExpandedKeys([]);
       return;
     }
 
-    // 有搜索关键词时，展开所有匹配的节点
+    // When there is a search keyword, expand all matching nodes
     if (!filteredTreeData.length) {
       return;
     }

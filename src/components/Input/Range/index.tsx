@@ -61,7 +61,7 @@ const RangeInput: React.FC<RangeInputProps> = (props) => {
     disabled,
   } = props;
 
-  // 初始化时优先使用 value，其次使用 defaultValue
+  // On initialization, prefer value, then fall back to defaultValue
   const initialValue = value !== undefined ? value : defaultValue;
 
   const [_value, setValue] = useState<Value | undefined>(initialValue);
@@ -70,7 +70,7 @@ const RangeInput: React.FC<RangeInputProps> = (props) => {
   const prevValueRef = React.useRef<Value | undefined>(undefined);
 
   useEffect(() => {
-    // 只在外部 value prop 真正变化时才更新内部状态
+    // Update internal state only when the external value prop actually changes
     if (!Equal.ObjEqual(prevValueRef.current, value)) {
       prevValueRef.current = value;
 
@@ -78,7 +78,7 @@ const RangeInput: React.FC<RangeInputProps> = (props) => {
         setValue(value);
         setLastValue(value);
       } else {
-        // 只在初始化或外部主动设置为 undefined 时清空
+        // Clear only on initialization or when explicitly set to undefined externally
         setValue(undefined);
         setLastValue(undefined);
       }

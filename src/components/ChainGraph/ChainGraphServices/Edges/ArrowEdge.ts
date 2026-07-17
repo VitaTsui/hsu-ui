@@ -30,13 +30,13 @@ export default function ArrowEdge(
     const line = group.addShape("path", {
       attrs: {
         path: [
-          // 起始点
+          // Start point
           ["M", startPoint.x, startPoint.y],
-          // 水平向右到中间X位置
+          // Horizontally right to the middle X position
           ["L", (startPoint.x + endPoint.x) / 2, startPoint.y],
-          // 垂直向下/上到终点Y位置
+          // Vertically down/up to the end point's Y position
           ["L", (startPoint.x + endPoint.x) / 2, endPoint.y],
-          // 水平向右到终点
+          // Horizontally right to the end point
           ["L", endPoint.x, endPoint.y],
         ],
         endArrow: {

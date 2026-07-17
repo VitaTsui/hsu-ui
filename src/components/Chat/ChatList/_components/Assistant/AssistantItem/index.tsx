@@ -32,19 +32,19 @@ const AssistantItem: React.FC<AssistantItemProps> = (props) => {
   const [expanded, setExpanded] = useState(false);
   const prevThinkingRef = useRef(false);
 
-  // 判断是否正在思考中
+  // Determine whether thinking is in progress
   const isThinking = !item?.think?.endsWith("</think>") && !!assistanting;
 
-  // 判断是否有思考内容（排除空标签和标签本身）
+  // Determine whether there is thinking content (excluding empty tags and the tags themselves)
   const hasThink = cleanedThink && cleanedThink.trim().length > 0;
 
-  // 当开始思考时，自动展开；思考结束时，自动收起
+  // Auto-expand when thinking starts; auto-collapse when thinking ends
   useEffect(() => {
     if (isThinking && !prevThinkingRef.current) {
-      // 从非思考状态变为思考状态：展开
+      // Transition from not thinking to thinking: expand
       setExpanded(true);
     } else if (!isThinking && prevThinkingRef.current) {
-      // 从思考状态变为非思考状态：收起
+      // Transition from thinking to not thinking: collapse
       setExpanded(false);
     }
     prevThinkingRef.current = isThinking;
@@ -87,7 +87,7 @@ const AssistantItem: React.FC<AssistantItemProps> = (props) => {
           />
         )}
         {item.error && <div className={styles.error}>{item.error}</div>}
-        {/* 无法回答的提示 */}
+        {/* Tip shown when no answer can be given */}
         {!hasThink &&
           !cleanedAnswer &&
           !assistanting &&

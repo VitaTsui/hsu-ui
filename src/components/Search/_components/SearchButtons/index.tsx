@@ -6,9 +6,9 @@ interface SearchButtonsProps {
   onSearch: () => void;
   onReset: () => void;
   searchDisabled?: boolean;
-  /** 查询按钮文本 */
+  /** Search button text */
   searchText?: React.ReactNode;
-  /** 重置按钮文本 */
+  /** Reset button text */
   resetText?: React.ReactNode;
 }
 

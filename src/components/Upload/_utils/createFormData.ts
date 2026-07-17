@@ -1,5 +1,5 @@
 /**
- * 创建 FormData 并添加数据
+ * Create a FormData instance and append data
  */
 export function createFormData(
   data?: Partial<Record<string, string>>

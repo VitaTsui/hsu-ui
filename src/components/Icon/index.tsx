@@ -16,7 +16,7 @@ type AntdNamedIconComponent = React.ForwardRefExoticComponent<
   } & React.RefAttributes<HTMLSpanElement>
 >;
 
-/** 判断是否为 AntD 图标组件名（如 "SettingOutlined"），并返回对应组件 */
+/** Check whether it is an AntD icon component name (e.g. "SettingOutlined") and return the corresponding component */
 const getAntdIcon = (
   icon: unknown
 ): AntdNamedIconComponent | undefined => {
@@ -61,7 +61,7 @@ const Icon: React.FC<IconProps> = (props) => {
     ...style,
   };
 
-  // 兼容 AntD 图标名（如 "SettingOutlined"），直接渲染对应 AntD 图标组件
+  // Support AntD icon names (e.g. "SettingOutlined") by rendering the corresponding AntD icon component directly
   const AntdNamedIcon = getAntdIcon(icon);
   if (AntdNamedIcon) {
     return (
@@ -74,8 +74,8 @@ const Icon: React.FC<IconProps> = (props) => {
     );
   }
 
-  // iconify 图标：直接用 span 承载 Iconify 自带的 svg，避免把它嵌套进 antd Icon
-  // 的 svg（其 viewBox 会把内层 svg 缩放成极小值导致图标不可见）。
+  // Iconify icons: host Iconify's own svg directly in a span, instead of nesting it inside
+  // the antd Icon's svg (whose viewBox would scale the inner svg down so much the icon becomes invisible).
   return (
     <span
       {...iconConfig}

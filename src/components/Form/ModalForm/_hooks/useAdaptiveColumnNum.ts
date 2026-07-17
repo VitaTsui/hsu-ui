@@ -1,13 +1,13 @@
 import { RefObject, useEffect, useState } from "react";
 
 /**
- * 根据容器宽度动态调整列数
- * @param containerRef 需要监听宽度的容器
- * @param columnNum 基础列数
- * @param enabled 是否开启自适应
- * @param minColumnNum 最小列数
- * @param maxColumnNum 最大列数
- * @param baseWidth 参考宽度（根据设计稿可调整）
+ * Dynamically adjust the column count based on container width
+ * @param containerRef Container whose width should be observed
+ * @param columnNum Base column count
+ * @param enabled Whether adaptive mode is enabled
+ * @param minColumnNum Minimum column count
+ * @param maxColumnNum Maximum column count
+ * @param baseWidth Reference width (adjustable per design spec)
  */
 export const useAdaptiveColumnNum = (
   containerRef: RefObject<HTMLElement> | HTMLElement | null,
@@ -40,7 +40,7 @@ export const useAdaptiveColumnNum = (
 
       const containerWidth = container.parentElement!.offsetWidth;
 
-      // 以 baseWidth 为基准，根据当前容器宽度等比例缩放
+      // Scale proportionally to the current container width, using baseWidth as the baseline
       let next = Math.round((columnNum * containerWidth) / baseWidth);
 
       if (next < minColumnNum) next = minColumnNum;

@@ -1,12 +1,12 @@
 /**
- * 将英文错误信息翻译成中文
+ * Translate English error messages into Chinese
  */
 export function translateError(message: string): string {
   if (!message) return message;
 
   let translated = message;
 
-  // 先处理完整的 JSON 错误模式（优先级最高）
+  // Handle complete JSON error patterns first (highest priority)
   const jsonPatterns: Array<[RegExp, string]> = [
     [
       /Unexpected token (.+) in JSON at position (\d+)/gi,
@@ -40,12 +40,12 @@ export function translateError(message: string): string {
     [/Unexpected end of JSON input/gi, "JSON 输入意外结束"],
   ];
 
-  // 应用 JSON 完整模式
+  // Apply the complete JSON patterns
   jsonPatterns?.forEach(([pattern, replacement]) => {
     translated = translated.replace(pattern, replacement);
   });
 
-  // 处理位置信息（如果还没有被上面的模式处理）
+  // Handle position info (if not already handled by the patterns above)
   if (translated.includes("at position")) {
     const positionMatch = translated.match(/at position (\d+)/);
     if (positionMatch) {
@@ -56,7 +56,7 @@ export function translateError(message: string): string {
     }
   }
 
-  // 处理常见的单词翻译（按长度从长到短排序，优先匹配长短语）
+  // Handle common word translations (sorted by length from long to short, matching longer phrases first)
   const wordTranslations: Array<[string, string]> = [
     ["but found", "但找到"],
     ["in JSON", "在 JSON 中"],
@@ -90,14 +90,14 @@ export function translateError(message: string): string {
     ["but", "但是"],
   ];
 
-  // 应用单词翻译（按顺序，长短语优先）
+  // Apply word translations (in order, longer phrases first)
   wordTranslations?.forEach(([en, zh]) => {
-    // 对于短语，直接替换
+    // For phrases, replace directly
     if (en.includes(" ")) {
       const regex = new RegExp(en.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
       translated = translated.replace(regex, zh);
     } else {
-      // 对于单词，使用单词边界
+      // For single words, use word boundaries
       const regex = new RegExp(
         `\\b${en.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
         "gi"
@@ -106,7 +106,7 @@ export function translateError(message: string): string {
     }
   });
 
-  // 处理常见的 SQL 错误模式
+  // Handle common SQL error patterns
   const sqlPatterns: Array<[RegExp, string]> = [
     [/SyntaxError: (.+)/gi, "语法错误: $1"],
     [/Expected (.+) but found (.+)/gi, "期望 $1 但找到 $2"],
@@ -119,16 +119,16 @@ export function translateError(message: string): string {
     translated = translated.replace(pattern, replacement);
   });
 
-  // 清理多余的空白字符和标点
+  // Clean up extra whitespace and punctuation
   translated = translated
-    .replace(/\s+/g, " ") // 多个空格合并为一个
-    .replace(/\s*,\s*/g, "，") // 英文逗号改为中文逗号
-    .replace(/\s*:\s*/g, "：") // 英文冒号改为中文冒号
-    .replace(/\s*\.\s*/g, "。") // 英文句号改为中文句号
+    .replace(/\s+/g, " ") // Merge multiple spaces into one
+    .replace(/\s*,\s*/g, "，") // Replace English commas with Chinese commas
+    .replace(/\s*:\s*/g, "：") // Replace English colons with Chinese colons
+    .replace(/\s*\.\s*/g, "。") // Replace English periods with Chinese periods
     .trim();
 
-  // 最后检查：如果还有明显的英文单词残留，尝试翻译常见单词
-  // 注意：这些单词可能已经在前面的翻译中被处理，这里作为兜底
+  // Final check: if obvious English words remain, try translating common words
+  // Note: these words may already have been handled by earlier translations; this is a fallback
   const commonEnglishWords: Array<[string, string]> = [
     ["or", "或"],
     ["and", "和"],
@@ -152,14 +152,14 @@ export function translateError(message: string): string {
     ["to", "到"],
   ];
 
-  // 直接替换，不需要先检查（避免正则状态问题）
+  // Replace directly without checking first (avoids regex state issues)
   commonEnglishWords?.forEach(([en, zh]) => {
-    // 使用单词边界，确保只替换完整的单词
+    // Use word boundaries to ensure only complete words are replaced
     const regex = new RegExp(`\\b${en}\\b`, "gi");
     translated = translated.replace(regex, zh);
   });
 
-  // 最终清理：移除多余的空格
+  // Final cleanup: remove extra spaces
   translated = translated.replace(/\s+/g, " ").trim();
 
   return translated;

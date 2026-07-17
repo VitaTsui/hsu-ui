@@ -29,7 +29,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     ...rest
   } = props;
 
-  // 获取所有非"全部"选项的值
+  // Get the values of all non-"All" options
   const normalValues = useMemo(() => {
     return options?.map((option) => {
       if (typeof option === "string" || typeof option === "number") {
@@ -39,7 +39,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     });
   }, [options]);
 
-  // 计算"全部"选项的状态
+  // Compute the state of the "All" option
   const allChecked = useMemo(() => {
     if (!hasAll || !value || normalValues.length === 0) return false;
     const selectedValues = Array.isArray(value) ? value : [];
@@ -58,23 +58,23 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     return selectedCount > 0 && selectedCount < normalValues.length;
   }, [hasAll, value, normalValues]);
 
-  // 处理"全部"选项的点击
+  // Handle clicks on the "All" option
   const handleAllChange = useCallback(
     (e: { target: { checked: boolean } }) => {
       if (!onChange) return;
 
       if (e.target.checked) {
-        // 选中所有选项
+        // Select all options
         onChange(normalValues);
       } else {
-        // 取消所有选项
+        // Deselect all options
         onChange([]);
       }
     },
     [onChange, normalValues]
   );
 
-  // 处理普通选项的点击
+  // Handle clicks on normal options
   const handleChange = useCallback(
     (checkedValues: (string | number)[]) => {
       if (!onChange) return;

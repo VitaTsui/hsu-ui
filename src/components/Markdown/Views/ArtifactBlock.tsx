@@ -4,17 +4,17 @@ import classNames from "classnames";
 import styles from "./blocks.module.scss";
 
 export interface ArtifactBlockProps {
-  /** 原始代码（html/svg） */
+  /** Raw source code (html/svg) */
   code: string;
-  /** 语言标记（html / svg） */
+  /** Language tag (html / svg) */
   lang: string;
-  /** 代码视图（沿用外层的高亮代码块渲染） */
+  /** Code view (reuses the outer highlighted code block rendering) */
   codeView: React.ReactNode;
 }
 
 /**
- * HTML/SVG Artifacts 预览块（对标 Claude Artifacts）：代码 / 预览两个页签，
- * 预览在 sandbox iframe（仅 allow-scripts，无同源权限）里渲染模型产出的页面。
+ * HTML/SVG Artifacts preview block (modeled after Claude Artifacts): code / preview tabs;
+ * the preview renders the model-generated page in a sandbox iframe (allow-scripts only, no same-origin access).
  */
 const ArtifactBlock: React.FC<ArtifactBlockProps> = ({ code, lang, codeView }) => {
   const [tab, setTab] = useState<"preview" | "code">("preview");

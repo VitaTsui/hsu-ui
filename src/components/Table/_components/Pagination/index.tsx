@@ -36,7 +36,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     align,
   } = props;
   const selectRef = useRef<BaseSelectRef>(null);
-  // 直接传入原始值，不使用默认值，让 usePaginationSync 自行处理
+  // Pass the raw values directly without defaults; let usePaginationSync handle them itself
   const { _pageNum, _pageSize, setPageNum, setPageSize } = usePaginationSync({
     current: props.current,
     pageSize: props.pageSize,
@@ -122,7 +122,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   return (
     <AntdPagination
       {...props}
-      // 没有外部传入时使用内部状态
+      // Use internal state when no external value is provided
       current={props.current ?? _pageNum}
       pageSize={props.pageSize ?? _pageSize}
       total={total}
@@ -132,7 +132,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         [styles.bordered]: bordered,
       })}
       onChange={(page, size) => {
-        // 没有外部传入时，更新内部状态
+        // Update internal state when no external value is provided
         if (props.current === undefined) setPageNum(page);
         if (props.pageSize === undefined) setPageSize(size);
         onChange?.(page, size);

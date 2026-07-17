@@ -7,7 +7,7 @@ interface UseUploadOperationsProps {
 }
 
 /**
- * 管理上传和下载操作
+ * Manage upload and download operations
  */
 export function useUploadOperations({
   onUploadingList,
@@ -25,7 +25,7 @@ export function useUploadOperations({
     uploadingList: {},
   });
 
-  // 更新时同步到 ref
+  // Sync to the ref on update
   useEffect(() => {
     operationsRef.current.downloading = downloading;
   }, [downloading]);
@@ -41,7 +41,7 @@ export function useUploadOperations({
     }
   }, [uploadingList, lastUploadList, onUploadingList]);
 
-  // 清理函数
+  // Cleanup function
   useEffect(() => {
     return () => {
       const {

@@ -10,7 +10,7 @@ interface UseModalDragProps {
 }
 
 /**
- * 处理 Modal 拖拽功能
+ * Handle Modal drag functionality
  */
 export function useModalDrag({
   moveable,

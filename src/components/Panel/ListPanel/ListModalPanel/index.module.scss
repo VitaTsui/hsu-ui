@@ -1,5 +1,5 @@
 .modal {
-  // 定高让内部“height: 100%”链路可解析（antd Modal 默认内容自适应，内层设置 height/max-height 无效）
+  // Fixed height so the inner "height: 100%" chain can resolve (antd Modal content auto-sizes by default, so setting height/max-height on inner layers has no effect)
   height: 700px;
 
   &.fullscreen {

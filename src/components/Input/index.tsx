@@ -55,7 +55,7 @@ const Input: InputFC = (props) => {
   const [isComposing, setComposing] = useState<boolean>(false);
   const ref = useRef<InputRef>(null);
 
-  // 处理转义：如果值中包含 escapeCharacters 中的字符，则在前面加上转义
+  // Handle escaping: if the value contains characters listed in escapeCharacters, prefix them with an escape
   const escapeValue = useCallback(
     (val: string): string => {
       if (!escapeCharacters || escapeCharacters.length === 0) {
@@ -66,19 +66,19 @@ const Input: InputFC = (props) => {
       let i = 0;
       while (i < val.length) {
         const char = val[i];
-        // 检查是否是转义字符，且下一个字符是需要转义的字符
+        // Check if this is an escape character and the next character is one that needs escaping
         if (char === "\\" && i + 1 < val.length) {
           const nextChar = val[i + 1];
-          // 如果下一个字符是需要转义的字符，说明已经转义过了，直接添加
+          // If the next character is one that needs escaping, it is already escaped; append as is
           if (escapeCharacters.includes(nextChar)) {
             result += char + nextChar;
             i += 2;
             continue;
           }
         }
-        // 如果当前字符是需要转义的字符，且前面没有转义符，则添加转义符
+        // If the current character needs escaping and is not already preceded by an escape, add the escape character
         if (escapeCharacters.includes(char)) {
-          // 检查前面是否已经有转义符（避免重复转义）
+          // Check whether an escape character already precedes it (avoid double escaping)
           if (i === 0 || val[i - 1] !== "\\") {
             result += "\\" + char;
           } else {
@@ -94,7 +94,7 @@ const Input: InputFC = (props) => {
     [escapeCharacters],
   );
 
-  // 处理去转义：如果值中包含转义格式，则去除转义
+  // Handle unescaping: if the value contains escaped sequences, remove the escapes
   const unescapeValue = useCallback(
     (val: string): string => {
       if (!escapeCharacters || escapeCharacters.length === 0) {
@@ -105,11 +105,11 @@ const Input: InputFC = (props) => {
       let i = 0;
       while (i < val.length) {
         const char = val[i];
-        // 如果当前字符是反斜杠，且下一个字符是需要转义的字符
+        // If the current character is a backslash and the next character is one that needs escaping
         if (char === "\\" && i + 1 < val.length) {
           const nextChar = val[i + 1];
           if (escapeCharacters.includes(nextChar)) {
-            // 跳过反斜杠，只添加需要转义的字符
+            // Skip the backslash and append only the escaped character
             result += nextChar;
             i += 2;
             continue;
@@ -123,7 +123,7 @@ const Input: InputFC = (props) => {
     [escapeCharacters],
   );
 
-  // 初始化时优先使用 value，其次使用 defaultValue
+  // On initialization, prefer value, then fall back to defaultValue
   const getInitialValue = () => {
     const rawValue =
       value !== undefined
@@ -150,7 +150,7 @@ const Input: InputFC = (props) => {
         const trimmedValue = _value.trim();
         const finalValue = trimmedValue === "" ? "" : _value;
         setLastValue(finalValue);
-        // 如果设置了 escapeCharacters 且值匹配，则返回转义后的值
+        // If escapeCharacters is set and the value matches, return the escaped value
         const escapedValue = escapeValue(finalValue);
         onChange?.(escapedValue);
       }
@@ -162,19 +162,19 @@ const Input: InputFC = (props) => {
   );
 
   useEffect(() => {
-    // 只在外部 value prop 真正变化时才更新内部状态
+    // Update internal state only when the external value prop actually changes
     if (prevValueRef.current !== value) {
       prevValueRef.current = value;
 
       if (value !== undefined) {
         const rawValue =
           typeof value === "number" ? `${value}` : value?.toString();
-        // 去除转义后再显示
+        // Unescape before displaying
         const newValue = unescapeValue(rawValue);
         setValue(newValue);
         setLastValue(newValue);
       } else {
-        // 只在初始化或外部主动设置为 undefined 时清空
+        // Clear only on initialization or when explicitly set to undefined externally
         setValue("");
         setLastValue("");
       }
@@ -199,7 +199,7 @@ const Input: InputFC = (props) => {
         }}
         value={_value}
         onChange={(e) => {
-          // 用户输入时，先去除转义，然后再设置到状态中
+          // On user input, unescape first, then set into state
           const inputValue = e.target.value;
           const unescapedInput = unescapeValue(inputValue);
           setValue(unescapedInput);

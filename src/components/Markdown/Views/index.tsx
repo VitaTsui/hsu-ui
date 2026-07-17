@@ -13,12 +13,12 @@ import Copy, { CopyProps } from "../../Copy";
 import MermaidBlock from "./MermaidBlock";
 import ArtifactBlock from "./ArtifactBlock";
 
-/** 支持 Artifacts 预览的代码块语言（对标 Claude Artifacts） */
+/** Code block languages that support Artifacts preview (modeled after Claude Artifacts) */
 const ARTIFACT_LANGS = new Set(["html", "svg"]);
 
 /**
- * 从代码块 children 还原纯文本源码：rehype-highlight 会把代码切成嵌套的
- * <span> 高亮元素，直接 join 会得到 [object Object]，需递归抽取文本。
+ * Recover the plain-text source from code block children: rehype-highlight splits code into
+ * nested <span> highlight elements; joining directly yields [object Object], so extract text recursively.
  */
 const extractText = (node: React.ReactNode): string => {
   if (node == null || typeof node === "boolean") return "";
@@ -50,7 +50,7 @@ const MarkdownViews: React.FC<MarkdownViewsProps> = (props) => {
             const lang = match[1].toLowerCase();
             const codeText = extractText(children);
 
-            // Mermaid 图：直接渲染为 SVG（流式不完整时回退代码展示）
+            // Mermaid diagrams: render directly as SVG (fall back to code display when streaming output is incomplete)
             if (lang === "mermaid") {
               return <MermaidBlock code={codeText} />;
             }
@@ -73,7 +73,7 @@ const MarkdownViews: React.FC<MarkdownViewsProps> = (props) => {
               </div>
             );
 
-            // HTML/SVG：Artifacts 预览（sandbox iframe）+ 代码两个页签
+            // HTML/SVG: Artifacts preview (sandbox iframe) + code tabs
             if (ARTIFACT_LANGS.has(lang)) {
               return (
                 <ArtifactBlock code={codeText} lang={lang} codeView={codeView} />

@@ -19,54 +19,54 @@ export const Item: React.FC<ItemProps> = memo((props) => {
   const { item, idx, option, value, setValue } = props;
   const [lastElementValue, setLastElementValue] = useState<unknown>(undefined);
 
-  // 优化：缓存激活状态计算
+  // Optimization: cache the active state calculation
   const isActive = useMemo(() => {
     return option.multiple
       ? array_is_includes((value[option.name] as unknown[]) || [], [item.value])
       : value?.[option.name] === item.value;
   }, [option.multiple, option.name, value, item.value]);
 
-  // 优化：缓存点击处理函数
+  // Optimization: cache the click handler
   const handleClick = useCallback(() => {
     try {
       if (option.multiple) {
         const currentValue = (value[option.name] as unknown[]) || [];
-        // 检查是否之前已选中
+        // Check whether it was previously selected
         const wasSelected = array_is_includes(currentValue, [item.value]);
         const newValues = wasSelected
           ? currentValue.filter((v) => !Equal.ValEqual(v, item.value))
           : [...currentValue, item.value];
 
-        // 准备新的值对象
+        // Prepare the new value object
         const newValue: Record<string, unknown> = {
           ...value,
           [option.name]: newValues,
         };
 
-        // 如果取消选中且有子项，清除子项的选择
+        // If deselected and it has children, clear the children's selection
         const hasChildren = item.children && item.children.length > 0;
         if (wasSelected && hasChildren) {
           const childrenName = `${item.name || option.name}Children`;
           newValue[childrenName] = item.childrenMultiple ? [] : "";
         }
 
-        // 更新真实返回值
+        // Update the real return value
         updateRealValue(value, option.name, newValue);
 
         setValue(newValue);
       } else {
-        // 检查是否之前已选中
+        // Check whether it was previously selected
         const wasSelected = Equal.ValEqual(item.value, value[option.name]);
 
-        // 准备新的值对象
+        // Prepare the new value object
         const newValue: Record<string, unknown> = {
           ...value,
           [option.name]: wasSelected ? "" : item.value,
         };
 
-        // 清除所有子项的选择状态
+        // Clear the selection state of all child items
         if (!wasSelected) {
-          // 清除所有子项选择状态
+          // Clear all child item selection states
           option.items?.forEach((parentItem) => {
             if (parentItem.children && parentItem.children.length > 0) {
               const parentChildrenName = `${
@@ -79,7 +79,7 @@ export const Item: React.FC<ItemProps> = memo((props) => {
           });
         }
 
-        // 更新真实返回值
+        // Update the real return value
         updateRealValue(value, option.name, newValue);
 
         setValue(newValue);
@@ -117,7 +117,7 @@ export const Item: React.FC<ItemProps> = memo((props) => {
               [name ?? option.name]: e ? [...currentValue, e] : currentValue,
             };
 
-            // 更新真实返回值
+            // Update the real return value
             updateRealValue(value, option.name, newValue);
 
             setValue(newValue);
@@ -128,7 +128,7 @@ export const Item: React.FC<ItemProps> = memo((props) => {
               [name ?? option.name]: e ?? "",
             };
 
-            // 更新真实返回值
+            // Update the real return value
             updateRealValue(value, option.name, newValue);
 
             setValue(newValue);

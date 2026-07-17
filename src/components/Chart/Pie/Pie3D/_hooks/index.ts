@@ -4,7 +4,7 @@ import { ChartsOption, ChartOptionType } from "../../..";
 import { getParametricEquation } from "../_utils/parametricEquation";
 import type { SeriesItem } from "..";
 
-// 获取饼图扇区的数量（不包括标签系列）
+// Get the number of pie sectors (excluding the label series)
 const getPieSeriesCount = (series: SeriesItem[]): number => {
   return series.filter((s) => s.type === "surface").length;
 };
@@ -18,7 +18,7 @@ const getMaxPieValue = (series: SeriesItem[]): number => {
   return Math.max(1, ...values);
 };
 
-// 高亮标签
+// Highlight a label
 const highlightLabel = (
   option: ChartsOption & { series: SeriesItem[] },
   pieIndex: number
@@ -27,7 +27,7 @@ const highlightLabel = (
   const lineIndex = pieSeriesCount + pieIndex;
   const scatterIndex = pieSeriesCount * 2 + pieIndex;
 
-  // 高亮线条
+  // Highlight the leader line
   if (lineIndex < option.series.length) {
     const lineSeries = option.series[
       lineIndex
@@ -36,16 +36,16 @@ const highlightLabel = (
       _originalWidth?: number;
     };
     if (lineSeries && lineSeries.lineStyle) {
-      // 保存原始宽度（如果还没有保存）
+      // Save the original width (if not saved yet)
       if (lineSeries._originalWidth === undefined) {
         lineSeries._originalWidth = lineSeries.lineStyle.width || 1;
       }
-      // 高亮：只增加宽度，不改变颜色
+      // Highlight: only increase the width, keep the color
       lineSeries.lineStyle.width = (lineSeries._originalWidth || 1) * 2;
     }
   }
 
-  // 高亮文本
+  // Highlight the text
   if (scatterIndex < option.series.length) {
     const scatterSeries = option.series[
       scatterIndex
@@ -57,17 +57,17 @@ const highlightLabel = (
     };
     if (scatterSeries && scatterSeries.label && scatterSeries.label.textStyle) {
       const textStyle = scatterSeries.label.textStyle;
-      // 保存原始字体大小（如果还没有保存）
+      // Save the original font size (if not saved yet)
       if (scatterSeries._originalFontSize === undefined) {
         scatterSeries._originalFontSize = textStyle.fontSize || 14;
       }
-      // 高亮：只增加字体大小，不改变颜色
+      // Highlight: only increase the font size, keep the color
       textStyle.fontSize = (scatterSeries._originalFontSize || 14) * 1.2;
     }
   }
 };
 
-// 取消标签高亮
+// Remove label highlight
 const unhighlightLabel = (
   option: ChartsOption & { series: SeriesItem[] },
   pieIndex: number
@@ -76,7 +76,7 @@ const unhighlightLabel = (
   const lineIndex = pieSeriesCount + pieIndex;
   const scatterIndex = pieSeriesCount * 2 + pieIndex;
 
-  // 恢复线条样式
+  // Restore the leader line style
   if (lineIndex < option.series.length) {
     const lineSeries = option.series[
       lineIndex
@@ -93,7 +93,7 @@ const unhighlightLabel = (
     }
   }
 
-  // 恢复文本样式
+  // Restore the text style
   if (scatterIndex < option.series.length) {
     const scatterSeries = option.series[
       scatterIndex
@@ -174,7 +174,7 @@ export const useMouseOverHandler = (
         );
         option.series[idx].pieStatus.hovered = false;
 
-        // 取消之前高亮的标签
+        // Clear the previously highlighted label
         unhighlightLabel(option, idx);
 
         hoveredIndexRef.current = "";
@@ -205,7 +205,7 @@ export const useMouseOverHandler = (
         );
         option.series[seriesIndex].pieStatus.hovered = true;
 
-        // 高亮对应的标签
+        // Highlight the matching label
         highlightLabel(option, seriesIndex);
 
         hoveredIndexRef.current = seriesIndex;
@@ -279,7 +279,7 @@ export const useGlobalOutHandler = (
       );
       option.series[idx].pieStatus.hovered = false;
 
-      // 取消标签高亮
+      // Remove label highlight
       unhighlightLabel(option, idx);
 
       hoveredIndexRef.current = "";

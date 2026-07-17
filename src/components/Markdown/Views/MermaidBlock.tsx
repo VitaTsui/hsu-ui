@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { generateRandomStr } from "hsu-utils";
 import styles from "./blocks.module.scss";
 
-// mermaid 体积大，懒加载并全局只初始化一次
+// mermaid is large; lazy-load it and initialize globally only once
 let mermaidPromise: Promise<typeof import("mermaid")["default"]> | null = null;
 const loadMermaid = () => {
   if (!mermaidPromise) {
@@ -24,8 +24,8 @@ export interface MermaidBlockProps {
 }
 
 /**
- * Mermaid 图渲染块（对标 Claude/Kimi 等的流程图渲染）：
- * 渲染成功显示 SVG；语法不完整（如流式生成中）静默回退为代码展示。
+ * Mermaid diagram rendering block (modeled after the flowchart rendering in Claude/Kimi etc.):
+ * shows SVG on successful render; silently falls back to code display when the syntax is incomplete (e.g. during streaming).
  */
 const MermaidBlock: React.FC<MermaidBlockProps> = ({ code }) => {
   const [svg, setSvg] = useState<string | null>(null);
@@ -40,9 +40,9 @@ const MermaidBlock: React.FC<MermaidBlockProps> = ({ code }) => {
           if (!cancelled) setSvg(rendered);
         })
         .catch(() => {
-          // 流式生成中代码不完整属正常态，回退为代码展示
+          // Incomplete code during streaming is normal; fall back to code display
           if (!cancelled) setSvg(null);
-          // mermaid.render 失败会在 DOM 残留错误占位节点，清理掉
+          // A failed mermaid.render leaves an error placeholder node in the DOM; clean it up
           document.getElementById(`d${id}`)?.remove();
         });
     }, 300);

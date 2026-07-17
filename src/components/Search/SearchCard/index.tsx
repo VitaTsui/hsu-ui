@@ -62,7 +62,7 @@ const SearchCard: React.FC<SearchCardProps> = memo((props) => {
     defaultCollapse,
   });
 
-  // 处理搜索
+  // Handle search
   const handleSearch = () => {
     const realValues = getRealValues();
     onChange?.({ ...realValues, [searchField]: internalValue });

@@ -38,14 +38,14 @@ import React from "react";
 export { ItemContainer as FormItemContainer };
 export type { ItemContainerProps as FormItemContainerProps };
 
-// 公共基础类型
+// Common base type
 interface BaseFormItem {
   visible?: boolean;
 }
 
-// 核心映射（按分组排序）
+// Core mapping (sorted by group)
 type FormItemMap = {
-  // 输入类
+  // Input types
   AUTO: FormAutoProps;
   INPUT: FormInputProps;
   TEXTAREA: FormTextAreaInputProps;
@@ -58,7 +58,7 @@ type FormItemMap = {
   CODEMIRROR: FormCodeMirrorProps;
   TEXT: FormTextProps;
 
-  // 选择类
+  // Selection types
   SELECT: FormSelectProps;
   TREESELECT: FormTreeSelectProps;
   AUTOCOMPLETESELECT: FormAutoCompleteSelectProps;
@@ -73,22 +73,22 @@ type FormItemMap = {
   TREE: FormTreeProps;
   ICONSELECT: FormIconSelectProps;
 
-  // 上传类
+  // Upload types
   FILE: FormUploadProps;
   IMAGEFILE: FormImageProps;
 };
 
-// 派生类型
+// Derived type
 export type FormItemType = keyof FormItemMap;
 
-// 表单项属性
+// Form item props
 export type FormItemProps = {
   [K in keyof FormItemMap]: { type: K } & BaseFormItem & FormItemMap[K];
 }[keyof FormItemMap];
 
-// 中文字典
+// Chinese dictionary
 export const PlaceholderDict: Record<FormItemType, string> = {
-  // 输入类
+  // Input types
   AUTO: "",
   INPUT: "请输入",
   TEXTAREA: "请输入",
@@ -101,7 +101,7 @@ export const PlaceholderDict: Record<FormItemType, string> = {
   CODEMIRROR: "请输入",
   TEXT: "请输入",
 
-  // 选择类
+  // Selection types
   SELECT: "请选择",
   TREESELECT: "请选择",
   AUTOCOMPLETESELECT: "请选择",
@@ -116,14 +116,14 @@ export const PlaceholderDict: Record<FormItemType, string> = {
   TREE: "请选择",
   ICONSELECT: "请选择",
 
-  // 上传类
+  // Upload types
   FILE: "请上传",
   IMAGEFILE: "请上传",
 };
 
-// 英文字典
+// English dictionary
 export const PlaceholderDictEn: Record<FormItemType, string> = {
-  // 输入类
+  // Input types
   AUTO: "",
   INPUT: "Please enter",
   TEXTAREA: "Please enter",
@@ -136,7 +136,7 @@ export const PlaceholderDictEn: Record<FormItemType, string> = {
   CODEMIRROR: "Please enter",
   TEXT: "Please enter",
 
-  // 选择类
+  // Selection types
   SELECT: "Please select",
   TREESELECT: "Please select",
   AUTOCOMPLETESELECT: "Please select",
@@ -151,7 +151,7 @@ export const PlaceholderDictEn: Record<FormItemType, string> = {
   TREE: "Please select",
   ICONSELECT: "Please select",
 
-  // 上传类
+  // Upload types
   FILE: "Please upload",
   IMAGEFILE: "Please upload",
 };

@@ -24,7 +24,7 @@ interface ChunkUploadOptions {
 }
 
 /**
- * 分片上传
+ * Chunked upload
  */
 export async function chunkUpload({
   file,
@@ -43,7 +43,7 @@ export async function chunkUpload({
   onError,
   onUploadSuccess,
 }: ChunkUploadOptions) {
-  // 验证文件
+  // Validate the file
   const validation = validateFile({ file, accept, size, en });
   if (!validation.valid) {
     onError?.(validation.error!);
@@ -52,8 +52,8 @@ export async function chunkUpload({
 
   const name = file.name;
   const uploadId = getUUID();
-  const sliceSize = toMB(5); // 切片大小，每个切片5MB
-  const totalSlices = Math.ceil(file.size / sliceSize); // 获取切片数量
+  const sliceSize = toMB(5); // Chunk size, 5MB per chunk
+  const totalSlices = Math.ceil(file.size / sliceSize); // Get the number of chunks
 
   let chunk = 0;
   let postPromises: Promise<{ data?: { code?: number; msg?: string } }>[] = [];

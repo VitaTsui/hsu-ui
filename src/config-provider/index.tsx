@@ -4,15 +4,15 @@ import { PermissionsContent } from "../hooks/usePermissions";
 import { configureRequest, RequestImpl } from "../request";
 
 export interface ConfigProviderProps {
-  /** 当前用户权限码列表；传入后 usePermissions / hasPermi 据此校验。不传则默认全部放行 */
+  /** Current user's permission code list; when provided, usePermissions / hasPermi validate against it. If omitted, everything is allowed by default */
   permissions?: string[] | null;
-  /** 注入 HTTP 请求实现，供 ImportForm 等智能组件使用 */
+  /** Inject the HTTP request implementation, used by smart components such as ImportForm */
   request?: Partial<RequestImpl>;
   children?: React.ReactNode;
 }
 
 /**
- * Hsu UI 全局配置：注入权限与请求实现。
+ * Hsu UI global configuration: injects permissions and the request implementation.
  *
  * @example
  * <ConfigProvider permissions={perms} request={{ get, post, del, put }}>
@@ -24,7 +24,7 @@ const ConfigProvider: React.FC<ConfigProviderProps> = ({
   request,
   children,
 }) => {
-  // 在渲染期同步注入，确保子组件首次交互即可拿到 request 实现
+  // Inject synchronously during render so child components get the request implementation on their very first interaction
   useMemo(() => {
     if (request) configureRequest(request);
   }, [request]);

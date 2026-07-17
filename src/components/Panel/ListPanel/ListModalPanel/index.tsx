@@ -30,7 +30,7 @@ interface TableTools {
 }
 
 export interface ListModalPanelTabelProps extends Omit<TableProps, "title"> {
-  /** 透传给内部 Table 的 key，用于在异构列集切换时强制重挂载表格 */
+  /** Key passed through to the inner Table, used to force-remount the table when switching between heterogeneous column sets */
   key?: React.Key;
   title?: string;
   buttonGroup?: ButtonProps[];
@@ -69,7 +69,7 @@ export interface ListModalPanelProps<
   modalClassName?: string;
   className?: string;
   searchProps?: SearchModePropsMap[T];
-  /** Search 组件模式：default-基础 | Advanced-高级筛选 | Collapsible-可折叠 | WithFilter-带筛选器 | WithMore-带更多项 | Card-卡片式 */
+  /** Search component mode: default-basic | Advanced-advanced filtering | Collapsible-collapsible | WithFilter-with filter | WithMore-with more items | Card-card style */
   searchMode?: T;
   tableProps?: ListModalPanelTabelProps;
   hasPermi?: string[];
@@ -99,8 +99,8 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
     tableContainerClassName,
     tips,
     otherTool,
-    // 异构列集切换时用于强制重挂载表格的 key；显式提取，避免随 ...tableConfig
-    // 展开进 JSX 触发 React "key prop being spread" 警告
+    // Key used to force-remount the table when switching between heterogeneous column sets; extracted
+    // explicitly so it is not spread into JSX via ...tableConfig, which triggers React's "key prop being spread" warning
     key: tableInstanceKey,
     ...tableConfig
   } = tableProps;
@@ -109,8 +109,8 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
   const [_columns, setColumns] = useState<ColumnsType | undefined>(columns);
   const [showColumnMgt, setShowColumnMgt] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  // 弹窗打开动画是否已完成：Search 的列数/展开等 DOM 测量要等弹窗完全展开
-  // 才能取到准确尺寸（zoom 动画只变 transform，不触发 ResizeObserver）
+  // Whether the modal's opening animation has finished: Search's DOM measurements (column count/expansion, etc.)
+  // only yield accurate sizes after the modal is fully expanded (the zoom animation only changes transform and does not trigger ResizeObserver)
   const [modalReady, setModalReady] = useState<boolean>(false);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
     }
   }, [columnMgt, columns]);
 
-  // 根据 searchMode 渲染对应的 Search 组件
+  // Render the matching Search component based on searchMode
   const SearchComponent = useMemo(() => {
     const searchClassName = classNames(searchProps?.className, styles.search);
 
@@ -226,7 +226,7 @@ const ListModalPanel: React.FC<ListModalPanelProps<SearchModeKeys>> = (
       >
         <div className={classNames(styles.ListModalPanel, className)}>
           {extraContent}
-          {/* 动画完成后重挂载 Search，使其在弹窗完全展开后重新初测 DOM 尺寸 */}
+          {/* Remount Search after the animation completes so it re-measures DOM sizes once the modal is fully expanded */}
           {React.cloneElement(SearchComponent, {
             key: modalReady ? "modal-ready" : "modal-pending",
           })}

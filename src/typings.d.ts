@@ -1,5 +1,5 @@
-// 环境声明：为构建期类型检查 / 声明文件生成补充缺失的模块类型。
-// 仅提供类型，不影响运行时行为。
+// Ambient declarations: supply missing module types for build-time type checking / declaration file generation.
+// Types only; no runtime effect.
 
 // CSS / Sass Modules
 declare module "*.module.scss" {
@@ -19,7 +19,7 @@ declare module "*.css" {
   export default content;
 }
 
-// 静态资源
+// Static assets
 declare module "*.png" {
   const src: string;
   export default src;

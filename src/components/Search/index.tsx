@@ -21,12 +21,12 @@ interface SearchFC extends React.FC<SearchProps> {
   WithMore: typeof SearchWithMore;
 }
 
-// 导出所有可用的 Search 模式键名
+// Export all available Search mode key names
 export type SearchModeKeys =
   | "Default"
   | keyof Omit<SearchFC, keyof React.FC<SearchProps>>;
 
-// 导出 Search 模式映射类型
+// Export the Search mode props mapping type
 export type SearchModePropsMap = {
   Default: SearchProps;
   Card: React.ComponentProps<SearchFC["Card"]>;
@@ -37,8 +37,8 @@ export type SearchModePropsMap = {
 };
 
 /**
- * 基础 Search 组件
- * - 标准的搜索表单布局，自适应列数与展开/收起
+ * Base Search component
+ * - Standard search form layout with adaptive column count and expand/collapse
  */
 const Search: SearchFC = (props) => {
   return <SearchBase {...props} />;

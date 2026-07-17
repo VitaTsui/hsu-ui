@@ -9,7 +9,7 @@
 
     height: 100%;
 
-    // 当 hasAll 为 true 时，Group 作为子元素
+    // When hasAll is true, the Group is rendered as a child element
     > :global(.ant-checkbox-group) {
       display: flex;
       flex-direction: column;

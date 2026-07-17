@@ -1,8 +1,8 @@
-// 全局配置（权限 + 请求注入）
+// Global configuration (permissions + request injection)
 export { default as ConfigProvider } from "./config-provider";
 export type { ConfigProviderProps } from "./config-provider";
 
-// 请求注入层
+// Request injection layer
 export {
   configureRequest,
   get,
@@ -16,11 +16,11 @@ export type { RequestImpl, RequestConfig, ResType, ListRes, FileRes } from "./re
 export { usePermissions, PermissionsContent, useLabelWidth } from "./hooks";
 export { getUUID, supportsHasSelector, isLegacyHasSelectorBrowser } from "./utils";
 
-// 设计 token（TS 常量，供 antd themeConfig 等 JS 侧消费；CSS 变量版在 es/styles/tokens.scss）
+// Design tokens (TS constants for JS-side consumers such as antd themeConfig; CSS-variable version lives in es/styles/tokens.scss)
 export { lightTokens, darkTokens, defaultPrimaryColor } from "./styles/tokens";
 export type { HsuThemeTokens } from "./styles/tokens";
 
-// 组件
+// Components
 export { default as Button } from "./components/Button";
 export * from "./components/Button";
 export { default as ChainGraph } from "./components/ChainGraph";
@@ -88,5 +88,5 @@ export * from "./components/Tree";
 export { default as Upload } from "./components/Upload";
 export * from "./components/Upload";
 
-// 显式消歧：Table 与 Descriptions 均导出了 ColumnsType，以 Table 的为准（公共 API）。
+// Explicit disambiguation: both Table and Descriptions export ColumnsType; Table's takes precedence (public API).
 export type { ColumnsType } from "./components/Table";

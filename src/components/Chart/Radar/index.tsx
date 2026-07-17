@@ -8,9 +8,9 @@ export interface RadarIndicator {
   max?: number;
 }
 
-/** 单指标 tooltip 触发方式
- * - `point`  仅悬停在数据点/线上触发（echarts 原生 item trigger）
- * - `region` 进入该指标的扇形区域即触发，并在命中扇形区内填充高亮色
+/** Single-indicator tooltip trigger mode
+ * - `point`  triggers only when hovering data points/lines (native echarts item trigger)
+ * - `region` triggers as soon as the pointer enters the indicator's sector, filling the hit sector with a highlight color
  */
 export type SingleIndicatorMode = "point" | "region";
 
@@ -20,9 +20,9 @@ export interface ChartRadarProps extends ChartCommonProps {
   color?: string;
   name?: string;
   /**
-   * 单指标 tooltip：
-   * - `true` 使用内置简单格式（`系列名 · 指标名：值`）
-   * - 传函数则接收当前最近指标下标与原始 echarts params，自行返回 HTML
+   * Single-indicator tooltip:
+   * - `true` uses the built-in simple format (`seriesName · indicatorName: value`)
+   * - a function receives the nearest indicator index and the raw echarts params, and returns HTML itself
    */
   singleIndicatorTooltip?:
     | boolean
@@ -31,9 +31,9 @@ export interface ChartRadarProps extends ChartCommonProps {
         params: unknown,
         indicator: RadarIndicator,
       ) => string);
-  /** 单指标触发方式；**不设置则完全走 echarts 原生全指标 tooltip**，忽略 `singleIndicatorTooltip` */
+  /** Single-indicator trigger mode; **when unset, the native echarts all-indicator tooltip is used** and `singleIndicatorTooltip` is ignored */
   singleIndicatorMode?: SingleIndicatorMode;
-  /** `region` 模式下的高亮色；不传则使用 `color` 以 0.12 透明度渲染 */
+  /** Highlight color in `region` mode; defaults to `color` rendered at 0.12 opacity */
   singleIndicatorHoverFill?: string;
 }
 
@@ -75,7 +75,7 @@ const Radar: React.FC<ChartRadarProps> = (props) => {
     const overrideData = seriesOverride?.data;
     const extraData = Array.isArray(overrideData) ? overrideData : [];
 
-    // 将每个 extraData item 拆为独立 series，使图例可以分别控制显隐
+    // Split each extraData item into its own series so the legend can toggle them individually
     const extraSeries: echarts.RadarSeriesOption[] = extraData.map((item) => {
       const d = item as { name?: string; [key: string]: unknown };
       return {
@@ -264,7 +264,7 @@ const Radar: React.FC<ChartRadarProps> = (props) => {
           return;
         }
         const axes = coord.getIndicatorAxes();
-        // echarts 雷达轴角度按数学约定（y 向上），而屏幕坐标 y 向下，需翻转 y
+        // echarts radar axis angles follow the math convention (y up) while screen coordinates have y down, so flip y
         const mouseAngle = Math.atan2(-dy, dx);
         let bestI = -1;
         let bestDA = Infinity;
@@ -278,8 +278,8 @@ const Radar: React.FC<ChartRadarProps> = (props) => {
         });
         hoveredIndicatorRef.current = bestI;
         if (hoverShape && bestI >= 0) {
-          // 以与雷达多边形一致的边界构造扇形区：
-          // 中心 → 与上一轴顶边的中点 → 当前轴顶 → 与下一轴顶边的中点
+          // Build the sector with boundaries matching the radar polygon:
+          // center → midpoint of the edge to the previous axis tip → current axis tip → midpoint of the edge to the next axis tip
           const n = axes.length;
           const tipOf = (idx: number) => {
             const a = axes[idx].angle;

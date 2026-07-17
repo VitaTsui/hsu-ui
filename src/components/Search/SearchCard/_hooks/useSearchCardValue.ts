@@ -11,7 +11,7 @@ interface UseSearchCardValueProps {
 }
 
 /**
- * 管理 SearchCard 的值状态
+ * Manages the value state of SearchCard
  */
 export function useSearchCardValue({
   defaultValue,
@@ -31,22 +31,22 @@ export function useSearchCardValue({
     }
   }, [defaultValue, searchField]);
 
-  // 处理内部值更新，将所有值保存在内部状态中
+  // Handle internal value updates, keeping all values in internal state
   const handleValueChange = useCallback((newValue: Record<string, unknown>) => {
     setValue({ ...newValue });
   }, []);
 
-  // 获取真实值
+  // Get the real values
   const getRealValuesData = useCallback(() => {
     return getRealValues(value, options, searchField);
   }, [value, options, searchField]);
 
-  // 处理值变化
+  // Handle value changes
   useMemo(() => {
     if (onChange && !Equal.ObjEqual(value, lastValue)) {
       setLastValue(value);
 
-      // 提取所有Real值
+      // Extract all Real values
       const realValues = getRealValuesData();
 
       onChange(realValues);

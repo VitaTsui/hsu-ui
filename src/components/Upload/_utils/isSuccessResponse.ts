@@ -1,5 +1,5 @@
 /**
- * 检查响应是否成功
+ * Check whether the response is successful
  */
 export function isSuccessResponse(response: {
   code?: number;

@@ -28,24 +28,24 @@ const Tags: React.FC<TagsProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
 
-  // 使用 hook 计算可见的标签数量
+  // Use the hook to compute the number of visible tags
   const visibleCount = useVisibleTags(containerRef, measureRef, {
     tags,
     ellipsis,
     gap,
   });
 
-  // 获取可见的 tags 和省略的 tags
+  // Get the visible tags and the omitted tags
   const visibleTags = tags.slice(0, visibleCount);
   const ellipsisTags = tags.slice(visibleCount);
 
   return (
     <>
-      {/* 用于测量 tag 宽度的隐藏容器（仅在启用省略时显示） */}
+      {/* Hidden container used to measure tag widths (only rendered when ellipsis is enabled) */}
       {ellipsis && (
         <MeasureContainer ref={measureRef} tags={tags} colors={colors} />
       )}
-      {/* 实际显示的容器 */}
+      {/* The actually displayed container */}
       <div
         ref={ellipsis ? containerRef : undefined}
         className={classNames(styles.tagsContainer, className, {

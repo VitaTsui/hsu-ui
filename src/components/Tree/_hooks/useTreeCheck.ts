@@ -3,15 +3,15 @@ import { TreeProps as AntdTreeProps } from "antd";
 import { CheckedKeys } from "..";
 
 /**
- * 处理树勾选的 hook
- * 使用 antd 默认逻辑，不做额外操作
+ * Hook for handling tree checking
+ * Uses antd's default logic without any extra operations
  */
 export const useTreeCheck = (
   setCheckedKeys: React.Dispatch<React.SetStateAction<CheckedKeys | undefined>>,
   onCheck?: AntdTreeProps["onCheck"],
   onChange?: (checked: CheckedKeys) => void
 ) => {
-  // 处理勾选逻辑：直接使用 antd 的默认行为
+  // Handle check logic: directly use antd's default behavior
   const handleCheck = useCallback(
     (
       checked: CheckedKeys,
@@ -20,7 +20,7 @@ export const useTreeCheck = (
       setCheckedKeys(checked);
       onCheck?.(checked, info);
 
-      // 触发 onChange 回调
+      // Trigger the onChange callback
       if (onChange) {
         if (Array.isArray(checked)) {
           onChange({

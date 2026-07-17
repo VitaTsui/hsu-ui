@@ -16,7 +16,7 @@ interface UploadButtonProps {
     data?: Record<string, string>;
   };
   onUploadingChange?: (isUploading: boolean) => void;
-  // 拦截点击事件
+  // Intercept the click event
   onInterceptClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 

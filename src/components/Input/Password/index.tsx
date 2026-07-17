@@ -22,7 +22,7 @@ const Password: React.FC<PasswordProps> = (props) => {
   const [isComposing, setComposing] = useState<boolean>(false);
   const ref = useRef<InputRef>(null);
 
-  // 初始化时优先使用 value，其次使用 defaultValue
+  // On initialization, prefer value, then fall back to defaultValue
   const initialValue =
     value !== undefined
       ? value?.toString() ?? ""
@@ -44,7 +44,7 @@ const Password: React.FC<PasswordProps> = (props) => {
   }, [_value, isComposing, lastValue, onChange]);
 
   useEffect(() => {
-    // 只在外部 value prop 真正变化时才更新内部状态
+    // Update internal state only when the external value prop actually changes
     if (prevValueRef.current !== value) {
       prevValueRef.current = value;
 
@@ -52,7 +52,7 @@ const Password: React.FC<PasswordProps> = (props) => {
         setValue(value?.toString());
         setLastValue(value?.toString());
       } else {
-        // 只在初始化或外部主动设置为 undefined 时清空
+        // Clear only on initialization or when explicitly set to undefined externally
         setValue("");
         setLastValue("");
       }

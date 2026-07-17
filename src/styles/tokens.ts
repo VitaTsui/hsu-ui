@@ -1,20 +1,20 @@
 /**
- * Hsu UI 设计 token 的 TS 常量（供 antd themeConfig 等 JS 侧消费）。
- * CSS 变量版见 ./tokens.scss，两份需同步修改。
+ * TS constants for the Hsu UI design tokens (for JS-side consumers such as antd themeConfig).
+ * The CSS-variable version lives in ./tokens.scss; the two must be kept in sync.
  */
 
 export interface HsuThemeTokens {
-  /** 页面画布 */
+  /** Page canvas */
   canvas: string;
-  /** 卡片/面板底 */
+  /** Card/panel background */
   surface: string;
-  /** 表头/次级底 */
+  /** Table header/secondary background */
   subtle: string;
-  /** 描边 */
+  /** Border */
   border: string;
-  /** 更轻描边 */
+  /** Lighter border */
   borderWeak: string;
-  /** 顶栏底 */
+  /** Header bar background */
   headerBg: string;
   text: string;
   text2: string;
@@ -48,5 +48,5 @@ export const darkTokens: HsuThemeTokens = {
   rowHover: "rgba(255, 255, 255, 0.04)",
 };
 
-/** 默认主色（CSS 变量 --primary-color 的初始值，消费项目可运行时覆盖） */
+/** Default primary color (initial value of the CSS variable --primary-color; consuming projects may override at runtime) */
 export const defaultPrimaryColor = "#1677ff";

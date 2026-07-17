@@ -1,7 +1,7 @@
 import { UploadFile } from "antd";
 
 /**
- * 从响应中提取文件 URL
+ * Extract the file URL from the response
  */
 export function extractFileUrl(file: UploadFile): UploadFile {
   if (file.response?.data?.list?.[0]?.url) {

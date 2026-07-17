@@ -5,7 +5,7 @@ import TextEllipsis from "../../TextEllipsis";
 import React from "react";
 
 /**
- * 为设置了 ellipsis 且没有自定义 render 的列自动添加溢出检测和 Tooltip
+ * Automatically adds overflow detection and a Tooltip for columns that set ellipsis and have no custom render
  */
 const useEllipsisTooltip = <T extends AnyObject>(
   tooltipConfig?: EllipsisTooltipConfig,
@@ -13,7 +13,7 @@ const useEllipsisTooltip = <T extends AnyObject>(
   const enhanceColumns = useCallback(
     (columns?: ColumnsType<T>): ColumnsType<T> | undefined => {
       return columns?.map((column) => {
-        // 递归处理子列
+        // Recursively process child columns
         if (column.children) {
           return {
             ...column,
@@ -21,19 +21,19 @@ const useEllipsisTooltip = <T extends AnyObject>(
           };
         }
 
-        // 如果设置了 ellipsis 且没有自定义 render
+        // If ellipsis is set and there is no custom render
         if (column.ellipsis && !column.render && column.dataIndex) {
           return {
             ...column,
             render: (text) => {
-              // 获取实际的显示值
+              // Get the actual display value
               const displayValue =
                 typeof text === "string" || typeof text === "number"
                   ? text
                   : String(text ?? "");
 
-              // 不传 width：由 TextEllipsis 实测单元格实际渲染宽度作为 Tooltip 宽度
-              // （声明的列宽经 fixedWidth 比例分配后与实际宽度并不一致）
+              // Do not pass width: let TextEllipsis measure the cell's actual rendered width as the Tooltip width
+              // (the declared column width, after fixedWidth proportional allocation, does not match the actual width)
               return React.createElement(TextEllipsis, {
                 tooltipConfig: tooltipConfig,
                 children: displayValue,

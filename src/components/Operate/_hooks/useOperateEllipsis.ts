@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import { OperateProps } from "../index";
 
 /**
- * 计算操作按钮是否超出显示范围
- * @param menu - 菜单项数组
- * @param maxVisible - 最大可见数量
- * @param enableEllipsis - 是否启用省略
- * @returns 是否超出
+ * Determine whether the operate buttons overflow the visible range
+ * @param menu - Array of menu items
+ * @param maxVisible - Maximum number of visible items
+ * @param enableEllipsis - Whether ellipsis is enabled
+ * @returns Whether it overflows
  */
 const useOperateEllipsis = (
   menu: OperateProps[],

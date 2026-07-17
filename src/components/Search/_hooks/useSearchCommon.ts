@@ -77,7 +77,7 @@ export interface UseSearchCommonReturn {
 }
 
 /**
- * 提取所有 Search 组件的通用逻辑
+ * Extracts the common logic shared by all Search components
  */
 export const useSearchCommon = (
   params: UseSearchCommonParams,
@@ -109,23 +109,23 @@ export const useSearchCommon = (
   const buttonGroupRef = useRef<HTMLDivElement>(null);
   const cls = useMemo(() => generateRandomStr(10), []);
 
-  // 提取可见搜索项
+  // Extract visible search items
   const visibleSearchItems = useMemo(() => {
     return processedSearchItems.filter((item) => item.visible !== false);
   }, [processedSearchItems]);
 
-  // 提取可见的更多搜索项
+  // Extract visible "more" search items
   const visibleMoreSearchItems = useMemo(() => {
     return moreSearchItems.filter((item) => item.visible !== false);
   }, [moreSearchItems]);
 
-  // 计算可见的搜索项数量
+  // Count of visible search items
   const visibleSearchItemCount = visibleSearchItems.length;
 
-  // 计算总列数（包括按钮组）
+  // Total column count (including the button group)
   const baseTotalColumnNum = columnNum + 1;
 
-  // 根据容器宽度动态调整列数
+  // Dynamically adjust column count based on container width
   const totalColumnNum = useAdaptiveColumnNum(
     containerRef,
     baseTotalColumnNum,
@@ -136,10 +136,10 @@ export const useSearchCommon = (
     baseWidth,
   );
 
-  // 计算调整后的搜索项列数（不包括按钮组）
+  // Adjusted search-item column count (excluding the button group)
   const adaptiveColumnNum = Math.max(1, totalColumnNum - 1);
 
-  // 使用基于宽度的展开/收起控制
+  // Use width-based expand/collapse control
   const { expand, setExpand, toggleExpand, visibleItemCount } = useSearchExpand(
     containerRef,
     buttonGroupRef,
@@ -156,14 +156,14 @@ export const useSearchCommon = (
 
   useSearchForm({ form, searchData });
 
-  // 计算当前应该显示的搜索项
+  // Compute the search items that should currently be displayed
   const currentSearchItems = useMemo(() => {
     if (showAllSearchItems || !!moreSearchItems?.length) {
       if (expand) return [...visibleSearchItems, ...visibleMoreSearchItems];
       return visibleSearchItems;
     }
 
-    // 计算按钮组宽度和列宽（用于判断是否需要显示更多项）
+    // Compute button group width and column width (used to decide whether more items should be displayed)
     let buttonGroupWidth: number | undefined;
     let columnWidth: number | undefined;
 
@@ -178,7 +178,7 @@ export const useSearchCommon = (
       columnWidth = result.columnWidth;
     }
 
-    // 否则使用计算函数
+    // Otherwise use the calculation function
     return calculateVisibleItems(
       processedSearchItems,
       expand,
@@ -215,18 +215,18 @@ export const useSearchCommon = (
     });
   }, [form, onSearch]);
 
-  // 检查是否有自定义宽度
+  // Check whether any item has a custom width
   const hasCustomWidth = useMemo(() => {
     return processedSearchItems.some((item) => item.width !== undefined);
   }, [processedSearchItems]);
 
-  // 计算实际应该显示的项数（考虑按钮组宽度大于列宽的情况）
+  // Compute the actual number of items to display (accounting for the case where the button group is wider than a column)
   const actualDisplayCount = useMemo(() => {
     if (hasCustomWidth) {
       return visibleItemCount;
     }
 
-    // 计算按钮组宽度和列宽
+    // Compute button group width and column width
     const { buttonGroupWidth, columnWidth } =
       calculateButtonGroupAndColumnWidth(
         containerRef,
@@ -235,7 +235,7 @@ export const useSearchCommon = (
         columnOffsetWidth,
       );
 
-    // 判断按钮组宽度是否大于列宽，如果是，则显示 实际搜索项数量+1
+    // If the button group is wider than a column, display actual search item count + 1
     if (
       shouldDisplayExtraItem(
         buttonGroupWidth,
@@ -256,9 +256,9 @@ export const useSearchCommon = (
     visibleItemCount,
   ]);
 
-  // 计算是否显示展开按钮
+  // Determine whether to show the expand button
   const showExpandButton = useMemo(() => {
-    // 如果有更多搜索项，显示展开按钮
+    // If there are "more" search items, show the expand button
     if (showAllSearchItems || !!moreSearchItems?.length) {
       if (visibleMoreSearchItems?.length) {
         return true;
@@ -266,11 +266,11 @@ export const useSearchCommon = (
       return false;
     }
 
-    // 如果有自定义宽度，根据可见项数量判断
+    // If there are custom widths, decide based on the visible item count
     if (hasCustomWidth) {
       return visibleSearchItemCount > visibleItemCount;
     }
-    // 否则根据实际显示项数判断（考虑按钮组宽度大于列宽的情况）
+    // Otherwise decide based on the actual display count (accounting for the case where the button group is wider than a column)
     return visibleSearchItemCount > actualDisplayCount;
   }, [
     showAllSearchItems,
@@ -282,7 +282,7 @@ export const useSearchCommon = (
     visibleItemCount,
   ]);
 
-  // 检查按钮组是否有权限的按钮
+  // Check whether the button group contains any permitted button
   const hasPermittedButtons = useCallback(
     (buttonGroup?: ChakraButtonProps[]) => {
       if (!buttonGroup?.length) return false;
@@ -292,7 +292,7 @@ export const useSearchCommon = (
     [checkPermission],
   );
 
-  // 权限和内容检查
+  // Permission and content check
   const shouldRender = useMemo(() => {
     return Boolean(
       hasPermittedButtons(beforeButtonGroup) ||

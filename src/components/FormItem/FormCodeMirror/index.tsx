@@ -21,16 +21,16 @@ const FormCodeMirror: React.FC<FormCodeMirrorProps> = (props) => {
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const form = Form.useFormInstance();
 
-  // 处理 CodeMirror 的错误回调
+  // Handle the CodeMirror error callback
   const handleError = React.useCallback(
     (error: string | null) => {
       setErrorMessage(error);
 
-      // 如果有错误，触发表单验证
+      // If there is an error, trigger form validation
       if (name && form) {
         try {
           if (error) {
-            // 设置字段错误
+            // Set the field error
             form.setFields([
               {
                 name: name,
@@ -38,7 +38,7 @@ const FormCodeMirror: React.FC<FormCodeMirrorProps> = (props) => {
               },
             ]);
           } else {
-            // 清除字段错误
+            // Clear the field error
             form.setFields([
               {
                 name: name,
@@ -47,14 +47,14 @@ const FormCodeMirror: React.FC<FormCodeMirrorProps> = (props) => {
             ]);
           }
         } catch (e) {
-          // 忽略错误，可能表单还未初始化
+          // Ignore the error; the form may not be initialized yet
         }
       }
     },
     [name, form],
   );
 
-  // 合并验证规则，仅在启用 lint 时添加语法错误验证
+  // Merge validation rules; add syntax error validation only when lint is enabled
   const mergedRules = React.useMemo(() => {
     if (!enableLint) {
       return rules;

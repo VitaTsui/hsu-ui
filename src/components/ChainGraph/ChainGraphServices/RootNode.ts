@@ -9,17 +9,17 @@ import { NodeColor, NodeStyle } from ".";
 import { getTextSize } from ".";
 import { TreeGraphData } from "..";
 
-// ==================== 常量定义 ====================
-const DEFAULT_PADDING = 20; // 节点内边距
-const DEFAULT_LINE_HEIGHT = 18; // 行高
-const DEFAULT_LINE_GAP = 2; // 行间距
-const DEFAULT_ICON_RADIUS = 8; // 折叠图标半径
-const DEFAULT_FONT_SIZE = 20; // 根节点默认字体大小
-const DEFAULT_TEXT_COLOR = "#0c0d0e"; // 默认文本颜色
-const DEFAULT_BG_COLOR = "#fff"; // 默认背景颜色
-const DEFAULT_STROKE_COLOR = "#4096ff"; // 默认边框颜色
-const DEFAULT_HOVER_TEXT_COLOR = "#fff"; // 悬停时文本颜色
-const TEXT_WIDTH_TOLERANCE = 0.01; // 文本宽度容差
+// ==================== Constant definitions ====================
+const DEFAULT_PADDING = 20; // Node padding
+const DEFAULT_LINE_HEIGHT = 18; // Line height
+const DEFAULT_LINE_GAP = 2; // Line spacing
+const DEFAULT_ICON_RADIUS = 8; // Collapse icon radius
+const DEFAULT_FONT_SIZE = 20; // Default font size for root node
+const DEFAULT_TEXT_COLOR = "#0c0d0e"; // Default text color
+const DEFAULT_BG_COLOR = "#fff"; // Default background color
+const DEFAULT_STROKE_COLOR = "#4096ff"; // Default border color
+const DEFAULT_HOVER_TEXT_COLOR = "#fff"; // Text color on hover
+const TEXT_WIDTH_TOLERANCE = 0.01; // Text width tolerance
 
 interface RootNodeProps {
   showPort?: boolean;
@@ -60,7 +60,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     render,
   } = styles || {};
 
-  // ==================== 文本样式 ====================
+  // ==================== Text styles ====================
   const _textStyle: ShapeStyle = {
     fill: DEFAULT_TEXT_COLOR,
     fontSize: DEFAULT_FONT_SIZE,
@@ -78,7 +78,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     ...textHoverStyle,
   };
 
-  // ==================== 背景样式 ====================
+  // ==================== Background styles ====================
   const _bgStyle: ShapeStyle = {
     fill: DEFAULT_BG_COLOR,
     stroke: DEFAULT_STROKE_COLOR,
@@ -97,7 +97,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     ...hoverBgStyle,
   };
 
-  // ==================== 展开折叠Icon样式 ====================
+  // ==================== Expand/collapse icon style ====================
   const _collapseIconStyle: ShapeStyle = {
     stroke: DEFAULT_STROKE_COLOR,
     lineWidth: 1,
@@ -105,12 +105,12 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     ...collapseIconStyle,
   };
 
-  // ==================== 配置 ====================
+  // ==================== Options ====================
   const options = {
     styles: {},
   };
 
-  // ==================== 获取颜色配置 ====================
+  // ==================== Get color config ====================
   const getColorConfig = (item: Item) => {
     const index = (item._cfg?.model?.level as number) - rootLevel;
     return {
@@ -120,7 +120,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     };
   };
 
-  // ==================== 设置状态 ====================
+  // ==================== Set state ====================
   const setState = (name?: string, value?: string | boolean, item?: Item) => {
     if (!item) return;
 
@@ -131,7 +131,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
 
     const { color, hoverColor, selectedColor } = getColorConfig(item);
 
-    // 处理折叠状态
+    // Handle collapse state
     if (name === "collapse") {
       collapseShape?.attr({
         symbol: value ? G6.Marker.collapse : G6.Marker.expand,
@@ -139,7 +139,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
       return;
     }
 
-    // 处理悬停状态
+    // Handle hover state
     if (name === "hover" && !item.hasState("click") && hasHover) {
       const isHover = Boolean(value);
       const renderStyle = render?.(
@@ -166,7 +166,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
       return;
     }
 
-    // 处理选中状态
+    // Handle selected state
     if (name === "click" && hasSelected) {
       const isSelected = Boolean(value);
       const renderStyle = render?.(
@@ -193,7 +193,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     }
   };
 
-  // ==================== 文本换行处理 ====================
+  // ==================== Text wrapping ====================
   const wrapText = (label: string, maxWidth: number): string[] => {
     const lines: string[] = [];
     let currentLine = "";
@@ -218,7 +218,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     return lines.length > 0 ? lines : [label];
   };
 
-  // ==================== 计算节点尺寸 ====================
+  // ==================== Calculate node size ====================
   const calculateNodeSize = (
     label: string,
     fontSize: number
@@ -239,7 +239,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     return { width: nodeWidth, height: nodeHeight, lines };
   };
 
-  // ==================== 绘制 ====================
+  // ==================== Draw ====================
   const draw = (cfg: ModelConfig, group: IGroup) => {
     const renderStyle = render?.(cfg, "default");
     cfg.textStyle = { ..._textStyle, ...renderStyle?.textStyle };
@@ -261,7 +261,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
     cfg.height = nodeHeight;
     cfg.line = lineCount;
 
-    // 绘制背景
+    // Draw background
     const node = group.addShape("rect", {
       attrs: {
         ..._bgStyle,
@@ -276,7 +276,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
       name: "rect-shape",
     });
 
-    // 绘制文本
+    // Draw text
     lines?.forEach((line, lineIndex) => {
       const { width: lineWidth } = getTextSize(line, _textStyle);
       const textX =
@@ -302,7 +302,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
       });
     });
 
-    // 绘制展开折叠图标
+    // Draw expand/collapse icon
     const hasChildren =
       cfg.children && (cfg.children as TreeGraphData[]).length > 0;
     if (hasChildren) {
@@ -323,7 +323,7 @@ export default function RootNode(rootNodeProps: RootNodeProps): ShapeOptions {
       });
     }
 
-    // 自定义形状
+    // Custom shapes
     if (addShape) {
       addShape(group, cfg);
     }

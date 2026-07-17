@@ -4,14 +4,14 @@ import { ChartOptionType, Series } from "..";
 
 const colors: string[] = ["rgba(29, 230, 235,1)", "rgba(7, 235, 251,1)"];
 
-// buildPath 内 ctx 的可链式调用类型（等价于 zrender 的 PathProxy）
+// Chainable type of ctx inside buildPath (equivalent to zrender's PathProxy)
 type PathCtx = {
   moveTo(x: number, y: number): PathCtx;
   lineTo(x: number, y: number): PathCtx;
   closePath(): PathCtx;
 };
 
-// 绘制正面
+// Draw the front face
 const CubeFront = echarts.graphic.extendShape({
   shape: {
     x: 0,
@@ -20,13 +20,13 @@ const CubeFront = echarts.graphic.extendShape({
   buildPath(ctx, shape) {
     const { xAxisPoint, xAxisTranslation = 0, barWidth = 20 } = shape;
 
-    // 右上点
+    // Top-right point
     const c0 = [shape.x + 0 + xAxisTranslation, shape.y];
-    // 左上点
+    // Top-left point
     const c1 = [shape.x - barWidth + xAxisTranslation, shape.y];
-    // 左下点
+    // Bottom-left point
     const c2 = [xAxisPoint[0] - barWidth + xAxisTranslation, xAxisPoint[1]];
-    // 右下点
+    // Bottom-right point
     const c3 = [xAxisPoint[0] + 0 + xAxisTranslation, xAxisPoint[1]];
 
     (ctx as unknown as PathCtx)
@@ -37,7 +37,7 @@ const CubeFront = echarts.graphic.extendShape({
       .closePath();
   },
 });
-// 绘制右侧面
+// Draw the right face
 const CubeRight = echarts.graphic.extendShape({
   shape: {
     x: 0,
@@ -45,19 +45,19 @@ const CubeRight = echarts.graphic.extendShape({
   },
   buildPath(ctx, shape) {
     const { xAxisPoint, xAxisTranslation = 0, barWidth = 20 } = shape;
-    // 根据 barWidth 计算深度偏移，保持原有比例
+    // Compute the depth offset from barWidth, keeping the original ratio
     const depthOffset = (barWidth * 8) / 20;
 
-    // 左上点
+    // Top-left point
     const c1 = [shape.x + 0 + xAxisTranslation, shape.y];
-    // 左下点
+    // Bottom-left point
     const c2 = [xAxisPoint[0] + 0 + xAxisTranslation, xAxisPoint[1]];
-    // 右下点
+    // Bottom-right point
     const c3 = [
       xAxisPoint[0] + depthOffset + xAxisTranslation,
       xAxisPoint[1] - 5,
     ];
-    // 右上点
+    // Top-right point
     const c4 = [shape.x + depthOffset + xAxisTranslation, shape.y - 5];
 
     (ctx as unknown as PathCtx)
@@ -68,7 +68,7 @@ const CubeRight = echarts.graphic.extendShape({
       .closePath();
   },
 });
-// 绘制顶面
+// Draw the top face
 const CubeTop = echarts.graphic.extendShape({
   shape: {
     x: 0,
@@ -76,17 +76,17 @@ const CubeTop = echarts.graphic.extendShape({
   },
   buildPath(ctx, shape) {
     const { xAxisTranslation = 0, barWidth = 20 } = shape;
-    // 根据 barWidth 计算偏移量，保持原有比例
-    const rightOffset = (barWidth * 8) / 20; // 右侧偏移
-    const leftOffset = (barWidth * 12) / 20; // 左侧偏移
+    // Compute offsets from barWidth, keeping the original ratio
+    const rightOffset = (barWidth * 8) / 20; // Right offset
+    const leftOffset = (barWidth * 12) / 20; // Left offset
 
-    // 右上点
+    // Top-right point
     const c1 = [shape.x + 0 + xAxisTranslation, shape.y];
-    // 右上点
+    // Top-right point
     const c2 = [shape.x + rightOffset + xAxisTranslation, shape.y - 5];
-    // 左上点
+    // Top-left point
     const c3 = [shape.x - leftOffset + xAxisTranslation, shape.y - 5];
-    // 左下点
+    // Bottom-left point
     const c4 = [shape.x - barWidth + xAxisTranslation, shape.y];
 
     (ctx as unknown as PathCtx)
@@ -97,28 +97,28 @@ const CubeTop = echarts.graphic.extendShape({
       .closePath();
   },
 });
-// 注册三个面图形
+// Register the three face shapes
 echarts.graphic.registerShape("CubeFront", CubeFront);
 echarts.graphic.registerShape("CubeRight", CubeRight);
 echarts.graphic.registerShape("CubeTop", CubeTop);
 
 export interface Bar3DSeriesOptions {
-  /** 同组 3D 柱系列总数（图例隐藏的不计入），用于整组相对类目刻度居中，默认 1 */
+  /** Total number of 3D bar series in the group (legend-hidden ones excluded), used to center the whole group relative to the category tick, default 1 */
   seriesCount?: number;
-  /** 当前系列在同组内的序号（图例隐藏的不占位），默认取 params.seriesIndex */
+  /** Order of the current series within the group (legend-hidden ones take no slot), defaults to params.seriesIndex */
   seriesOrder?: number;
-  /** 堆叠模式：同一类目上各系列纵向叠放（共用同一根柱） */
+  /** Stack mode: series on the same category are stacked vertically (sharing a single bar) */
   stack?: boolean;
-  /** 堆叠基底：每个数据点下方已累计的值，由调用方按可见系列累加 */
+  /** Stack base: accumulated value below each data point, summed by the caller over visible series */
   stackBase?: number[];
 }
 
 /**
- * 3D柱状图series生成
- * @param _colors 颜色
- * @param barGap 柱间距，必须大于等于柱宽
- * @param barWidth 柱宽
- * @param options 分组居中 / 堆叠配置
+ * Generates the series for a 3D bar chart
+ * @param _colors Colors
+ * @param barGap Gap between bars, must be greater than or equal to the bar width
+ * @param barWidth Bar width
+ * @param options Group centering / stacking config
  * @returns
  */
 const bar3DSeries = (
@@ -128,9 +128,9 @@ const bar3DSeries = (
   options: Bar3DSeriesOptions = {},
 ): echarts.SeriesOption & ChartOptionType => {
   const { seriesCount = 1, seriesOrder, stack = false, stackBase } = options;
-  // 单根柱的视觉足迹为 [x - barWidth, x + depthOffset]（depthOffset 为 3D 深度）
+  // The visual footprint of a single bar is [x - barWidth, x + depthOffset] (depthOffset is the 3D depth)
   const depthOffset = (barWidth * 8) / 20;
-  // 整组（堆叠时只有一根柱）相对类目刻度的居中补偿
+  // Centering compensation of the whole group (a single bar when stacked) relative to the category tick
   const groupSpan = stack ? 0 : Math.max(0, seriesCount - 1) * barGap;
   const centerOffset = (barWidth - depthOffset - groupSpan) / 2;
 
@@ -185,7 +185,7 @@ const bar3DSeries = (
         return { type: "group", children: [] };
       }
 
-      // 堆叠时从基底（下方各系列累计值）画到基底+自身值；非堆叠从 0 画起
+      // When stacked, draw from the base (accumulated value of the series below) to base + own value; otherwise draw from 0
       const stackBottom = stack ? (stackBase?.[dataIndex] ?? 0) : 0;
       const location = api.coord!([value0, stackBottom + Number(value1)]);
       const bottomPoint = api.coord!([value0, stackBottom]);

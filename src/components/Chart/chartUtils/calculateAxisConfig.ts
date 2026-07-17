@@ -1,20 +1,20 @@
 /**
- * 计算合适的Y轴范围和间隔，确保0是刻度点，且总刻度数固定为6个
- * @param min 最小值
- * @param max 最大值
- * @returns { min, max, interval } Y轴配置
+ * Calculates a suitable Y-axis range and interval, ensuring 0 is a tick point and the total tick count is fixed at 6
+ * @param min minimum value
+ * @param max maximum value
+ * @returns { min, max, interval } Y-axis configuration
  */
 export function calculateAxisConfig(
   min: number,
   max: number
 ): { min: number; max: number; interval: number } {
-  // 根据数值大小选择合适的取整基数
+  // Choose a suitable rounding base according to the value's magnitude
   const getNiceNumber = (value: number) => {
     if (value === 0) return 1;
     const magnitude = Math.pow(10, Math.floor(Math.log10(Math.abs(value))));
     const normalized = value / magnitude;
 
-    // 选择 1, 2, 5, 10 这样的"整齐"数字
+    // Pick a "nice" number like 1, 2, 5, or 10
     let niceNormalized: number;
     if (normalized <= 1) niceNormalized = 1;
     else if (normalized <= 2) niceNormalized = 2;
@@ -24,32 +24,32 @@ export function calculateAxisConfig(
     return niceNormalized * magnitude;
   };
 
-  // 处理无效数据
+  // Handle invalid data
   if (min === Number.POSITIVE_INFINITY || max === Number.NEGATIVE_INFINITY) {
     return { min: 0, max: 5, interval: 1 };
   }
 
-  // 如果数据全部为0，返回默认值（6个刻度：0,1,2,3,4,5）
+  // If all data is 0, return default values (6 ticks: 0,1,2,3,4,5)
   if (min === 0 && max === 0) {
     return { min: 0, max: 5, interval: 1 };
   }
 
-  // 如果数据跨越0（有正有负）
+  // If the data spans 0 (has both positive and negative values)
   if (min < 0 && max > 0) {
     const absMax = Math.abs(max * 1.1);
     const absMin = Math.abs(min * 1.1);
 
-    // 计算总范围，分成5个间隔（6个刻度）
+    // Compute the total range, split into 5 intervals (6 ticks)
     const totalRange = absMax + absMin;
     const roughInterval = totalRange / 5;
     const interval = getNiceNumber(roughInterval);
 
-    // 计算需要多少个刻度能覆盖正负数据
+    // Compute how many ticks are needed to cover the positive and negative data
     const negativeSteps = Math.ceil(absMin / interval);
     const positiveSteps = Math.ceil(absMax / interval);
-    const totalSteps = negativeSteps + positiveSteps; // 不包括0
+    const totalSteps = negativeSteps + positiveSteps; // excluding 0
 
-    // 如果总刻度数正好是6个（5个间隔+0）
+    // If the total tick count is exactly 6 (5 intervals + 0)
     if (totalSteps === 5) {
       return {
         min: -negativeSteps * interval,
@@ -58,7 +58,7 @@ export function calculateAxisConfig(
       };
     }
 
-    // 否则，调整为固定5个间隔，按比例分配正负两边
+    // Otherwise, adjust to a fixed 5 intervals, distributed proportionally between the positive and negative sides
     const ratio = absMax / (absMax + absMin);
     const positiveIntervals = Math.round(ratio * 5);
     const negativeIntervals = 5 - positiveIntervals;
@@ -70,7 +70,7 @@ export function calculateAxisConfig(
     };
   }
 
-  // 如果全是非负数（固定6个刻度：0到max，分5段）
+  // If all values are non-negative (fixed 6 ticks: 0 to max, split into 5 segments)
   if (min >= 0) {
     const roughMax = max * 1.1;
     const roughInterval = roughMax / 5;
@@ -83,7 +83,7 @@ export function calculateAxisConfig(
     };
   }
 
-  // 如果全是负数（固定6个刻度：min到0，分5段）
+  // If all values are negative (fixed 6 ticks: min to 0, split into 5 segments)
   const roughMin = Math.abs(min * 1.1);
   const roughInterval = roughMin / 5;
   const interval = getNiceNumber(roughInterval);

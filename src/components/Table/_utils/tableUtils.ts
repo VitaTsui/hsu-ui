@@ -1,10 +1,10 @@
 /**
- * 获取相同值的连续行数
- * @param record 当前行数据
- * @param index 当前行索引
- * @param dataSource 数据源
- * @param key 相同值的key
- * @returns 相同值的连续行数
+ * Gets the number of consecutive rows with the same value
+ * @param record Current row data
+ * @param index Current row index
+ * @param dataSource Data source
+ * @param key Key of the shared value
+ * @returns Number of consecutive rows with the same value
  */
 export function getDepartmentRowSpan<T extends Record<string, unknown>>(
   record: T,
@@ -14,12 +14,12 @@ export function getDepartmentRowSpan<T extends Record<string, unknown>>(
 ) {
   const current = record[key];
 
-  // 如果不是该值的第一行，返回0（不显示）
+  // If this is not the first row with the value, return 0 (not displayed)
   if (index > 0 && dataSource[index - 1][key] === current) {
     return 0;
   }
 
-  // 计算相同值的连续行数
+  // Count consecutive rows with the same value
   let count = 1;
   for (let i = index + 1; i < dataSource.length; i++) {
     if (dataSource[i][key] === current) {
@@ -33,7 +33,7 @@ export function getDepartmentRowSpan<T extends Record<string, unknown>>(
 }
 
 /**
- * Tooltip 配置常量
+ * Tooltip config constants
  */
 export const HELP_TOOLTIP_CONFIG = {
   arrow: false,

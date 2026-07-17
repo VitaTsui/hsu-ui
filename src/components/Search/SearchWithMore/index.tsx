@@ -12,10 +12,10 @@ export interface SearchWithMoreProps
 }
 
 /**
- * 带更多搜索项的 Search 组件
- * - 将搜索项分为基础项和更多项两组
- * - 初始只显示基础搜索项，点击展开后显示更多项
- * - 适合有大量搜索字段的场景
+ * Search component with a "more items" section
+ * - Splits search items into a basic group and a "more" group
+ * - Only basic items are shown initially; expanding reveals the rest
+ * - Suitable for pages with a large number of search fields
  */
 const SearchWithMore: React.FC<SearchWithMoreProps> = (props) => {
   const { setFilter, ...rest } = props;
@@ -23,7 +23,7 @@ const SearchWithMore: React.FC<SearchWithMoreProps> = (props) => {
   return (
     <SearchBase
       {...rest}
-      // SearchWithMore 始终显示所有搜索项
+      // SearchWithMore always shows all search items
       showAllSearchItems
       showFilter={!!setFilter}
     />

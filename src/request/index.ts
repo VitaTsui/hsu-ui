@@ -2,22 +2,22 @@ import type { ResType } from "./ResType";
 
 export * from "./ResType";
 
-/** 请求配置（与常见 axios 封装兼容的子集） */
+/** Request configuration (a subset compatible with common axios wrappers) */
 export interface RequestConfig<P = object> {
   params?: P;
   responseType?: string;
   headers?: Record<string, unknown>;
-  /** 为 true 时该请求 401 不触发全局跳登录 */
+  /** When true, a 401 on this request does not trigger the global redirect to login */
   skipAuthRedirect?: boolean;
   [key: string]: unknown;
 }
 
 /**
- * 组件库内部「智能组件」依赖的请求实现接口。
- * 由使用方通过 ConfigProvider 的 `request` 或 `configureRequest()` 注入，
- * 组件库自身不绑定任何具体 HTTP 客户端。
+ * Request implementation interface that the library's internal "smart components" depend on.
+ * Injected by consumers via ConfigProvider's `request` or `configureRequest()`;
+ * the component library itself is not bound to any specific HTTP client.
  */
-// 注意：config/data 用宽松类型，以兼容各类 axios 封装的方法签名差异
+// Note: config/data use loose types to accommodate signature differences across axios wrappers
 export interface RequestImpl {
   get<T = unknown>(url: string, config?: any): Promise<ResType<T>>;
   post<T = unknown>(url: string, data?: any, config?: any): Promise<ResType<T>>;
@@ -39,7 +39,7 @@ let impl: RequestImpl = {
   put: notConfigured,
 };
 
-/** 注入真实的请求实现（可只注入用到的方法） */
+/** Inject the real request implementation (only the methods you use need to be provided) */
 export const configureRequest = (request: Partial<RequestImpl>): void => {
   impl = { ...impl, ...request } as RequestImpl;
 };

@@ -1,5 +1,8 @@
 # @hsu-react/ui
 
+[![npm version](https://img.shields.io/npm/v/@hsu-react/ui.svg)](https://www.npmjs.com/package/@hsu-react/ui)
+[![license](https://img.shields.io/npm/l/@hsu-react/ui.svg)](./LICENSE)
+
 一套基于 **React + Ant Design** 的中后台业务组件库，把「列表 + 搜索 + 表单弹窗 + CRUD」这类重复劳动沉淀为页面级组件，并内置 Markdown / CodeMirror / Spreadsheet / Chart / Editor 等内容组件。
 
 📖 **文档与在线示例：https://vitatsui.github.io/hsu-ui**
@@ -54,3 +57,11 @@ yarn docs:build  # 构建文档站静态产物
 反馈 `Modal` · AI `Chat`
 
 详见文档站。
+
+## 贡献
+
+日常开发在 `develop` 分支进行（feature 分支合入 `develop`），`main` 只接受来自 `develop` 的 PR；合入 `main` 后按 `package.json` 版本自动打 tag 并发布 npm。PR 标题遵循 [Conventional Commits](https://www.conventionalcommits.org/)。
+
+## License
+
+[MIT](./LICENSE) © VitaHsu

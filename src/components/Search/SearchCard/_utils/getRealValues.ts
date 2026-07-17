@@ -1,7 +1,7 @@
 import { SearchCardOption } from "../_components/OptionRow";
 
 /**
- * 获取真实值（提取所有Real值）
+ * Gets the real values (extracts all Real values)
  */
 export function getRealValues(
   value: Record<string, unknown>,
@@ -10,19 +10,19 @@ export function getRealValues(
 ): Record<string, unknown> {
   const realValues: Record<string, unknown> = {};
 
-  // 遍历所有选项，获取其Real值
+  // Iterate over all options and get their Real values
   options?.forEach((option) => {
     const realKey = `${option.name}Real`;
     if (value[realKey] !== undefined) {
-      // 将带有"Real"后缀的值使用不带后缀的原始键名
+      // Store the "Real"-suffixed value under the original key without the suffix
       realValues[option.name] = value[realKey];
     } else {
-      // 如果没有Real值，使用原始值
+      // If there is no Real value, use the original value
       realValues[option.name] = value[option.name];
     }
   });
 
-  // 保留搜索相关字段
+  // Keep search-related fields
   if (value[searchField] !== undefined) {
     realValues[searchField] = value[searchField];
   }

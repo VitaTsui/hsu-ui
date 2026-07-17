@@ -251,7 +251,7 @@ const ColumnMgt: React.FC<ColumnMgtProps> = (props) => {
         );
         const newDataSource = arrayMove(prevState, activeIndex, overIndex);
 
-        // 更新 sort 值以反映新的顺序
+        // Update sort values to reflect the new order
         const updatedDataSource = newDataSource?.map((item, index) => ({
           ...item,
           sort: index,

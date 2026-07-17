@@ -53,7 +53,7 @@ const ChartGroup: React.FC<ChartGroupProps> = (props: ChartGroupProps) => {
     pageNum && setPageNumDef(pageNum);
   }, [pageSize, pageNum, chartGroup]);
 
-  // 根据pagesize切割图表数组
+  // Split the chart array by pageSize
   useEffect(() => {
     let length = chartGroup.length;
     let slice = 0;

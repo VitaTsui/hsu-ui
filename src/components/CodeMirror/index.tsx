@@ -11,30 +11,30 @@ import { linter, LintSource, Diagnostic } from "@codemirror/lint";
 import { sqlLinter, loadSqlParser } from "./linters/sqlLinter";
 import { jsonLinter, loadJsonParser } from "./linters/jsonLinter";
 
-// 支持的语言类型
+// Supported language types
 export type CodeMirrorLanguageType = "sql" | "json" | "plain";
 
 export interface CodeMirrorProps extends Omit<
   ReactCodeMirrorProps,
   "extensions" | "onError"
 > {
-  /** 语言类型，支持按需引入 */
+  /** Language type, supports on-demand loading */
   language?: CodeMirrorLanguageType;
-  /** 是否启用语法检查 */
+  /** Whether to enable syntax linting */
   enableLint?: boolean;
-  /** 错误信息回调 */
+  /** Error message callback */
   onLintError?: (error: string | null) => void;
-  /** 是否有错误，用于显示错误边框 */
+  /** Whether there is an error, used to show the error border */
   hasError?: boolean;
-  /** 是否翻译错误信息为中文，默认 false */
+  /** Whether to translate error messages into Chinese, default false */
   translateError?: boolean;
   /**
-   * JSON 校验是否允许根节点为数组 `[...]`，默认 false（仅允许对象 `{...}`）
+   * Whether JSON validation allows the root node to be an array `[...]`, default false (only objects `{...}` are allowed)
    */
   allowJsonArrayRoot?: boolean;
 }
 
-// 按需引入语言支持
+// Load language support on demand
 const getLanguageExtension = async (language: CodeMirrorLanguageType) => {
   switch (language) {
     case "sql": {
@@ -80,12 +80,12 @@ const CodeMirror: React.FC<CodeMirrorProps> = (props) => {
         let lintSource: LintSource | null = null;
 
         if (language === "sql") {
-          // 预加载 SQL 解析器
+          // Preload the SQL parser
           await loadSqlParser();
           lintSource = sqlLinter(translateError);
           newExtensions.push(linter(lintSource));
         } else if (language === "json") {
-          // 预加载 JSON 解析器
+          // Preload the JSON parser
           await loadJsonParser();
           lintSource = jsonLinter({
             translate: translateError,
@@ -94,16 +94,16 @@ const CodeMirror: React.FC<CodeMirrorProps> = (props) => {
           newExtensions.push(linter(lintSource));
         }
 
-        // 添加错误监听扩展
+        // Add an error listener extension
         if (lintSource) {
           newExtensions.push(
             EditorView.updateListener.of((update) => {
               if (update.docChanged || update.viewportChanged) {
-                // 延迟执行以等待 linter 完成
+                // Delay execution to wait for the linter to finish
                 setTimeout(async () => {
                   try {
                     const diagnosticsResult = lintSource?.(update.view);
-                    // 处理可能是 Promise 的情况
+                    // Handle the case where the result may be a Promise
                     const diagnostics: readonly Diagnostic[] =
                       diagnosticsResult instanceof Promise
                         ? await diagnosticsResult
@@ -118,7 +118,7 @@ const CodeMirror: React.FC<CodeMirrorProps> = (props) => {
                       onLintErrorRef.current?.(null);
                     }
                   } catch (e) {
-                    // 忽略错误
+                    // Ignore errors
                     onLintErrorRef.current?.(null);
                   }
                 }, 150);
@@ -127,7 +127,7 @@ const CodeMirror: React.FC<CodeMirrorProps> = (props) => {
           );
         }
       } else {
-        // 如果禁用了 lint，清除错误
+        // If lint is disabled, clear the error
         onLintErrorRef.current?.(null);
       }
 

@@ -13,10 +13,10 @@ export interface SearchCollapsibleProps extends SearchPropsWithFilter {
 }
 
 /**
- * 可折叠模式的 Search 组件
- * - 可以完全折叠/展开整个搜索区域
- * - 通过 defaultExpanded 控制初始展开状态
- * - 适合需要隐藏搜索栏以获得更多展示空间的场景
+ * Search component in collapsible mode
+ * - The entire search area can be fully collapsed/expanded
+ * - Initial expanded state is controlled via defaultExpanded
+ * - Suitable for scenarios where the search bar needs to be hidden to gain more display space
  */
 const SearchCollapsible: React.FC<SearchCollapsibleProps> = (props) => {
   const {
@@ -27,10 +27,10 @@ const SearchCollapsible: React.FC<SearchCollapsibleProps> = (props) => {
     ...rest
   } = props;
 
-  // collapse 的语义是反的，所以需要取反 defaultExpanded
+  // The semantics of collapse are inverted, so defaultExpanded needs to be negated
   const [collapse, setCollapse] = useState(!defaultExpanded);
 
-  // 处理折叠切换
+  // Handle collapse toggle
   const handleCollapseToggle = useCallback(() => {
     setCollapse((prev) => {
       const newCollapse = !prev;

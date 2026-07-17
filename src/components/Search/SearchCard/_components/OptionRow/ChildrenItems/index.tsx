@@ -15,21 +15,21 @@ interface ChildrenItemsProps {
 export const ChildrenItems: React.FC<ChildrenItemsProps> = memo((props) => {
   const { parentItem, option, value, setValue } = props;
 
-  // 子项的名称，默认使用父项的name加上Children后缀
+  // Name of the child items; defaults to the parent item's name with a "Children" suffix
   const childrenName = useMemo(
     () => `${parentItem.name || option.name}Children`,
     [parentItem.name, option.name]
   );
 
-  // 判断子项是否支持多选
+  // Determine whether child items support multi-select
   const isChildrenMultiple = !!parentItem.childrenMultiple;
 
-  // 优化：缓存子项点击处理函数
+  // Optimization: cache the child item click handler
   const createChildClickHandler = useCallback(
     (childItem: ElementItem) => {
       return () => {
         if (isChildrenMultiple) {
-          // 多选模式：可以同时选择多个子项
+          // Multi-select mode: multiple child items can be selected at once
           const currentValue = (value[childrenName] as unknown[]) || [];
           const newValues = array_is_includes(currentValue, [childItem.value])
             ? currentValue.filter((v) => !Equal.ValEqual(v, childItem.value))
@@ -40,11 +40,11 @@ export const ChildrenItems: React.FC<ChildrenItemsProps> = memo((props) => {
             [childrenName]: newValues,
           };
 
-          // 更新真实返回值
+          // Update the real return value
           updateRealValue(value, option.name, newValue);
           setValue(newValue);
         } else {
-          // 单选模式：一次只能选一个子项
+          // Single-select mode: only one child item can be selected at a time
           const newValue = {
             ...value,
             [childrenName]: Equal.ValEqual(childItem.value, value[childrenName])
@@ -52,7 +52,7 @@ export const ChildrenItems: React.FC<ChildrenItemsProps> = memo((props) => {
               : childItem.value,
           };
 
-          // 更新真实返回值
+          // Update the real return value
           updateRealValue(value, option.name, newValue);
           setValue(newValue);
         }
@@ -68,7 +68,7 @@ export const ChildrenItems: React.FC<ChildrenItemsProps> = memo((props) => {
   return (
     <div className={styles.childrenItems}>
       {parentItem.children?.map((childItem) => {
-        // 判断子项是否被选中
+        // Determine whether the child item is selected
         const isChildSelected = isChildrenMultiple
           ? array_is_includes((value[childrenName] as unknown[]) || [], [
               childItem.value,

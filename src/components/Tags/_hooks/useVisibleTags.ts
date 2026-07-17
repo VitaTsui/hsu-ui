@@ -9,11 +9,11 @@ export interface UseVisibleTagsOptions {
 }
 
 /**
- * 计算可见标签数量的 Hook
- * @param containerRef 容器引用
- * @param measureRef 测量容器引用
- * @param options 配置选项
- * @returns 可见的标签数量
+ * Hook that computes the number of visible tags
+ * @param containerRef Container ref
+ * @param measureRef Measure container ref
+ * @param options Config options
+ * @returns Number of visible tags
  */
 export function useVisibleTags(
   containerRef: React.RefObject<HTMLDivElement>,
@@ -23,21 +23,21 @@ export function useVisibleTags(
   const { tags, gap = 8, ellipsisTagWidth = 60, ellipsis = true } = options;
   const [visibleCount, setVisibleCount] = useState<number>(tags.length);
 
-  // 当 tags 变化时，重置 visibleCount
+  // Reset visibleCount when tags change
   useEffect(() => {
     setVisibleCount(tags.length);
   }, [tags.length]);
 
-  // 如果禁用省略，直接返回所有标签数量
+  // If ellipsis is disabled, just return the total tag count
   useEffect(() => {
     if (!ellipsis) {
       setVisibleCount(tags.length);
     }
   }, [ellipsis, tags.length]);
 
-  // 计算可见的 tag 数量
+  // Compute the number of visible tags
   useEffect(() => {
-    // 如果禁用省略，不进行计算
+    // If ellipsis is disabled, skip the calculation
     if (!ellipsis) {
       return;
     }
@@ -54,11 +54,11 @@ export function useVisibleTags(
 
       const containerWidth = container.offsetWidth;
       if (containerWidth === 0) {
-        // 容器宽度为 0，可能是隐藏状态，不进行计算
+        // Container width is 0, possibly hidden; skip the calculation
         return;
       }
 
-      // 获取所有 tag 元素的实际宽度
+      // Get the actual widths of all tag elements
       const tagElements = measureContainer.children;
       const tagWidths: number[] = [];
       for (let i = 0; i < tagElements.length; i++) {
@@ -75,12 +75,12 @@ export function useVisibleTags(
       setVisibleCount(count);
     };
 
-    // 使用 requestAnimationFrame 确保 DOM 已更新
+    // Use requestAnimationFrame to ensure the DOM has been updated
     const timer = requestAnimationFrame(() => {
       calculate();
     });
 
-    // 监听容器大小变化
+    // Observe container size changes
     const resizeObserver = new ResizeObserver(() => {
       requestAnimationFrame(() => {
         calculate();

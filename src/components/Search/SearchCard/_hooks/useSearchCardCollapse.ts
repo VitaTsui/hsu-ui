@@ -5,7 +5,7 @@ interface UseSearchCardCollapseProps {
 }
 
 /**
- * 管理 SearchCard 的折叠状态
+ * Manages the collapse state of SearchCard
  */
 export function useSearchCardCollapse({
   defaultCollapse = false,

@@ -22,7 +22,7 @@ export interface ChartTooltipFormatterProps {
   hideMarker?: boolean;
   textStyle?: Record<string, unknown>;
   unit?: string;
-  /** 多系列时按数值从大到小排序展示（大的在上） */
+  /** For multiple series, display sorted by value in descending order (largest on top) */
   sortDescending?: boolean;
 }
 
@@ -80,7 +80,7 @@ const chartTooltipFormatter = (props: ChartTooltipFormatterProps) => {
     `;
   }
 
-  // value 可能是数值、拼了单位的字符串("123次")或带千分位("1,234"），排序前统一还原成数值
+  // value may be a number, a string with a unit appended ("123次"), or one with thousands separators ("1,234"); normalize back to a number before sorting
   const toSortValue = (v: unknown): number => {
     if (typeof v === "number") return v;
     if (Array.isArray(v)) return toSortValue(v[v.length - 1]);

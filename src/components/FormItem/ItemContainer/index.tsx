@@ -46,7 +46,7 @@ export interface ItemContainerProps extends FormItemProps {
   labelBreak?: boolean;
   hideAdditiona?: boolean;
   hideLabel?: boolean;
-  /** 显隐开关，由 FormItem 消费；在此解构剥离，避免透传到 DOM */
+  /** Visibility switch, consumed by FormItem; destructured and stripped here to avoid passing it through to the DOM */
   visible?: boolean;
 }
 

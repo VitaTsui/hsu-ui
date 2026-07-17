@@ -10,7 +10,7 @@ interface CalculatePopupWidthOptions {
 }
 
 /**
- * 计算弹出层宽度
+ * Calculate popup width
  */
 export function calculatePopupWidth({
   options,

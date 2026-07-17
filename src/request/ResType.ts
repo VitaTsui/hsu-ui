@@ -1,11 +1,11 @@
-/** 通用响应包装：与后端约定的 { code, data, msg } 结构 */
+/** Generic response wrapper: the { code, data, msg } structure agreed with the backend */
 export interface ResType<T = unknown> {
   code: number;
   data: T;
   msg?: string;
 }
 
-/** 分页列表响应 */
+/** Paginated list response */
 export interface ListRes<T> {
   list: Array<T>;
   page: {
@@ -15,7 +15,7 @@ export interface ListRes<T> {
   };
 }
 
-/** 文件响应（二进制下载） */
+/** File response (binary download) */
 export interface FileRes {
   filename: string;
   data: ArrayBuffer;

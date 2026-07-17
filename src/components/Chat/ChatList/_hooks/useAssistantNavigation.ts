@@ -5,7 +5,7 @@ interface UseAssistantNavigationProps {
 }
 
 /**
- * 管理 Assistant 组件中的导航状态（切换不同的答案）
+ * Manage navigation state in the Assistant component (switching between different answers)
  */
 export function useAssistantNavigation({
   itemLength,

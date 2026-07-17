@@ -25,13 +25,13 @@ export interface ModelConfig {
   label: string;
   value: string;
   /**
-   * 该模型支持的功能键列表，用于从 agents 中筛选显示的功能
-   * 如果未设置，则显示所有 agents
+   * List of feature keys supported by this model, used to filter which features from agents are displayed
+   * If not set, all agents are displayed
    */
   agents: AgentConfig[];
   /**
-   * 该模型的回答是否包含思考部分
-   * 如果为 false，则不处理和显示思考内容
+   * Whether this model's answers include a thinking section
+   * If false, thinking content is not processed or displayed
    */
   hasThinking?: boolean;
   [key: string]: unknown;
@@ -56,7 +56,7 @@ export interface ChatInputProps {
     setModelType: (value: string) => void;
   };
   agents?: AgentToggleConfig[];
-  /** agents 状态，用于受控模式 */
+  /** agents state, used for controlled mode */
   agentsState?: AgentConfig[];
   onAgentsChange?: (agents: AgentConfig[]) => void;
   placeholder?: string;
@@ -94,10 +94,10 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
   const [isUpload, setIsUpload] = useState<boolean>(false);
   const { fileList, setFileList } = useFileList(_fileList);
 
-  // 管理 agents 的内部状态（非受控模式）
+  // Manage the internal state of agents (uncontrolled mode)
   const [internalAgentsState, setInternalAgentsState] = useState<AgentConfig[]>(
     () => {
-      // 初始化状态：优先从当前模型的 agents 获取，否则从传入的 agents 配置中提取，默认 open 为 true
+      // Initialize state: prefer the current model's agents; otherwise derive from the passed-in agents config, with open defaulting to true
       const currentModel = modelConfig?.modelList.find(
         (m) => m.value === modelConfig?.modelType
       );
@@ -111,14 +111,14 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     }
   );
 
-  // 判断是否为受控模式
+  // Determine whether in controlled mode
   const isControlled = externalAgentsState !== undefined;
-  // 使用外部状态或内部状态
+  // Use external state or internal state
   const agentsState = isControlled ? externalAgentsState : internalAgentsState;
 
-  // 当模型切换时，同步更新 agents 状态（仅在非受控模式下）
+  // When the model switches, sync the agents state (only in uncontrolled mode)
   useEffect(() => {
-    if (isControlled) return; // 受控模式下由外部管理状态
+    if (isControlled) return; // In controlled mode, state is managed externally
 
     const currentModel = modelConfig?.modelList.find(
       (m) => m.value === modelConfig?.modelType
@@ -134,7 +134,7 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     isControlled,
   ]);
 
-  // 根据当前选中的模型，筛选出该模型支持的功能配置
+  // Based on the currently selected model, filter the feature configs supported by that model
   const currentModel = modelConfig?.modelList.find(
     (m) => m.value === modelConfig?.modelType
   );
@@ -144,39 +144,39 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
       )
     : agents;
 
-  // 处理 agent 状态切换
+  // Handle agent state toggling
   const handleAgentToggle = (key: string) => {
     const newAgentsState = agentsState?.map((agent) =>
       agent.key === key ? { ...agent, open: !agent.open } : agent
     );
 
-    // 受控模式：只通知外部，由外部更新状态
-    // 非受控模式：更新内部状态
+    // Controlled mode: only notify externally; the external side updates the state
+    // Uncontrolled mode: update internal state
     if (!isControlled) {
       setInternalAgentsState(newAgentsState);
     }
     onAgentsChange?.(newAgentsState);
   };
 
-  // 获取 agent 的激活状态
+  // Get the active state of an agent
   const getAgentActive = (key: string): boolean => {
     return agentsState.find((agent) => agent.key === key)?.open ?? false;
   };
 
-  // 处理文件列表移除
+  // Handle file removal from the file list
   const handleFileRemove = (uid: string) => {
     const newFileList = fileList.filter((v) => v.uid !== uid);
     setFileList(newFileList);
     onFileListChange?.(newFileList);
   };
 
-  // 处理文件列表变更
+  // Handle file list changes
   const handleFileListChange = (newFileList: UploadFile[]) => {
     setFileList(newFileList);
     onFileListChange?.(newFileList);
   };
 
-  // 处理发送
+  // Handle sending
   const handleSend = () => {
     if (value.trim() !== "") {
       setValue("");
@@ -184,7 +184,7 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     }
   };
 
-  // 处理回车键
+  // Handle the Enter key
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (
       e.key === "Enter" &&
@@ -197,7 +197,7 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     }
   };
 
-  // 合并上传配置
+  // Merge the upload config
   const mergedUploadConfig: UploadConfig = {
     action: uploadConfig?.action,
     accept: uploadConfig?.accept,

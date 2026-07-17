@@ -21,16 +21,16 @@ export interface NormalizedScrollConfig {
   wheelModeWhenSliderHidden: "scroll" | "none";
 }
 
-/** dataZoom 当前可见窗口对应的 x 轴索引区间（闭区间） */
+/** X-axis index range (closed interval) corresponding to the current visible dataZoom window */
 export interface DataZoomIndexWindow {
   startIndex: number;
   endIndex: number;
 }
 
 /**
- * 把 dataZoom 的 start/end 百分比换算为 x 轴索引窗口。
- * 与本组件族写入 dataZoom 的百分比约定一致（index / total * 100），
- * 对 echarts 原生交互产生的百分比做外扩取整，边界最多多含一项，不影响坐标轴量级。
+ * Converts dataZoom start/end percentages into an x-axis index window.
+ * Follows the same percentage convention this component family writes to dataZoom (index / total * 100);
+ * percentages produced by native echarts interactions are rounded outward, so each boundary may include at most one extra item, without affecting the axis magnitude.
  */
 export const percentWindowToIndexWindow = (
   startPercent: number,

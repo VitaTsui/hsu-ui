@@ -21,7 +21,7 @@ export default class NodeEvents {
     this.onNodeClick("text-shape");
   }
 
-  // ==================== 节点 hover ====================
+  // ==================== Node hover ====================
   private onNodeHover = () => {
     this._graph?.on("node:mouseenter", (e) => {
       const node = e.item;
@@ -40,7 +40,7 @@ export default class NodeEvents {
     });
   };
 
-  // ==================== 折叠展开 ====================
+  // ==================== Collapse/expand ====================
   private onCollapseExpand = () => {
     this._graph?.on("collapse-icon:mouseenter", () => {
       this._graph?.setMode("collapseExpand");
@@ -51,7 +51,7 @@ export default class NodeEvents {
     });
   };
 
-  // ==================== 节点点击 ====================
+  // ==================== Node click ====================
   private onNodeClick = (shapeName: string) => {
     this._graph?.on(`${shapeName}:click`, (e) => {
       const node = e.item;

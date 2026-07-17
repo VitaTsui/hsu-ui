@@ -9,7 +9,7 @@ interface ValidateFileOptions {
 }
 
 /**
- * 验证文件格式和大小
+ * Validate file format and size
  */
 export function validateFile({
   file,

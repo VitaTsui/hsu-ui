@@ -10,7 +10,7 @@ interface UseSelectInputOptionsProps {
 }
 
 /**
- * 管理输入选项（当没有匹配项时）
+ * Manage input options (when there are no matching options)
  */
 export function useSelectInputOptions({
   searchValue,

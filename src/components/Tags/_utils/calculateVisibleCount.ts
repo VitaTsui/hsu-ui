@@ -1,10 +1,10 @@
 /**
- * 计算可见的标签数量
- * @param containerWidth 容器宽度
- * @param tagWidths 所有标签的宽度数组
- * @param gap 标签之间的间距
- * @param ellipsisTagWidth 省略标签的预估宽度
- * @returns 可见的标签数量
+ * Calculates the number of visible tags
+ * @param containerWidth Container width
+ * @param tagWidths Array of all tag widths
+ * @param gap Gap between tags
+ * @param ellipsisTagWidth Estimated width of the ellipsis tag
+ * @returns Number of visible tags
  */
 export function calculateVisibleCount(
   containerWidth: number,
@@ -19,20 +19,20 @@ export function calculateVisibleCount(
   let usedWidth = 0;
   let count = 0;
 
-  // 遍历所有 tag，计算能显示多少个
+  // Iterate over all tags to compute how many can be displayed
   for (let i = 0; i < tagWidths.length; i++) {
     const tagWidth = tagWidths[i] || 0;
-    // 计算加上当前 tag 后的总宽度
+    // Compute the total width after adding the current tag
     const nextWidth = usedWidth + tagWidth + (i > 0 ? gap : 0);
 
-    // 检查是否需要显示省略标签
+    // Check whether the ellipsis tag needs to be displayed
     if (i < tagWidths.length - 1) {
-      // 不是最后一个 tag，需要预留省略标签的空间
+      // Not the last tag; space must be reserved for the ellipsis tag
       if (nextWidth + gap + ellipsisTagWidth > containerWidth) {
         break;
       }
     } else {
-      // 是最后一个 tag，只需要检查当前宽度
+      // The last tag; only the current width needs to be checked
       if (nextWidth > containerWidth) {
         break;
       }
@@ -42,6 +42,6 @@ export function calculateVisibleCount(
     usedWidth = nextWidth;
   }
 
-  // 至少显示 0 个（如果连一个都放不下，就只显示省略标签）
+  // Show at least 0 (if not even one fits, show only the ellipsis tag)
   return Math.max(0, count);
 }
