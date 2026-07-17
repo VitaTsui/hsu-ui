@@ -38,6 +38,6 @@ export function getDepartmentRowSpan<T extends Record<string, unknown>>(
 export const HELP_TOOLTIP_CONFIG = {
   arrow: false,
   placement: "top" as const,
-  color: "#f2f4f5",
-  styles: { body: { color: "#131212", padding: "6px 16px" } },
+  color: "var(--cf-subtle)",
+  styles: { body: { color: "var(--cf-text)", padding: "6px 16px" } },
 };

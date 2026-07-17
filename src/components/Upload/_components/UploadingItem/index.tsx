@@ -32,9 +32,9 @@ export const UploadingItem: React.FC<UploadingItemProps> = ({
       <div className={styles.uploading}>
         <Tooltip
           title={name}
-          color="#f2f4f5"
+          color="var(--cf-subtle)"
           styles={{
-            body: { color: "#131212", padding: "6px 16px" },
+            body: { color: "var(--cf-text)", padding: "6px 16px" },
           }}
         >
           <div

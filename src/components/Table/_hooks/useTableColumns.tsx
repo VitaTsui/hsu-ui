@@ -237,7 +237,7 @@ const useTableColumns = <T extends AnyObject>(
               icon="material-symbols:help"
               className={styles.help}
               fontSize={16}
-              color="#999999"
+              color="var(--cf-text-3)"
             />
           </Tooltip>
         </>
