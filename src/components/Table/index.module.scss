@@ -71,10 +71,10 @@
       &:global(.ant-table-row-selected) {
         :global(.ant-table-cell) {
           &:global(.ant-table-column-sort) {
-            background: rgba(19, 194, 194, 0.12);
+            background: color-mix(in srgb, var(--primary-color) 12%, transparent);
 
             &:global(.ant-table-cell-row-hover) {
-              background: rgba(19, 194, 194, 0.22);
+              background: color-mix(in srgb, var(--primary-color) 22%, transparent);
             }
           }
         }

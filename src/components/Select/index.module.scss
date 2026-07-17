@@ -54,7 +54,7 @@
   &.focused {
     border-color: var(--primary-color);
 
-    box-shadow: 0 0 0 2px rgba(19, 194, 194, 0.12);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 12%, transparent);
 
     outline: 0;
   }
@@ -81,20 +81,20 @@
   }
 
   &:has(> :global(.ant-select-status-error)) {
-    border: 1px solid #ff4d4f;
+    border: 1px solid var(--cf-error);
 
     .prefix,
     .suffix {
-      color: #ff4d4f;
+      color: var(--cf-error);
     }
   }
 
   &.legacyHasErrorStatus {
-    border: 1px solid #ff4d4f;
+    border: 1px solid var(--cf-error);
 
     .prefix,
     .suffix {
-      color: #ff4d4f;
+      color: var(--cf-error);
     }
   }
 

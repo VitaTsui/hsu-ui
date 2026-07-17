@@ -51,14 +51,14 @@
 
   &:hover {
     &::before {
-      background: rgba(24, 144, 255, 0.45);
+      background: color-mix(in srgb, var(--primary-color) 45%, transparent);
     }
   }
 }
 
 .resizing {
   &::before {
-    background: #1890ff;
+    background: var(--primary-color);
   }
 }
 

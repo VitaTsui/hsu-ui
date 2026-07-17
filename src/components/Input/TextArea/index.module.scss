@@ -86,7 +86,7 @@
           position: relative;
           bottom: auto;
 
-          color: #909399;
+          color: var(--cf-text-2);
           font-size: 14px;
         }
 
@@ -113,13 +113,13 @@
   &:not(.hasError).focused {
     border-color: var(--primary-color);
 
-    box-shadow: 0 0 0 2px rgba(19, 194, 194, 0.12);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 12%, transparent);
   }
 
   &.hasError {
-    border-color: #ff4d4f;
+    border-color: var(--cf-error);
 
-    box-shadow: 0 0 0 2px rgba(255, 38, 5, 0.06);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--cf-error) 6%, transparent);
 
     :global(.ant-input-status-error) {
       border: none !important;

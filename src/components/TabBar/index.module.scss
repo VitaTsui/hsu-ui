@@ -20,13 +20,13 @@
     padding: 0px 15px;
 
     font-size: 14px;
-    color: #31455c;
+    color: var(--cf-text);
 
     transition: all 0.3s;
 
     cursor: pointer;
 
-    border: 1px solid rgba(49, 69, 92, 0.2);
+    border: 1px solid var(--cf-border);
 
     &:not(:first-child) {
       margin-left: -1px;
@@ -45,11 +45,11 @@
     }
 
     &:hover {
-      color: #489dff;
+      color: var(--primary-color);
     }
 
     &.active {
-      background: #489dff;
+      background: var(--primary-color);
 
       color: #fff;
 
@@ -78,12 +78,12 @@
       background: transparent !important;
 
       font-size: 16px !important;
-      color: #4d4d4d !important;
+      color: var(--cf-text) !important;
 
       transition: all 0.2s;
 
       &:hover {
-        color: #0364f5 !important;
+        color: var(--primary-color) !important;
       }
 
       &::after {
@@ -103,10 +103,10 @@
       &.active {
         font-weight: 500;
         font-size: 16px;
-        color: #0364f5 !important;
+        color: var(--primary-color) !important;
 
         &::after {
-          background: #0364f5;
+          background: var(--primary-color);
         }
       }
     }

@@ -8,16 +8,16 @@
 
   font-size: 14px;
   line-height: 18px;
-  color: #5e6772;
+  color: var(--cf-text-2);
 
   cursor: pointer;
 
   transition: color 0.3s, background-color 0.3s;
 
   &:hover {
-    color: #060607;
+    color: var(--cf-text);
 
-    background-color: #f3f5fc;
+    background-color: var(--cf-row-hover);
 
     border-radius: 4px;
   }

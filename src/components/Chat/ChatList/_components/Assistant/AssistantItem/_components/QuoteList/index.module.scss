@@ -13,7 +13,7 @@
 
     font-size: 14px;
     line-height: 14px;
-    color: #667085;
+    color: var(--cf-text-2);
     white-space: nowrap;
 
     cursor: default;
@@ -26,7 +26,7 @@
       min-width: 0px;
       height: 1px;
 
-      background-color: #e8ebf0;
+      background-color: var(--cf-border);
     }
 
     .quoteIcon {
@@ -48,7 +48,7 @@
       transition: color 0.3s;
 
       &:hover {
-        color: #3976dd;
+        color: var(--primary-color);
       }
     }
   }
@@ -78,8 +78,8 @@
         height: 50%;
 
         background: linear-gradient(
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 0.91)
+          transparent,
+          color-mix(in srgb, var(--cf-surface) 91%, transparent)
         );
       }
     }
@@ -103,14 +103,14 @@
 
       border-radius: 4px;
 
-      background-color: #f3f5fc;
+      background-color: var(--cf-subtle);
 
       transition: background-color 0.3s, color 0.3s;
 
       &:hover {
         color: #fff;
 
-        background-color: #3976dd;
+        background-color: var(--primary-color);
       }
 
       &.lastRowIndex {

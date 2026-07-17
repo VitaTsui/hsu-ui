@@ -22,15 +22,15 @@
   }
 
   &.hasError {
-    border-color: #ff4d4f;
+    border-color: var(--cf-error);
 
     &:hover {
-      border-color: #ff4d4f;
+      border-color: var(--cf-error);
     }
 
     :global(.cm-focused) {
-      border-color: #ff4d4f;
-      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+      border-color: var(--cf-error);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--cf-error) 20%, transparent);
     }
   }
 }

@@ -54,12 +54,12 @@
 
       font-size: 16px;
 
-      border: 1px solid #f0edea;
+      border: 1px solid var(--cf-border-weak);
 
       cursor: pointer;
 
       &.active {
-        background: #dddddd;
+        background: var(--cf-row-hover);
       }
     }
   }

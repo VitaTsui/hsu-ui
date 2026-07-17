@@ -43,6 +43,7 @@
 }
 
 html[data-theme="dark"],
+html[data-prefers-color="dark"],
 html[data-prefers-color-scheme="dark"] {
   --cf-canvas: #131314;
   --cf-surface: #1c1c1e;
