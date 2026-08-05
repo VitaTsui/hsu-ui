@@ -2,9 +2,30 @@ node_modules
 /es
 /lib
 /dist
+/tmp
 /.dumi/tmp
 /.dumi/tmp-test
 /.dumi/tmp-production
 *.log
 .DS_Store
 .eslintcache
+
+# --- 对齐 vita-admin-starter 模板 ---
+.playwright-mcp
+playwright
+.cursor
+.codex
+
+# 忽略 .claude 本地配置，但保留项目级 skills
+.claude/*
+!.claude/skills/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.local
+*.zip
+
+# codebase-memory-mcp 本机索引排除（个人偏好，不入库）
+.cbmignore
