@@ -12,8 +12,12 @@
 ```bash
 yarn add @hsu-react/ui
 # peerDependencies
-yarn add react react-dom antd @ant-design/icons mobx mobx-react-lite
+yarn add react react-dom antd@^5 @ant-design/icons@^5 mobx mobx-react-lite
 ```
+
+> **这是 1.x 线，对应 antd v5**，只收 bugfix。
+>
+> antd v6 请用 2.x —— 同一个包名，代码在 [VitaTsui/hsu-ui-v2](https://github.com/VitaTsui/hsu-ui-v2)，文档在 <https://vitatsui.github.io/hsu-ui-v2>。`npm i @hsu-react/ui` 默认装的就是 2.x；要留在这条线请写 `npm i @hsu-react/ui@1`。
 
 ## 使用
 
@@ -60,7 +64,9 @@ yarn docs:build  # 构建文档站静态产物
 
 ## 贡献
 
-日常开发在 `develop` 分支进行（feature 分支合入 `develop`），`main` 只接受来自 `develop` 的 PR；合入 `main` 后按 `package.json` 版本自动打 tag 并发布 npm。PR 标题遵循 [Conventional Commits](https://www.conventionalcommits.org/)。
+日常开发在 `develop` 分支进行（feature 分支合入 `develop`），`main` 只接受来自 `develop` 的 PR；合入 `main` 后按 `package.json` 版本自动打 tag 并发布 npm（dist-tag 为 `latest`）。PR 标题遵循 [Conventional Commits](https://www.conventionalcommits.org/)。
+
+本仓库发布的 dist-tag 固定是 `legacy-<major>`（即 `legacy-1`），**永远不会动 `latest`** —— `latest` 归 2.x 仓库。否则一次 1.x 的补丁发布会把所有人的 `npm i @hsu-react/ui` 拽回 antd v5 线。安装本线用 `npm i @hsu-react/ui@1`，走的是 semver，与 dist-tag 无关。
 
 ## License
 
