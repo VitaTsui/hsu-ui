@@ -36,7 +36,10 @@ jobs:
           #
           # 装 1.x 不依赖 dist-tag：`npm i @hsu-react/ui@1` 走的是 semver，自动取最高的
           # 1.x.x。dist-tag 在这里的唯一作用就是「别去动 latest」。
-          echo "dist_tag=v$MAJOR" >> "$GITHUB_OUTPUT"
+          #
+          # 名字不能取成 `v1` / `1` / `1.x` 这类 —— npm 会拒绝任何能被解析成 semver 范围的
+          # dist-tag（报 "Tag name must not be a valid SemVer range"），实测踩过。
+          echo "dist_tag=legacy-$MAJOR" >> "$GITHUB_OUTPUT"
 
           # GitHub Release 的 Latest 标记是仓库内部的事，和 npm 无关，正常标上
           echo "latest_flag=--latest" >> "$GITHUB_OUTPUT"

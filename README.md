@@ -66,7 +66,7 @@ yarn docs:build  # 构建文档站静态产物
 
 日常开发在 `develop` 分支进行（feature 分支合入 `develop`），`main` 只接受来自 `develop` 的 PR；合入 `main` 后按 `package.json` 版本自动打 tag 并发布 npm（dist-tag 为 `latest`）。PR 标题遵循 [Conventional Commits](https://www.conventionalcommits.org/)。
 
-本仓库发布的 dist-tag 固定是 `v<major>`（即 `v1`），**永远不会动 `latest`** —— `latest` 归 2.x 仓库。否则一次 1.x 的补丁发布会把所有人的 `npm i @hsu-react/ui` 拽回 antd v5 线。安装本线用 `npm i @hsu-react/ui@1`，走的是 semver，与 dist-tag 无关。
+本仓库发布的 dist-tag 固定是 `legacy-<major>`（即 `legacy-1`），**永远不会动 `latest`** —— `latest` 归 2.x 仓库。否则一次 1.x 的补丁发布会把所有人的 `npm i @hsu-react/ui` 拽回 antd v5 线。安装本线用 `npm i @hsu-react/ui@1`，走的是 semver，与 dist-tag 无关。
 
 ## License
 
